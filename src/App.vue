@@ -2,6 +2,7 @@
   
   <form class="canvas" action="">
     <Method @methodChosen = "this.methodChosen = $event"></Method>
+    <hr>
     <Inputs></Inputs>
     <Parameters :methodChosen=methodChosen></Parameters>
     <input type="submit" value="Solve"/>

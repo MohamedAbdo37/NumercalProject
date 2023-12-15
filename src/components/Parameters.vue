@@ -1,4 +1,5 @@
 <template>
+    <hr v-if="this.methodChosen!='G' && this.methodChosen!='GJ' && this.methodChosen!=null">
     <h1 v-if="this.methodChosen!='G' && this.methodChosen!='GJ' && this.methodChosen!=null">
         Parameters
     </h1>
@@ -30,6 +31,7 @@
             <option value="ARE">Absolute Relative Error</option>
         </select>
     </div>
+
     </template>
     <script>
     export default {
