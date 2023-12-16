@@ -15,21 +15,25 @@
         <h3>Enter initial guess</h3>
         <input type="text" placeholder="Enter initial guess" required/>
         <h3>Enter stopping condition</h3>
-        <select name="stopCondition" required>
+        <select name="stopCondition" v-model="stpCondGS" required>
             <option value="" disabled selected hidden>Choose a stopping condition</option>
             <option value="NI">Number of Iterations</option>
             <option value="ARE">Absolute Relative Error</option>
         </select>
+        <input type="text" placeholder="Enter # of iter." required v-if="this.stpCondGS == 'NI'"/>
+        <input type="text" placeholder="Enter εa" required v-if="this.stpCondGS == 'ARE'"/>
     </div>
     <div class="J" v-if="this.methodChosen=='J'">
         <h3>Enter initial guess</h3>
         <input type="text" placeholder="Enter initial guess" required/>
         <h3>Enter stopping condition</h3>
-        <select name="stopCondition" required>
+        <select name="stopCondition" v-model="stpCondJ" required>
             <option value="" disabled selected hidden>Choose a stopping condition</option>
             <option value="NI">Number of Iterations</option>
             <option value="ARE">Absolute Relative Error</option>
         </select>
+        <input type="text" placeholder="Enter # of iter." required v-if="this.stpCondJ == 'NI'"/>
+        <input type="text" placeholder="Enter εa" required v-if="this.stpCondJ == 'ARE'"/>
     </div>
 
     </template>
@@ -39,7 +43,8 @@
       props: ['methodChosen'],
       data() {
         return{
-
+            stpCondJ: "",
+            stpCondGS: ""
         }
       },
       methods:{

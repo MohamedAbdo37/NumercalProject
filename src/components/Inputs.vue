@@ -39,7 +39,9 @@ input{
     border: 1px solid rgb(109, 107, 107);
     background-color: blanchedalmond;
     color: black;
-    height: 25px;
+    height: 22px;
+    margin-left: 10px;
+    /* width: 200px; */
 }
 input:hover{
     background-color: rgb(219, 207, 188);
