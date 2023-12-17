@@ -164,22 +164,22 @@ public class Matrix {
         return copy;
     }
     //    Apache Commons Math to calculate the determinant.
-    public double calculateDeterminant() {
-        if (numRows != numCols) {
-            throw new IllegalArgumentException("Matrix must be a square matrix.");
-        }
-        double[][] dataArray = new double[numRows][numCols];
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                dataArray[i][j] = matrix.get(i).get(j);
-            }
-        }
-        Array2DRowRealMatrix realMatrix = new Array2DRowRealMatrix(dataArray);
-        LUDecomposition luDecomposition = new LUDecomposition(realMatrix);
+    // public double calculateDeterminant() {
+    //     if (numRows != numCols) {
+    //         throw new IllegalArgumentException("Matrix must be a square matrix.");
+    //     }
+    //     double[][] dataArray = new double[numRows][numCols];
+    //     for (int i = 0; i < numRows; i++) {
+    //         for (int j = 0; j < numCols; j++) {
+    //             dataArray[i][j] = matrix.get(i).get(j);
+    //         }
+    //     }
+    //     Array2DRowRealMatrix realMatrix = new Array2DRowRealMatrix(dataArray);
+    //     LUDecomposition luDecomposition = new LUDecomposition(realMatrix);
 
-        return luDecomposition.getDeterminant();
+    //     return luDecomposition.getDeterminant();
 
-    }
+    // }
     public Matrix addRow(ArrayList<Double> rowValues) {
         if (rowValues.size() != numCols) {
             throw new IllegalArgumentException("Invalid number of elements in the row.");
