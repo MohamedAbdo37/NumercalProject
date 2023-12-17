@@ -1,5 +1,11 @@
-import java.util.ArrayList;
 
+package com.CSED26.Numercal.Project.Factory.Methods;
+
+import com.CSED26.Numercal.Project.Matrix;
+
+/**
+ * GaussJordan
+ */
 public class GaussJordan extends GaussElimination {
 
     GaussJordan(Matrix matrix) {
@@ -8,7 +14,7 @@ public class GaussJordan extends GaussElimination {
     @Override
     public Matrix backElim()
     {
-        for(int i=matrix.getNumRows()-1;i>=0;i--)
+        for(int i= matrix.getNumRows()-1;i>=0;i--)
         {
 
             float pivot=matrix.getRow(i).get(i);
@@ -46,3 +52,4 @@ public class GaussJordan extends GaussElimination {
 //        return result;
 //    }
 }
+

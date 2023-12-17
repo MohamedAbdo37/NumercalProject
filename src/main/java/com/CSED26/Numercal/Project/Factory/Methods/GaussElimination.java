@@ -1,5 +1,8 @@
 import java.util.ArrayList;
 
+import com.CSED26.Numercal.Project.Matrix;
+import com.CSED26.Numercal.Project.Factory.Numeric;
+
 public class GaussElimination extends Numeric{
    protected Matrix matrix;
     GaussElimination(Matrix matrix)
@@ -9,10 +12,10 @@ public class GaussElimination extends Numeric{
 
     protected void InterChangeRows(int r1,int r2)
     {
-        ArrayList<Float> row1=matrix.getRow(r1);
-        ArrayList<Float>row2=matrix.getRow(r2);
-       matrix.setRow(r1,row2);
-       matrix.setRow(r2,row1);
+        ArrayList<Float> row1 = matrix.getRow(r1);
+        ArrayList<Float>row2 = matrix.getRow(r2);
+        matrix.setRow(r1,row2);
+        matrix.setRow(r2,row1);
     }
     protected boolean checkValidaty()
     {

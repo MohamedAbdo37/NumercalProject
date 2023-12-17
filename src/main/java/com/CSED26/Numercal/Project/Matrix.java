@@ -220,5 +220,8 @@ public class Matrix {
     }
     public void addColumn(double[] xArray) {
     }
+    public double[] getRow(int i) {
+        return null;
+    }
 
 }

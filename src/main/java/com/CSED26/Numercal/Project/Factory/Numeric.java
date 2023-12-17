@@ -21,7 +21,7 @@ public abstract class Numeric {
     }
 
     public double[] forwardSub(Matrix m){
-        double[] results = new double[m.getRows()];
+        double[] results = new double[m.getNumRows()];
         double[] variables;
 
         for (int i = 0; i < results.length; i++){
@@ -35,7 +35,7 @@ public abstract class Numeric {
     }
 
     public double[] backSub(Matrix m){
-        double[] results = new double[m.getRows()];
+        double[] results = new double[m.getNumRows()];
         double[] variables;
 
         for (int i = results.length-1; i > -1; i--){

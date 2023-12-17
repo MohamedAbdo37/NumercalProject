@@ -22,19 +22,19 @@ public class Jacobi {
     }
     public double[] evaluate() {
         int iterations = 0;
-        int n = augMatrix.getRows();
+        int n = augMatrix.getNumRows();
         double[] nextsolution = new double[n];
         double[] currentsolution = new double[n];
         Arrays.fill(nextsolution, 0);
         Arrays.fill(currentsolution, 0);
         while(true) {
             for(int i = 0; i < n; i++) {
-                nextsolution[i] = augMatrix.getEle(i, n);
+                nextsolution[i] = augMatrix.getElement(i, n);
                 for(int j = 0; j < n; j++) {
                     if(j != i)
-                        nextsolution[i] -= augMatrix.getEle(i, j) * currentsolution[j];
+                        nextsolution[i] -= augMatrix.getElement(i, j) * currentsolution[j];
                 }
-                nextsolution[i] /= augMatrix.getEle(i, i);
+                nextsolution[i] /= augMatrix.getElement(i, i);
             }
             iterations++;
             if(iterations == maxIterations) {
