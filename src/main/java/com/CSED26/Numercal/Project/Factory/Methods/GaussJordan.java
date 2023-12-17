@@ -8,7 +8,7 @@ import com.CSED26.Numercal.Project.Matrix;
  */
 public class GaussJordan extends GaussElimination {
 
-    public GaussJordan(Matrix matrix) {
+    GaussJordan(Matrix matrix) {
         super(matrix);
     }
     @Override
@@ -21,7 +21,7 @@ public class GaussJordan extends GaussElimination {
             for (int j=i-1;j>=0;j--)
             {
                 Double factor=matrix.getRow(j).get(i)/pivot;
-                matrix.setRow(j,super.multadd(factor,matrix.getRow(i),matrix.getRow(j)));
+                matrix.setRow(j,multadd(factor,matrix.getRow(i),matrix.getRow(j)));
 
             }
 
