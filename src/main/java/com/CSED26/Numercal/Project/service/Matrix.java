@@ -22,7 +22,7 @@ public class Matrix {
         numRows = n;
         numCols = m;
     }
-    public Matrix setRow(int rowIndex, ArrayList<Float> rowValues) {
+    public numbericalproject.demo.service.Matrix setRow(int rowIndex, ArrayList<Float> rowValues) {
         if (rowValues.size() != numCols) {
             throw new IllegalArgumentException("Invalid number of elements in the row.");
         }
@@ -41,25 +41,40 @@ public class Matrix {
         return matrix.get(r).get(c);
     }
 
-    public Matrix multiply(@NotNull Matrix mtx) {
+    public numbericalproject.demo.service.Matrix multiply(@NotNull numbericalproject.demo.service.Matrix mtx, int significantFigures) {
         if (numCols != mtx.numRows) {
             throw new IllegalArgumentException("Incompatible matrix dimensions for multiplication.");
         }
-        Matrix result = new Matrix(numRows, mtx.numCols);
+
+        numbericalproject.demo.service.Matrix result = new numbericalproject.demo.service.Matrix(numRows, mtx.numCols);
+
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < mtx.numCols; j++) {
                 float sum = 0.0f;
                 for (int k = 0; k < numCols; k++) {
                     sum += matrix.get(i).get(k) * mtx.getElement(k, j);
                 }
-                result.matrix.get(i).set(j, sum);
+                // Round the result to the specified number of significant figures
+                result.matrix.get(i).set(j, roundToSignificantFigures(sum, significantFigures));
             }
         }
-        result.numRows=matrix.size();
-        result.numCols=mtx.numCols;
+
+        result.numRows = matrix.size();
+        result.numCols = mtx.numCols;
+
         return result;
     }
-    public boolean compMatrix(Matrix mtx) {
+
+    // Helper method to round to a specified number of significant figures
+    private float roundToSignificantFigures(float value, int significantFigures) {
+        if (value == 0) {
+            return 0;
+        }
+
+        double magnitude = Math.pow(10, significantFigures - Math.floor(Math.log10(Math.abs(value))));
+        return (float) (Math.round(value * magnitude) / magnitude);
+    }
+    public boolean compMatrix(numbericalproject.demo.service.Matrix mtx) {
         if (numRows != mtx.numRows || numCols != mtx.numCols) {
             return false;
         }
@@ -72,22 +87,22 @@ public class Matrix {
         }
         return true;
     }
-    public boolean Symetricmatrix(@NotNull Matrix mx)
+    public boolean Symetricmatrix(@NotNull numbericalproject.demo.service.Matrix mx)
     {
         if(mx.numRows!=mx.numCols)
             return false;
         for (int i=0;i<mx.numRows;i++)
             for(int j=0;j<i;j++)
                 if(mx.getElement(i,j)!=mx.getElement(j,i))
-        return false;
+                    return false;
         return true;
 
     }
-    public Matrix mulRow(int r, float num) {
+    public numbericalproject.demo.service.Matrix mulRow(int r, float num) {
         if (r >= numRows) {
             throw new IllegalArgumentException("Invalid row index.");
         } else {
-            Matrix result = new Matrix(numRows, numCols);
+            numbericalproject.demo.service.Matrix result = new numbericalproject.demo.service.Matrix(numRows, numCols);
 
             for (int i = 0; i < numRows; i++) {
                 for (int j = 0; j < numCols; j++) {
@@ -102,23 +117,23 @@ public class Matrix {
             return result;
         }
     }
-    public Matrix addRows(int r1, int r2) {
+    public numbericalproject.demo.service.Matrix addRows(int r1, int r2, int significantFigures) {
         if (r1 >= numRows || r2 >= numRows) {
             throw new IllegalArgumentException("Invalid row index.");
         } else {
-            Matrix result = new Matrix(numRows, numCols);
+            numbericalproject.demo.service.Matrix result = new numbericalproject.demo.service.Matrix(numRows, numCols);
 
             for (int i = 0; i < numCols; i++) {
                 float sum = matrix.get(r1).get(i) + matrix.get(r2).get(i);
-                result.matrix.get(r1).set(i, sum);
+                result.matrix.get(r1).set(i, roundToSignificantFigures(sum, significantFigures));
             }
 
             return result;
         }
     }
-    public Matrix Copy()
+    public numbericalproject.demo.service.Matrix Copy()
     {
-        Matrix copy=new Matrix(numRows,numCols);
+        numbericalproject.demo.service.Matrix copy=new numbericalproject.demo.service.Matrix(numRows,numCols);
         for(int i=0;i<numRows;i++)
             for(int j=0;j<numCols;j++)
                 copy.matrix.get(i).set(j,this.getElement(i,j));
@@ -141,7 +156,7 @@ public class Matrix {
         return luDecomposition.getDeterminant();
 
     }
-    public Matrix addRow(ArrayList<Float> rowValues) {
+    public numbericalproject.demo.service.Matrix addRow(ArrayList<Float> rowValues) {
         if (rowValues.size() != numCols) {
             throw new IllegalArgumentException("Invalid number of elements in the row.");
         }
@@ -149,7 +164,7 @@ public class Matrix {
         numRows++;
         return this;
     }
-    public Matrix deleteColumn(int columnIndex) {
+    public numbericalproject.demo.service.Matrix deleteColumn(int columnIndex) {
         if (columnIndex < 0 || columnIndex >= numCols) {
             throw new IllegalArgumentException("Invalid column index.");
         }
