@@ -13,6 +13,8 @@ public class Matrix {
     private int numRows;
     private int numCols;
 
+    public static int significantFigures = 5;
+
     public Matrix(int n, int m) {
         matrix = new ArrayList<>(n);
         for (int i = 0; i < n; i++) {
