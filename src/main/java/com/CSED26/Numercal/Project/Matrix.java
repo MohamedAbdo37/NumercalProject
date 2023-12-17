@@ -213,12 +213,30 @@ public class Matrix {
         return null;
 
     }
-    public double[] getColumn(int numCols2) {
-        return null;
+    public ArrayList<Double> getColumn(int c) {
+        if (c < 0 || c >= numCols) {
+            throw new IndexOutOfBoundsException("Invalid column index.");
+        }
+        ArrayList<Double> column = new ArrayList<>();
+        for (int i = 0; i < numRows; i++) {
+            column.add(matrix.get(i).get(c));
+        }
+        return column;
     }
     public void setEle(int i, int j, double d) {
+        if (i < 0 || i >= numRows || j < 0 || j >= numCols) {
+            throw new IndexOutOfBoundsException("Invalid row or column index.");
+        }
+        matrix.get(i).set(j, d);
     }
-    public void addColumn(double[] xArray) {
+    public void addColumn(ArrayList<Double> columnValues) {
+        if (columnValues.size() != numRows) {
+            throw new IllegalArgumentException("Invalid number of elements in the column.");
+        }
+        for (int i = 0; i < numRows; i++) {
+            matrix.get(i).add(columnValues.get(i));
+        }
+        numCols++;
     }
     public double[] getRow(int i) {
         return null;
