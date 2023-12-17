@@ -9,21 +9,21 @@ public class LUDeomp extends Numeric{
     private double[] uMatrix;
     private double[] xArray;
     LUDeomp(Matrix auMatrix){
-        int size = (auMatrix.getRows() *(auMatrix.getRows()+1))/2;
+        int size = (auMatrix.getNumRows() *(auMatrix.getNumRows()+1))/2;
         this.lMatrix = new double[size];
         this.uMatrix = new double[size];
-        this.mat = auMatrix.delColumn(auMatrix.getDim()[1]);
-        this.xArray = auMatrix.getColumn(auMatrix.getColumns());
+        this.mat = auMatrix.deleteColumn(auMatrix.getNumCols());
+        this.xArray = auMatrix.getColumn(auMatrix.getNumCols());
     }
 
     @Override
     public Matrix forwardElim() {
         this.lMatrix[0] = 1;
         Matrix m = this.mat;
-        for (int i = 0; i < this.mat.getRows(); i++) {
+        for (int i = 0; i < this.mat.getNumRows(); i++) {
             if(i != 0) this.lMatrix[(int)((i+1)*(i+2)*0.5) - 1] = 1;
-            for (int j = i+1; j < this.mat.getRows(); j++) {
-                double valu = (-this.mat.getEle(j,i)) / this.mat.getEle(i,i);
+            for (int j = i+1; j < this.mat.getNumRows(); j++) {
+                double valu = (-this.mat.getElement(j,i)) / this.mat.getElement(i,i);
                 m = this.mat.mulRow(i,valu).addRows(i,j);
                 this.lMatrix[(int)(j*(j+1)*0.5)+i+1] = valu;
             }
@@ -36,8 +36,8 @@ public class LUDeomp extends Numeric{
         int i = 0;
         int j = 0;
         for (int index = 0; index < this.uMatrix.length; index++) {
-            this.uMatrix[index] =  m.getEle(i, j);
-            if(j == m.getRows()){
+            this.uMatrix[index] =  m.getElement(i, j);
+            if(j == m.getNumRows()){
                 i++;
                 j = i;
             }else j++;
@@ -47,7 +47,7 @@ public class LUDeomp extends Numeric{
         int i = 0;
         int j = 0;
         for (int index = 0; index < this.uMatrix.length; index++) {
-            this.lMatrix[index] =  m.getEle(i, j);
+            this.lMatrix[index] =  m.getElement(i, j);
             if(i == j){
                 i++;
                 j = 0;
@@ -56,12 +56,12 @@ public class LUDeomp extends Numeric{
     }
 
     public Matrix getUMatrix() {
-        Matrix m = new Matrix(this.mat.getRows());
+        Matrix m = new Matrix(this.mat.getNumRows());
         int i = 0;
         int j = 0;
         for (int index = 0; index < this.uMatrix.length; index++) {
             m.setEle(i, j, this.uMatrix[index]);
-            if(j == m.getRows()){
+            if(j == m.getNumRows()){
                 i++;
                 j = i;
             }else j++;
@@ -70,7 +70,7 @@ public class LUDeomp extends Numeric{
     }
 
     public Matrix getLMatrix() {
-        Matrix m = new Matrix(this.mat.getRows());
+        Matrix m = new Matrix(this.mat.getNumRows());
         int i = 0;
         int j = 0;
         for (int index = 0; index < this.lMatrix.length; index++) {
@@ -92,9 +92,9 @@ public class LUDeomp extends Numeric{
         Matrix newL = this.getLMatrix();
         Matrix newU = this.getUMatrix();
         //newL.setEle();
-        for (int i = 0; i < mat.getRows(); i++) {
-            newL = newL.mulCol(i, newU.getEle(i, i));
-            newU = newU.mulRow(i, 1 / newU.getEle(i, i));
+        for (int i = 0; i < mat.getNumRows(); i++) {
+            newL = newL.mulCol(i, newU.getElement(i, i));
+            newU = newU.mulRow(i, 1 / newU.getElement(i, i));
         }
         setLMatrix(newL);
         setUMatrix(newU);
@@ -104,9 +104,9 @@ public class LUDeomp extends Numeric{
         Matrix newL = this.getLMatrix();
         Matrix newU = this.getUMatrix();
         //newL.setEle();
-        for (int i = 0; i < mat.getRows(); i++) {
-            newL = newL.mulCol(i, Math.sqrt(newU.getEle(i, i)));
-            newU = newU.mulRow(i, Math.sqrt(1 / newU.getEle(i, i)));
+        for (int i = 0; i < mat.getNumRows(); i++) {
+            newL = newL.mulCol(i, Math.sqrt(newU.getElement(i, i)));
+            newU = newU.mulRow(i, Math.sqrt(1 / newU.getElement(i, i)));
         }
         setLMatrix(newL);
         setUMatrix(newU);

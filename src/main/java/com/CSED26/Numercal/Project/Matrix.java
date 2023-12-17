@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import io.micrometer.common.lang.NonNull;
 
 public class Matrix {
-    private ArrayList<ArrayList<Float>> matrix;
+    private ArrayList<ArrayList<Double>> matrix;
     private int numRows;
     private int numCols;
 
@@ -18,11 +18,22 @@ public class Matrix {
         for (int i = 0; i < n; i++) {
             matrix.add(new ArrayList<>(m));
             for (int j = 0; j < m; j++) {
-                matrix.get(i).add(0.0f);
+                matrix.get(i).add(0.0d);
             }
         }
         numRows = n;
         numCols = m;
+    }
+    public Matrix(int numRows2) {
+        matrix = new ArrayList<>(numRows2);
+        for (int i = 0; i < numRows2; i++) {
+            matrix.add(new ArrayList<>(numRows2));
+            for (int j = 0; j < numRows2; j++) {
+                matrix.get(i).add(0.0d);
+            }
+        }
+        numRows = numRows2;
+        numCols = numRows2;
     }
     public int getNumCols() {
         return numCols;
@@ -30,7 +41,7 @@ public class Matrix {
     public int getNumRows() {
         return numRows;
     }
-    public Matrix setRow(int rowIndex, ArrayList<Float> rowValues) {
+    public Matrix setRow(int rowIndex, ArrayList<Double> rowValues) {
         if (rowValues.size() != numCols) {
             throw new IllegalArgumentException("Invalid number of elements in the row.");
         }
@@ -42,7 +53,7 @@ public class Matrix {
         return numRows * numCols;
     }
 
-    public Float getElement(int r, int c) {
+    public double getElement(int r, int c) {
         if (r < 0 || r >= numRows || c < 0 || c >= numCols) {
             throw new IndexOutOfBoundsException("Invalid row or column index.");
         }
@@ -74,13 +85,13 @@ public class Matrix {
     }
 
     // Helper method to round to a specified number of significant figures
-    private float roundToSignificantFigures(float value, int significantFigures) {
+    private double roundToSignificantFigures(float value, int significantFigures) {
         if (value == 0) {
             return 0;
         }
 
         double magnitude = Math.pow(10, significantFigures - Math.floor(Math.log10(Math.abs(value))));
-        return (float) (Math.round(value * magnitude) / magnitude);
+        return (Math.round(value * magnitude) / magnitude);
     }
     public boolean compMatrix(Matrix mtx) {
         if (numRows != mtx.numRows || numCols != mtx.numCols) {
@@ -106,7 +117,7 @@ public class Matrix {
         return true;
 
     }
-    public Matrix mulRow(int r, float num) {
+    public Matrix mulRow(int r, double num) {
         if (r >= numRows) {
             throw new IllegalArgumentException("Invalid row index.");
         } else {
@@ -114,7 +125,7 @@ public class Matrix {
 
             for (int i = 0; i < numRows; i++) {
                 for (int j = 0; j < numCols; j++) {
-                    float value = matrix.get(i).get(j);
+                    double value = matrix.get(i).get(j);
                     if (i == r) {
                         value *= num;
                     }
@@ -125,19 +136,22 @@ public class Matrix {
             return result;
         }
     }
-    public Matrix addRows(int r1, int r2, int significantFigures) {
+    public Matrix addRows(int r1, int r2) {
         if (r1 >= numRows || r2 >= numRows) {
             throw new IllegalArgumentException("Invalid row index.");
         } else {
             Matrix result = new Matrix(numRows, numCols);
 
             for (int i = 0; i < numCols; i++) {
-                float sum = matrix.get(r1).get(i) + matrix.get(r2).get(i);
+                double sum = matrix.get(r1).get(i) + matrix.get(r2).get(i);
                 result.matrix.get(r1).set(i, roundToSignificantFigures(sum, significantFigures));
             }
 
             return result;
         }
+    }
+    private Double roundToSignificantFigures(double sum, int significantFigures) {
+        return null;
     }
     public Matrix Copy()
     {
@@ -164,7 +178,7 @@ public class Matrix {
         return luDecomposition.getDeterminant();
 
     }
-    public Matrix addRow(ArrayList<Float> rowValues) {
+    public Matrix addRow(ArrayList<Double> rowValues) {
         if (rowValues.size() != numCols) {
             throw new IllegalArgumentException("Invalid number of elements in the row.");
         }
@@ -176,7 +190,7 @@ public class Matrix {
         if (columnIndex < 0 || columnIndex >= numCols) {
             throw new IllegalArgumentException("Invalid column index.");
         }
-        for (ArrayList<Float> row : matrix) {
+        for (ArrayList<Double> row : matrix) {
             row.remove(columnIndex);
         }
         numCols--;
@@ -196,6 +210,13 @@ public class Matrix {
     public Matrix swapCol(int c1,int c2){
         return null;
 
+    }
+    public double[] getColumn(int numCols2) {
+        return null;
+    }
+    public void setEle(int i, int j, double d) {
+    }
+    public void addColumn(double[] xArray) {
     }
 
 }
