@@ -17,10 +17,10 @@ public class GaussJordan extends GaussElimination {
         for(int i= matrix.getNumRows()-1;i>=0;i--)
         {
 
-            float pivot=matrix.getRow(i).get(i);
+            Double pivot=matrix.getRow(i).get(i);
             for (int j=i-1;j>=0;j--)
             {
-                float factor=matrix.getRow(j).get(i)/pivot;
+                Double factor=matrix.getRow(j).get(i)/pivot;
                 matrix.setRow(j,multadd(factor,matrix.getRow(i),matrix.getRow(j)));
 
             }
