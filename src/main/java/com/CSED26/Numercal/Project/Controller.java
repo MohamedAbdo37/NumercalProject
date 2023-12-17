@@ -16,13 +16,13 @@ import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
 public class Controller {
     Numeric method;
 
-    @GetMapping("/inputs")
-    public void Inputs(@RequestParam String method,@RequestParam String equs, @RequestParam int pres){
+
+    @GetMapping("/method")
+    public void setMethod(@RequestParam String method){
         Solver solver = new Solver();
-        solver.parseEquation(equs);
         this.method = solver.getMethod(method);
     }
-
+    
     @GetMapping("/inputs")
     public ArrayList<Double> Inputs(@RequestParam String method,@RequestParam String equs, @RequestParam int pres, @RequestParam String format){
         Solver solver = new Solver();
