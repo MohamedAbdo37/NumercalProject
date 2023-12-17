@@ -8,7 +8,7 @@ import com.CSED26.Numercal.Project.Matrix;
  */
 public class GaussJordan extends GaussElimination {
 
-    GaussJordan(Matrix matrix) {
+    public GaussJordan(Matrix matrix) {
         super(matrix);
     }
     @Override

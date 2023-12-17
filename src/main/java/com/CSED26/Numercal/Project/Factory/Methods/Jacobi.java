@@ -1,10 +1,11 @@
 package com.CSED26.Numercal.Project.Factory.Methods;
 
 import com.CSED26.Numercal.Project.Matrix;
+import com.CSED26.Numercal.Project.Factory.Numeric;
 
 import java.util.Arrays;
 
-public class Jacobi {
+public class Jacobi extends Numeric {
     private Matrix augMatrix;
     private int maxIterations = 100;
     private double tol = 0.00001;
@@ -43,5 +44,15 @@ public class Jacobi {
             currentsolution = (double[]) nextsolution.clone();
         }
         return nextsolution;
+    }
+    @Override
+    public Matrix forwardElim() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'forwardElim'");
+    }
+    @Override
+    public Matrix backElim() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'backElim'");
     }
 }

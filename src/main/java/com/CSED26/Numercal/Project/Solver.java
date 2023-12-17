@@ -4,40 +4,45 @@ import java.util.Collections;
 import java.util.List;
 
 import com.CSED26.Numercal.Project.Factory.Numeric;
+import com.CSED26.Numercal.Project.Factory.Methods.GaussElimination;
+import com.CSED26.Numercal.Project.Factory.Methods.GaussJordan;
 import com.CSED26.Numercal.Project.Factory.Methods.Jacobi;
+import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
 
 import numbericalproject.demo.service.GauseSedil;
 
 
 public class Solver{
 private static final String String = null;
-List<String> variables = new ArrayList<>();
-List<Float> answers = new ArrayList<>();
-ArrayList<ArrayList<Float>> coefficients = new ArrayList<>();
+private List<String> variables = new ArrayList<>();
+private List<Float> answers = new ArrayList<>();
+private ArrayList<ArrayList<Float>> coefficients = new ArrayList<>();
+private Matrix matrix ;
 
-/* 
+
+
       public Numeric getMethod(String type){
         if(type==null){return null;}
 
-        else if(type.equalsIgnoreCase("GauseElim")) {
+        else if(type.equalsIgnoreCase("G")) {
            
-            return  new GauseElim(matrix);
+            return new GaussElimination(matrix);
         }
-        else  if(type.equalsIgnoreCase("GauseJordanElim")){
-            return new GauseJordanElim(matrix);
+        else  if(type.equalsIgnoreCase("GJ")){
+            return new GaussJordan(matrix);
         }
-        else if(type.equalsIgnoreCase("LUDecomp")){
-            return new LUDecomp(matrix);
+        else if(type.equalsIgnoreCase("LU")){
+            return new LUDeomp(matrix);
         }
-        else  if(type.equalsIgnoreCase("GauseSedil")){
-            return new GauseSedil(matrix);
-        }
-        else  if(type.equalsIgnoreCase("Jacobi")){
+        // else  if(type.equalsIgnoreCase("GS")){
+        //     return new GauseSedil(matrix);
+        // }
+        else  if(type.equalsIgnoreCase("J")){
             return new Jacobi(matrix);
         }
         return null;
     }
-*/
+
 
     public String getAnswer(List<Float> ans,List<String> variables){
         String answer="" ;
@@ -204,6 +209,7 @@ ArrayList<ArrayList<Float>> coefficients = new ArrayList<>();
         for(int i =0 ; i<cof.getNumRows();i++){
         cof.setRow(i, coefficients.get(i));
         }
+        this.matrix = cof;
         return cof;
     }
 

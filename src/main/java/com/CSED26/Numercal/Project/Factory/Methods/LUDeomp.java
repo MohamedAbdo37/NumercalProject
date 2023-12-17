@@ -8,7 +8,7 @@ public class LUDeomp extends Numeric{
     private double[] lMatrix;
     private double[] uMatrix;
     private double[] xArray;
-    LUDeomp(Matrix auMatrix){
+    public LUDeomp(Matrix auMatrix){
         int size = (auMatrix.getNumRows() *(auMatrix.getNumRows()+1))/2;
         this.lMatrix = new double[size];
         this.uMatrix = new double[size];
@@ -88,6 +88,7 @@ public class LUDeomp extends Numeric{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'backElim'");
     }
+
     public double[] crout() {
         Matrix newL = this.getLMatrix();
         Matrix newU = this.getUMatrix();
