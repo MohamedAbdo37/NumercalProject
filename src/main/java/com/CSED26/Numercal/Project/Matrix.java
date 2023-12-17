@@ -50,4 +50,7 @@ public class Matrix {
     }
     public void addColumn(double[] xArray) {
     }
+    public Matrix mulCol(int i, double value) {
+        return null;
+    }
 }

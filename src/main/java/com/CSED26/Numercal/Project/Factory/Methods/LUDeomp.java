@@ -43,6 +43,17 @@ public class LUDeomp extends Numeric{
             }else j++;
         }
     }
+    private void setLMatrix(Matrix m) {
+        int i = 0;
+        int j = 0;
+        for (int index = 0; index < this.uMatrix.length; index++) {
+            this.lMatrix[index] =  m.getEle(i, j);
+            if(i == j){
+                i++;
+                j = 0;
+            }else j++;
+        }
+    }
 
     public Matrix getUMatrix() {
         Matrix m = new Matrix(this.mat.getRows());
@@ -77,7 +88,30 @@ public class LUDeomp extends Numeric{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'backElim'");
     }
-
+    public double[] crout() {
+        Matrix newL = this.getLMatrix();
+        Matrix newU = this.getUMatrix();
+        //newL.setEle();
+        for (int i = 0; i < mat.getRows(); i++) {
+            newL = newL.mulCol(i, newU.getEle(i, i));
+            newU = newU.mulRow(i, 1 / newU.getEle(i, i));
+        }
+        setLMatrix(newL);
+        setUMatrix(newU);
+        return this.doLittle();
+    }
+    public double[] cholesky() {
+        Matrix newL = this.getLMatrix();
+        Matrix newU = this.getUMatrix();
+        //newL.setEle();
+        for (int i = 0; i < mat.getRows(); i++) {
+            newL = newL.mulCol(i, Math.sqrt(newU.getEle(i, i)));
+            newU = newU.mulRow(i, Math.sqrt(1 / newU.getEle(i, i)));
+        }
+        setLMatrix(newL);
+        setUMatrix(newU);
+        return this.doLittle();
+    }
     public double[] doLittle(){
         double[] results;
         Matrix middel = this.getLMatrix();
