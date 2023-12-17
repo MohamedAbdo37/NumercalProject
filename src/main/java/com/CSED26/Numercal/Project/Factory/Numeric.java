@@ -1,5 +1,7 @@
 package com.CSED26.Numercal.Project.Factory;
 
+import java.util.ArrayList;
+
 import com.CSED26.Numercal.Project.Matrix;
 
 /**
@@ -20,7 +22,7 @@ public abstract class Numeric {
         return result;
     }
 
-    public double[] forwardSub(Matrix m){
+    public ArrayList<Double> forwardSub(Matrix m){
         double[] results = new double[m.getNumRows()];
         double[] variables;
 

@@ -1,5 +1,7 @@
 package com.CSED26.Numercal.Project.Factory.Methods;
 
+import java.util.ArrayList;
+
 import com.CSED26.Numercal.Project.Matrix;
 import com.CSED26.Numercal.Project.Factory.Numeric;
 
@@ -7,8 +9,8 @@ public class LUDeomp extends Numeric{
     private Matrix mat;
     private double[] lMatrix;
     private double[] uMatrix;
-    private double[] xArray;
-    public LUDeomp(Matrix auMatrix){
+    private ArrayList<Double> xArray;
+    LUDeomp(Matrix auMatrix){
         int size = (auMatrix.getNumRows() *(auMatrix.getNumRows()+1))/2;
         this.lMatrix = new double[size];
         this.uMatrix = new double[size];
@@ -88,8 +90,8 @@ public class LUDeomp extends Numeric{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'backElim'");
     }
-
-    public double[] crout() {
+    
+    public ArrayList<Double> crout() {
         Matrix newL = this.getLMatrix();
         Matrix newU = this.getUMatrix();
         //newL.setEle();
@@ -101,7 +103,7 @@ public class LUDeomp extends Numeric{
         setUMatrix(newU);
         return this.doLittle();
     }
-    public double[] cholesky() {
+    public ArrayList<Double> cholesky() {
         Matrix newL = this.getLMatrix();
         Matrix newU = this.getUMatrix();
         //newL.setEle();
@@ -113,8 +115,8 @@ public class LUDeomp extends Numeric{
         setUMatrix(newU);
         return this.doLittle();
     }
-    public double[] doLittle(){
-        double[] results;
+    public ArrayList<Double> doLittle(){
+        ArrayList<Double> results;
         Matrix middel = this.getLMatrix();
         middel.addColumn(this.xArray);
         results = super.forwardSub(middel);

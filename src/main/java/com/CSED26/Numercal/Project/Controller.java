@@ -16,14 +16,24 @@ public class Controller {
     @GetMapping("/inputs")
     public void Inputs(@RequestParam String method,@RequestParam String equs, @RequestParam int pres){
         Solver solver = new Solver();
-        Matrix matrix = solver.parseEquation(equs);
+        solver.parseEquation(equs);
         this.method = solver.getMethod(method);
     }
 
     @GetMapping("/inputs")
     public void Inputs(@RequestParam String method,@RequestParam String equs, @RequestParam int pres, @RequestParam String format){
         Solver solver = new Solver();
-        Matrix matrix = solver.parseEquation(equs);
+        solver.parseEquation(equs);
+        Matrix.significantFigures = pres;
         this.method = solver.getMethod(method);
+
+        switch (format) {
+            case "Dolittle":
+                return this.method.Do
+                break;
+        
+            default:
+                break;
+        }
     }
 }
