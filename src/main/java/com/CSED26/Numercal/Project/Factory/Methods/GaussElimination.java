@@ -1,3 +1,5 @@
+package com.CSED26.Numercal.Project.Factory.Methods;
+
 import java.util.ArrayList;
 
 import com.CSED26.Numercal.Project.Matrix;
@@ -12,8 +14,8 @@ public class GaussElimination extends Numeric{
 
     protected void InterChangeRows(int r1,int r2)
     {
-        ArrayList<Float> row1 = matrix.getRow(r1);
-        ArrayList<Float>row2 = matrix.getRow(r2);
+        ArrayList<Double> row1 = matrix.getRow(r1);
+        ArrayList<Double>row2 = matrix.getRow(r2);
         matrix.setRow(r1,row2);
         matrix.setRow(r2,row1);
     }
@@ -25,7 +27,7 @@ public class GaussElimination extends Numeric{
     }
     protected int getMaxpivot(int i)
     {
-       float max=0;
+       Double max=0.0;
         int max_index=i;
         for(int j=i;j<matrix.getNumRows();j++)
         {
@@ -36,7 +38,7 @@ public class GaussElimination extends Numeric{
         }
         return max_index;
     }
-    protected ArrayList<Float> multadd(float factor, ArrayList<Float> r1, ArrayList<Float>r2 )
+    protected ArrayList<Double> multadd(double factor, ArrayList<Double> r1, ArrayList<Double>r2 )
     {
         for(int i=0;i<r1.size();i++)
         {
@@ -53,10 +55,10 @@ public class GaussElimination extends Numeric{
         {
             int r=getMaxpivot(i);
             InterChangeRows(r, i);
-            float pivot=matrix.getRow(i).get(i);
+            double pivot=matrix.getRow(i).get(i);
             for (int j=i+1;j<matrix.getNumRows();j++)
             {
-                float factor=matrix.getRow(j).get(i)/pivot;
+                double factor=matrix.getRow(j).get(i)/pivot;
                 matrix.setRow(j,multadd(factor,matrix.getRow(i),matrix.getRow(j)));
 
             }

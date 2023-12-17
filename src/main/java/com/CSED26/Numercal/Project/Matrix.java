@@ -50,6 +50,7 @@ public class Matrix {
         matrix.set(rowIndex, rowValues);
         return this;
     }
+    public ArrayList<Double> getRow(int i){return matrix.get(i);}
 
     public int getDim() {
         return numRows * numCols;
@@ -163,23 +164,23 @@ public class Matrix {
                 copy.matrix.get(i).set(j,this.getElement(i,j));
         return copy;
     }
-    //    Apache Commons Math to calculate the determinant.
-    // public double calculateDeterminant() {
-    //     if (numRows != numCols) {
-    //         throw new IllegalArgumentException("Matrix must be a square matrix.");
-    //     }
-    //     double[][] dataArray = new double[numRows][numCols];
-    //     for (int i = 0; i < numRows; i++) {
-    //         for (int j = 0; j < numCols; j++) {
-    //             dataArray[i][j] = matrix.get(i).get(j);
-    //         }
-    //     }
-    //     Array2DRowRealMatrix realMatrix = new Array2DRowRealMatrix(dataArray);
-    //     LUDecomposition luDecomposition = new LUDecomposition(realMatrix);
-
-    //     return luDecomposition.getDeterminant();
-
-    // }
+//        Apache Commons Math to calculate the determinant.
+//     public double calculateDeterminant() {
+//         if (numRows != numCols) {
+//             throw new IllegalArgumentException("Matrix must be a square matrix.");
+//         }
+//         double[][] dataArray = new double[numRows][numCols];
+//         for (int i = 0; i < numRows; i++) {
+//             for (int j = 0; j < numCols; j++) {
+//                 dataArray[i][j] = matrix.get(i).get(j);
+//             }
+//         }
+//         Array2DRowRealMatrix realMatrix = new Array2DRowRealMatrix(dataArray);
+//         LUDecomposition luDecomposition = new LUDecomposition(realMatrix);
+//
+//         return luDecomposition.getDeterminant();
+//
+//     }
     public Matrix addRow(ArrayList<Double> rowValues) {
         if (rowValues.size() != numCols) {
             throw new IllegalArgumentException("Invalid number of elements in the row.");
@@ -198,6 +199,7 @@ public class Matrix {
         numCols--;
         return this;
     }
+
 
     public Matrix swapRows(int r1, int r2){
         return null;
@@ -238,8 +240,8 @@ public class Matrix {
         }
         numCols++;
     }
-    public double[] getRow(int i) {
-        return null;
-    }
+//    public double[] getRow(int i) {
+//        return null;
+//    }
 
 }

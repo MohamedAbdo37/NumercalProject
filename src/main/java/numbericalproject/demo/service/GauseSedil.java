@@ -1,9 +1,11 @@
 package numbericalproject.demo.service;
 
+import com.CSED26.Numercal.Project.Matrix;
+
 public class GauseSedil   {
     // Evaluate the system of linear equations
     public static double[] evaluate(Matrix coefficients, double[] variables) {
-        int n = coefficients.getRows();
+        int n = coefficients.getNumRows();
         double[] result = new double[n];
 
         for (int i = 0; i < n; i++) {
