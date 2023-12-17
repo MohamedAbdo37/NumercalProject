@@ -24,6 +24,12 @@ public class Matrix {
         numRows = n;
         numCols = m;
     }
+    public int getNumCols() {
+        return numCols;
+    }
+    public int getNumRows() {
+        return numRows;
+    }
     public Matrix setRow(int rowIndex, ArrayList<Float> rowValues) {
         if (rowValues.size() != numCols) {
             throw new IllegalArgumentException("Invalid number of elements in the row.");
