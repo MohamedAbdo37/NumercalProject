@@ -7,8 +7,9 @@ import java.util.Arrays;
 
 public class Jacobi extends Numeric {
     private Matrix augMatrix;
-    private int maxIterations = 100;
-    private double tol = 0.00001;
+    public static int maxIterations = 100;
+    public static double tol = 0.00001;
+
     public Jacobi(Matrix matrix) {
         this.augMatrix = matrix;
     }

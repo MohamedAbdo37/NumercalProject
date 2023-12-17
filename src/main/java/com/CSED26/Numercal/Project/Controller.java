@@ -1,5 +1,7 @@
 package com.CSED26.Numercal.Project;
 
+import java.util.ArrayList;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.CSED26.Numercal.Project.Factory.Numeric;
+import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
 
 @RestController
 @CrossOrigin
@@ -21,7 +24,7 @@ public class Controller {
     }
 
     @GetMapping("/inputs")
-    public void Inputs(@RequestParam String method,@RequestParam String equs, @RequestParam int pres, @RequestParam String format){
+    public ArrayList<Double> Inputs(@RequestParam String method,@RequestParam String equs, @RequestParam int pres, @RequestParam String format){
         Solver solver = new Solver();
         solver.parseEquation(equs);
         Matrix.significantFigures = pres;
@@ -29,11 +32,14 @@ public class Controller {
 
         switch (format) {
             case "Dolittle":
-                return this.method.Do
-                break;
-        
+                return ((LUDeomp) this.method).doLittle();
+            case "Crout":
+                return ((LUDeomp) this.method).crout();
+            case "Cholesky":
+                return ((LUDeomp) this.method).cholesky();
             default:
-                break;
+                return null;
         }
+
     }
 }

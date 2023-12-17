@@ -1,10 +1,10 @@
 package com.CSED26.Numercal.Project;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-// import org.apache.commons.math3.linear.Array2DRowRealMatrix;
-// import org.apache.commons.math3.linear.DecompositionSolver;
-// import org.apache.commons.math3.linear.LUDecomposition;
-// import org.jetbrains.annotations.NotNull;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.DecompositionSolver;
+import org.apache.commons.math3.linear.LUDecomposition;
 
 import io.micrometer.common.lang.NonNull;
 
@@ -26,6 +26,7 @@ public class Matrix {
         numRows = n;
         numCols = m;
     }
+
     public Matrix(int numRows2) {
         matrix = new ArrayList<>(numRows2);
         for (int i = 0; i < numRows2; i++) {
@@ -37,12 +38,15 @@ public class Matrix {
         numRows = numRows2;
         numCols = numRows2;
     }
+
     public int getNumCols() {
         return numCols;
     }
+
     public int getNumRows() {
         return numRows;
     }
+
     public Matrix setRow(int rowIndex, ArrayList<Double> rowValues) {
         if (rowValues.size() != numCols) {
             throw new IllegalArgumentException("Invalid number of elements in the row.");
@@ -50,7 +54,10 @@ public class Matrix {
         matrix.set(rowIndex, rowValues);
         return this;
     }
-    public ArrayList<Double> getRow(int i){return matrix.get(i);}
+
+    public ArrayList<Double> getRow(int i) {
+        return matrix.get(i);
+    }
 
     public int getDim() {
         return numRows * numCols;
@@ -96,6 +103,7 @@ public class Matrix {
         double magnitude = Math.pow(10, significantFigures - Math.floor(Math.log10(Math.abs(value))));
         return (Math.round(value * magnitude) / magnitude);
     }
+
     public boolean compMatrix(Matrix mtx) {
         if (numRows != mtx.numRows || numCols != mtx.numCols) {
             return false;
@@ -109,17 +117,18 @@ public class Matrix {
         }
         return true;
     }
-    public boolean Symetricmatrix(@NonNull Matrix mx)
-    {
-        if(mx.numRows!=mx.numCols)
+
+    public boolean Symetricmatrix(@NonNull Matrix mx) {
+        if (mx.numRows != mx.numCols)
             return false;
-        for (int i=0;i<mx.numRows;i++)
-            for(int j=0;j<i;j++)
-                if(mx.getElement(i,j)!=mx.getElement(j,i))
+        for (int i = 0; i < mx.numRows; i++)
+            for (int j = 0; j < i; j++)
+                if (mx.getElement(i, j) != mx.getElement(j, i))
                     return false;
         return true;
 
     }
+
     public Matrix mulRow(int r, double num) {
         if (r >= numRows) {
             throw new IllegalArgumentException("Invalid row index.");
@@ -139,6 +148,7 @@ public class Matrix {
             return result;
         }
     }
+
     public Matrix addRows(int r1, int r2) {
         if (r1 >= numRows || r2 >= numRows) {
             throw new IllegalArgumentException("Invalid row index.");
@@ -153,34 +163,36 @@ public class Matrix {
             return result;
         }
     }
+
     private Double roundToSignificantFigures(double sum, int significantFigures) {
         return null;
     }
-    public Matrix Copy()
-    {
-        Matrix copy=new Matrix(numRows,numCols);
-        for(int i=0;i<numRows;i++)
-            for(int j=0;j<numCols;j++)
-                copy.matrix.get(i).set(j,this.getElement(i,j));
+
+    public Matrix Copy() {
+        Matrix copy = new Matrix(numRows, numCols);
+        for (int i = 0; i < numRows; i++)
+            for (int j = 0; j < numCols; j++)
+                copy.matrix.get(i).set(j, this.getElement(i, j));
         return copy;
     }
-//        Apache Commons Math to calculate the determinant.
-//     public double calculateDeterminant() {
-//         if (numRows != numCols) {
-//             throw new IllegalArgumentException("Matrix must be a square matrix.");
-//         }
-//         double[][] dataArray = new double[numRows][numCols];
-//         for (int i = 0; i < numRows; i++) {
-//             for (int j = 0; j < numCols; j++) {
-//                 dataArray[i][j] = matrix.get(i).get(j);
-//             }
-//         }
-//         Array2DRowRealMatrix realMatrix = new Array2DRowRealMatrix(dataArray);
-//         LUDecomposition luDecomposition = new LUDecomposition(realMatrix);
-//
-//         return luDecomposition.getDeterminant();
-//
-//     }
+
+    public double calculateDeterminant() {
+        if (numRows != numCols) {
+            throw new IllegalArgumentException("Matrix must be a square matrix.");
+        }
+        double[][] dataArray = new double[numRows][numCols];
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                dataArray[i][j] = matrix.get(i).get(j);
+            }
+        }
+        Array2DRowRealMatrix realMatrix = new Array2DRowRealMatrix(dataArray);
+        LUDecomposition luDecomposition = new LUDecomposition(realMatrix);
+
+        return luDecomposition.getDeterminant();
+
+    }
+
     public Matrix addRow(ArrayList<Double> rowValues) {
         if (rowValues.size() != numCols) {
             throw new IllegalArgumentException("Invalid number of elements in the row.");
@@ -189,6 +201,7 @@ public class Matrix {
         numRows++;
         return this;
     }
+
     public Matrix deleteColumn(int columnIndex) {
         if (columnIndex < 0 || columnIndex >= numCols) {
             throw new IllegalArgumentException("Invalid column index.");
@@ -200,21 +213,6 @@ public class Matrix {
         return this;
     }
 
-
-    public Matrix swapRows(int r1, int r2){
-        return null;
-        
-
-    }
-
-    public Matrix mulCol(int col, double value){
-        return null;
-
-    }
-    public Matrix swapCol(int c1,int c2){
-        return null;
-
-    }
     public ArrayList<Double> getColumn(int c) {
         if (c < 0 || c >= numCols) {
             throw new IndexOutOfBoundsException("Invalid column index.");
@@ -225,12 +223,14 @@ public class Matrix {
         }
         return column;
     }
+
     public void setEle(int i, int j, double d) {
         if (i < 0 || i >= numRows || j < 0 || j >= numCols) {
             throw new IndexOutOfBoundsException("Invalid row or column index.");
         }
         matrix.get(i).set(j, d);
     }
+
     public void addColumn(ArrayList<Double> columnValues) {
         if (columnValues.size() != numRows) {
             throw new IllegalArgumentException("Invalid number of elements in the column.");
@@ -240,8 +240,48 @@ public class Matrix {
         }
         numCols++;
     }
-//    public double[] getRow(int i) {
-//        return null;
-//    }
+
+    public Matrix swapRows(int r1, int r2) {
+        if (r1 >= numRows || r2 >= numRows)
+            throw new IllegalArgumentException("Invalid number of elements in the row.");
+
+        Matrix result = new Matrix(numRows, numCols);
+
+        for (int i = 0; i < numCols; i++) {
+            result.matrix.get(r1).set(i, this.matrix.get(r1).get(i));
+            this.matrix.get(r1).set(i, this.matrix.get(r2).get(i));
+            this.matrix.get(r2).set(i, result.matrix.get(r1).get(i));
+        }
+
+        return result;
+    }
+
+    public Matrix mulCol(int col, double scalar) {
+        if (col >= numCols)
+            throw new IllegalArgumentException("Invalid column index.");
+
+        Matrix result = new Matrix(numRows, numCols);
+
+        for (int i = 0; i < numRows; i++) {
+            result.matrix.get(i).set(col, this.matrix.get(i).get(col) * scalar);
+        }
+
+        return result;
+    }
+
+    public Matrix swapCols(int c1, int c2) {
+        if (c1 >= numCols || c2 >= numCols)
+            throw new IllegalArgumentException("Invalid number of elements in the column.");
+
+        Matrix result = new Matrix(numRows, numCols);
+
+        for (int i = 0; i < numRows; i++) {
+            result.matrix.get(i).set(c1, this.matrix.get(i).get(c1));
+            this.matrix.get(i).set(c1, this.matrix.get(i).get(c2));
+            this.matrix.get(i).set(c2, result.matrix.get(i).get(c1));
+        }
+
+        return result;
+    }
 
 }

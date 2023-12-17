@@ -10,7 +10,8 @@ public class LUDeomp extends Numeric{
     private double[] lMatrix;
     private double[] uMatrix;
     private ArrayList<Double> xArray;
-    LUDeomp(Matrix auMatrix){
+    
+    public LUDeomp (Matrix auMatrix){
         int size = (auMatrix.getNumRows() *(auMatrix.getNumRows()+1))/2;
         this.lMatrix = new double[size];
         this.uMatrix = new double[size];

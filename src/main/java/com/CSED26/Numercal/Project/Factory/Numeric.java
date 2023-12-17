@@ -10,43 +10,45 @@ import com.CSED26.Numercal.Project.Matrix;
 public abstract class Numeric {
     // abstract methods
     public abstract Matrix forwardElim();
+
     public abstract Matrix backElim();
 
-    private double solveFirstDeg(double[] arr, int i){
-        double result = arr[arr.length];
-        for (int j = 0; j < arr.length-1; j++) {
-            if (j == i) continue;
-            result-= arr[j];
+    private double solveFirstDeg(ArrayList<Double> variables, int i) {
+        double result = variables.get(variables.size());
+        for (int j = 0; j < variables.size() - 1; j++) {
+            if (j == i)
+                continue;
+            result -= variables.get(j);
         }
-        result/= arr[i-1];
+        result /= variables.get(i - 1);
         return result;
     }
 
-    public ArrayList<Double> forwardSub(Matrix m){
-        double[] results = new double[m.getNumRows()];
-        double[] variables;
+    public ArrayList<Double> forwardSub(Matrix m) {
+        ArrayList<Double> results = new ArrayList<Double>(m.getNumRows());
+        ArrayList<Double> variables;
 
-        for (int i = 0; i < results.length; i++){
+        for (int i = 0; i < results.size(); i++) {
             variables = m.getRow(i);
             for (int j = 0; j < i; j++)
-                variables[j] *= results[j];
-            results[i] = this.solveFirstDeg(variables, i);
+                variables.set(j, variables.get(j) * results.get(j));
+            results.set(i, this.solveFirstDeg(variables, i));
         }
-        
+
         return results;
     }
 
-    public double[] backSub(Matrix m){
-        double[] results = new double[m.getNumRows()];
-        double[] variables;
+    public ArrayList<Double> backSub(Matrix m) {
+        ArrayList<Double> results = new ArrayList<Double>(m.getNumRows());
+        ArrayList<Double> variables;
 
-        for (int i = results.length-1; i > -1; i--){
+        for (int i = results.size() - 1; i > -1; i--) {
             variables = m.getRow(i);
             for (int j = 0; j < i; j++)
-                variables[j] *= results[j];
-            results[i] = this.solveFirstDeg(variables, i);
+                variables.set(j, variables.get(j) * results.get(j));
+            results.set(i, this.solveFirstDeg(variables, i));
         }
-        
+
         return results;
     }
 
