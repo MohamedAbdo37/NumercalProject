@@ -7,8 +7,8 @@ import com.CSED26.Numercal.Project.Matrix;
  */
 public abstract class Numeric {
     // abstract methods
-    public abstract Matrix forwardElim(Matrix m);
-    public abstract Matrix backElim(Matrix m);
+    public abstract Matrix forwardElim();
+    public abstract Matrix backElim();
 
     private double solveFirstDeg(double[] arr, int i){
         double result = arr[arr.length];
