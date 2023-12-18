@@ -71,12 +71,12 @@ public class Controller {
     }
 
     @GetMapping("/solve")
-    public String solve() {
+    public String solve(String answer) {
         // ArrayList<Double> results = new ArrayList<>();
         // Numeric method = solver.getMethod(type);
         // solver.solve(method);
         // return solver.getAnswer();
-        return null;
+        return answer;
     }
 
 }
