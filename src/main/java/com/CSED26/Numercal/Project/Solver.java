@@ -31,9 +31,9 @@ public class Solver {
         } else if (type.equalsIgnoreCase("GJ")) {
             return new GaussJordan(matrix);
         } else if (type.equalsIgnoreCase("LU")) {
-            return new LUDeomp(matrix,getIteration(),getTolerance());
+            return new LUDeomp(matrix);
         } else if (type.equalsIgnoreCase("GS")) {
-            return new GauseSedil(matrix,getIteration(),getTolerance());
+            // return new GauseSedil(matrix,getIteration(),getTolerance());
         } else if (type.equalsIgnoreCase("J")) {
             return new Jacobi(matrix,getIteration(),getTolerance());
         }
