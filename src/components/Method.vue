@@ -26,11 +26,13 @@ export default {
   },
   watch:{
     async method(){
+        console.log("form methods");
         await axios.get("http://localhost:8081/method", {
         params: {
           type: this.method
         }
-      })
+      });
+      console.log(this.method);
     }
   },
   methods:{

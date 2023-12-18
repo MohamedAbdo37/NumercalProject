@@ -4,10 +4,10 @@
     <Method @methodChosen = "this.methodChosen = $event"></Method>
     <hr>
     <Inputs></Inputs>
-    <Parameters :methodChosen=methodChosen></Parameters>
-    <input type="button" @click="solve" value="Solve"/>
+    <Parameters :methodChosen=methodChosen @answers = "this.answers = $event"></Parameters>
+    <!-- <input type="button" @click="solve" value="Solve"/> -->
   </form>
-  <Answer :answers=answers></Answer>
+  <Answer :answers=answers v-if="answers != null"></Answer>
 </template>
 
 <script>
@@ -17,14 +17,15 @@ import Parameters from './components/Parameters.vue'
 import Answer from './components/Answer.vue'
 import axios from 'axios'
 
+
 export default {
   name: 'App',
   components: {
     Method,
     Inputs,
-    Parameters
-    
-  },
+    Parameters,
+    Answer
+},
   data(){
     return{
       methodChosen: null,
@@ -41,12 +42,13 @@ export default {
   //   }
   // },
   methods:{
-      async solve(){
-        await axios.get("http://localhost:8081/solve").then(r=>{
-          this.answers = r.data;
-          console.log(this.answers);
-        });
-      }
+      // async solve(){
+      //   await axios.get("http://localhost:8081/solve").then(r=>{
+      //     this.answers = r.data;
+      //     console.log(this.answers);
+      //   });
+
+      // }
     },
     
   }
@@ -102,7 +104,7 @@ body{
   display: block;
 }
 
-input[type="button"]{
+/* input[type="button"]{
   width: 80px;
   height: 30px;
   border-radius: 15px;
@@ -110,5 +112,5 @@ input[type="button"]{
   margin: 10px;
   cursor: pointer;
   border: 1px solid rgb(159, 156, 149);
-}
+} */
 </style>
