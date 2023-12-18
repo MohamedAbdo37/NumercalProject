@@ -33,7 +33,7 @@ export default {
     methodChosen(){
       axios.post("http://localhost:8081/method", {
         params: {
-          'method': 'this.methodChosen'
+          'method':'this.methodChosen'
         }
       })
     }
