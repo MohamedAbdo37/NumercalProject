@@ -171,6 +171,22 @@ public class Solver {
         this.answers = method.solve();
     }
 
+    public void solveLU(Numeric method, String type) {
+        switch (type) {
+            case "do":
+                this.answers = ((LUDeomp) method).doLittle();
+                break;
+            case "Court":
+                this.answers = ((LUDeomp) method).crout();
+                break;
+
+            case "Chelsky":
+                this.answers = ((LUDeomp) method).cholesky();
+                break;
+
+        }
+    }
+
     // public class Main {
     // public static void main(String[] args) {
     // Solver solver = new Solver();
