@@ -107,11 +107,16 @@ public class GaussElimination extends Numeric {
         ArrayList<Double>result=BackWordSub();
         return result;
     }
-    protected Double chop_number(Double number)
-    {//10.57
-        int n=(int) Math.log(number)+1 ;
-        int x=(int)Math.ceil(number*Math.pow(10,matrix.getSignificantFigures()-n));
-        number=x/Math.pow(10,matrix.getSignificantFigures()-n);
+   protected Double chop_number(Double number)
+    {
+        int n=(int) Math.log10(number)+1 ;
+        int y=(int) (number*Math.pow(10,matrix.getSignificantFigures()-n+1)); //1039//1059
+        int z=(int) Math.floor(number*Math.pow(10,matrix.getSignificantFigures()-n)); //1030
+        z=z*10;
+        y=y-z;
+        int x=(int) (number*Math.pow(10,matrix.getSignificantFigures()-n+1));
+        x=y>=5? x+1:x;
+        number=x/Math.pow(10,matrix.getSignificantFigures()-n+1);
         return number;
     }
 }
