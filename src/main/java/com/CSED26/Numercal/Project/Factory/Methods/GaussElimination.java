@@ -38,8 +38,10 @@ public class GaussElimination extends Numeric {
     }
 
     protected ArrayList<Double> multadd(double factor, ArrayList<Double> r1, ArrayList<Double> r2) {
+        factor=chop_number(factor);
         for (int i = 0; i < r1.size(); i++) {
-            r2.set(i, r1.get(i) * factor - r2.get(i));
+            double x= r1.get(i) * factor - r2.get(i);
+            r2.set(i, chop_number(x));
         }
         return r2;
 
@@ -60,40 +62,35 @@ public class GaussElimination extends Numeric {
         }
         return matrix;
     }
-    // private ArrayList<Float> BackWordSub()
-    // {
-    // ArrayList<Float>result=new ArrayList<>();
-    // for(int i=0;i<matrix.getNumRows();i++)
-    // {
-    // result.add(matrix.getRow(i).get(matrix.getNumCols()-1));
-    //
-    // }
-    // float sum=0;
-    // for (int i=matrix.getNumRows()-1;i>=0;i--)
-    // {
-    // for (int j=i+1;j<matrix.getNumRows();j++)
-    // {
-    // sum+=matrix.getRow(i).get(j)*result.get(j);
-    // }
-    //
-    // result.set(i,(matrix.getRow(i).get(matrix.getNumCols()-1)-sum)/matrix.getRow(i).get(i));
-    //
-    // sum=0;
-    // }
-    //
-    //
-    // return result;
-    // }
-    // public ArrayList<Float> Solve()
-    // {
-    // if(!checkValidaty())
-    // {
-    // throw new RuntimeException("Matrix isn't wellformated --> {A(Square)|B}");
-    // }
-    // forwardElim();
-    // ArrayList<Float>result=BackWordSub();
-    // return result;
-    // }
+     private ArrayList<Double> BackWordSub()
+     {
+     ArrayList<Double>result=new ArrayList<>();
+     for(int i=0;i<matrix.getNumRows();i++)
+     {
+     result.add(matrix.getRow(i).get(matrix.getNumCols()-1));
+
+     }
+     double sum=0;
+     for (int i=matrix.getNumRows()-1;i>=0;i--)
+     {
+     for (int j=i+1;j<matrix.getNumRows();j++)
+     {
+         double x=chop_number(matrix.getRow(i).get(j)*result.get(j));
+     sum+=x;
+     }
+     sum=chop_number(sum);
+     double y=chop_number((matrix.getRow(i).get(matrix.getNumCols()-1)-sum)/matrix.getRow(i).get(i));
+     result.set(i,y);
+
+     sum=0;
+     }
+
+
+     return result;
+     }
+
+
+
 
     @Override
     public Matrix backElim() {
@@ -102,7 +99,19 @@ public class GaussElimination extends Numeric {
 
     @Override
     public ArrayList<Double> solve() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'solve'");
+        if(!checkValidaty())
+        {
+            throw new RuntimeException("Matrix isn't wellformated --> {A(Square)|B}");
+        }
+        forwardElim();
+        ArrayList<Double>result=BackWordSub();
+        return result;
+    }
+    protected Double chop_number(Double number)
+    {//10.57
+        int n=(int) Math.log(number)+1 ;
+        int x=(int)Math.ceil(number*Math.pow(10,matrix.getSignificantFigures()-n));
+        number=x/Math.pow(10,matrix.getSignificantFigures()-n);
+        return number;
     }
 }

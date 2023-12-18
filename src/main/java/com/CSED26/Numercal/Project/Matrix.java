@@ -27,6 +27,9 @@ public class Matrix {
         }
         numRows = n;
         numCols = m;
+    } 
+    public static int getSignificantFigures() {
+        return significantFigures;
     }
 
     public Matrix(int numRows2) {
@@ -166,8 +169,13 @@ public class Matrix {
         }
     }
 
-    private Double roundToSignificantFigures(double sum, int significantFigures) {
-        return null;
+    public static double roundToSignificantFigures(double value, int significantFigures) {
+        if (value == 0) {
+            return 0;
+        }
+
+        double magnitude = Math.pow(10, significantFigures - Math.floor(Math.log10(Math.abs(value))));
+        return (Math.round(value * magnitude) / magnitude);
     }
 
     public Matrix Copy() {
