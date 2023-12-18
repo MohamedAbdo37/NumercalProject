@@ -3,18 +3,37 @@
     Inputs
 </h1>
 <h3>Enter the System of Linear Equations </h3>
-<textarea name="equ" id ="eq" type="multiliner" placeholder="Enter System" required/>
+<textarea v-bind="equations" id ="eq" type="multiliner" placeholder="Enter System" required/>
 <h3>Enter the Precision (number of significant figures)</h3>
-<input id="prec" name="pres" type="number" placeholder="Enter precision" required/>
+<input id="prec" v-bind="precision"  type="number" placeholder="Enter precision" required/>
 </template>
 
 <script>
+import axios  from 'axios'
 export default {
   name: 'Inputs',
   props: {
   },
   data(){
     return{
+        precision: null,
+        equations: null
+    }
+  },
+  watch:{
+    async precision(){
+      await axios.get("http://localhost:8081/SF", {
+        params: {
+          SF: this.precision
+        }
+      })
+    },
+    async equations(){
+      await axios.get("http://localhost:8081/equations", {
+        params: {
+            equs: this.equations
+        }
+      })
     }
   },
   methods:{

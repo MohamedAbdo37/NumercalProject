@@ -1,19 +1,20 @@
 <template>
   
-  <form class="canvas" action="http://localhost:8081/inputs">
+  <form class="canvas">
     <Method @methodChosen = "this.methodChosen = $event"></Method>
     <hr>
     <Inputs></Inputs>
     <Parameters :methodChosen=methodChosen></Parameters>
-    <input type="submit" value="Solve"/>
+    <input type="button" @click="solve" value="Solve"/>
   </form>
-  <Answer></Answer>
+  <Answer :answers=answers></Answer>
 </template>
 
 <script>
 import Method from './components/Method.vue'
 import Inputs from './components/Inputs.vue'
 import Parameters from './components/Parameters.vue'
+import Answer from './components/Answer.vue'
 import axios from 'axios'
 
 export default {
@@ -26,21 +27,28 @@ export default {
   },
   data(){
     return{
-      methodChosen: null
+      methodChosen: null,
+      answers: null
     }
   },
-  watch:{
-    methodChosen(){
-      axios.post("http://localhost:8081/method", {
-        params: {
-          'method':'this.methodChosen'
-        }
-      })
-    }
-  },
+  // watch:{
+  //   async methodChosen(){
+  //     await axios.get("http://localhost:8081/method", {
+  //       params: {
+  //         method: this.methodChosen
+  //       }
+  //     })
+  //   }
+  // },
   methods:{
+      async solve(){
+        await axios.get("http://localhost:8081/solve").then(r=>{
+          this.answers = r.data;
+          console.log(this.answers);
+        });
+      }
+    },
     
-    }
   }
 </script>
 
@@ -94,7 +102,7 @@ body{
   display: block;
 }
 
-input[type="submit"]{
+input[type="button"]{
   width: 80px;
   height: 30px;
   border-radius: 15px;

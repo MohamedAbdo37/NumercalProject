@@ -3,7 +3,7 @@
         Methods
     </h1>
     
-    <select name="method" required v-model="method" @change="$emit('methodChosen', method)" >
+    <select name="method" required v-model="method" @change="$emit('methodChosen', method)">
         <option value="" disabled selected hidden>Choose a method</option>
         <option value="G" >Gauss Elimination</option>
         <option value="GJ" >Gauss-Jordan Elimination</option>
@@ -13,7 +13,7 @@
     </select>
 </template>
 <script>
-
+import axios from 'axios';
 export default {
   name: 'Method',
   data(){
@@ -23,6 +23,17 @@ export default {
   },
   components: {
     
+  },
+  watch:{
+    async method(){
+        await axios.get("http://localhost:8081/method", {
+        params: {
+          type: this.method
+        }
+      })
+    }
+  },
+  methods:{
   }
 }
 </script>
