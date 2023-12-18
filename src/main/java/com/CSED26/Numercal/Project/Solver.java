@@ -73,7 +73,9 @@ public class Solver {
             String[] terms = equation.split("(?=[-+])");
             ArrayList<Double> equationCoefficients = new ArrayList<>();
              ArrayList<String> ec = new ArrayList<>();
+         
             for (int i = 0; i < terms.length; i++) {
+                
                 String term = terms[i].trim();
                 if (term.matches(".*[a-z].*")) {
                     String variable;
@@ -97,7 +99,40 @@ public class Solver {
 
                         // System.out.println(coefficientString);
                     }
-                    ec.add(variable);
+                    try{
+                   
+                    double coefficient;
+                    if (coefficientString.isEmpty()) {
+                        coefficient = 1.0;
+                    } else if (coefficientString.equalsIgnoreCase("+")) {
+                        coefficient = 1.0;
+                    } else if (coefficientString.equalsIgnoreCase("-")) {
+                        coefficient = -1.0;
+                    } else {
+                        coefficient = Double.parseDouble(coefficientString);
+                    }
+                     ec.add(variable);
+                    equationCoefficients.add(coefficient);
+                }catch(NumberFormatException e){
+                    if (term.contains("=")) {
+                        String[] parts = term.split("=");
+                        // System.out.println(parts[0].trim().length() - 1);
+                        variable = parts[0].substring(parts[0].trim().length() - 2);
+                        // System.out.println(variable);
+
+                        coefficientString = parts[0].substring(0, parts[0].trim().length() - 2);
+                        // System.out.println(coefficientString);
+                    } else {
+                     //   while()
+                        // System.out.println(term.trim().length() - 1);
+                        variable = term.substring(term.trim().length() - 2);
+                       //  System.out.println(variable);
+
+                        coefficientString = term.substring(0, term.trim().length() - 2);
+
+                        // System.out.println(coefficientString);
+                    } 
+                      ec.add(variable);
                     double coefficient;
                     if (coefficientString.isEmpty()) {
                         coefficient = 1.0;
@@ -109,9 +144,14 @@ public class Solver {
                         coefficient = Double.parseDouble(coefficientString);
                     }
 
-                    equationCoefficients.add(coefficient);
+                    equationCoefficients.add(coefficient); 
                 }
             }
+            }
+        
+
+
+
             variables.add(ec);
             coefficients.add(equationCoefficients);
             String constantString = equation.split("=")[equation.split("=").length - 1].trim();
@@ -178,7 +218,7 @@ public class Solver {
             Solver solver = new Solver();
 
             // Example equation string
-            String equationString = "2x-3y=10&4x+5y=5&x-y=-5";
+            String equationString = "2x+3y-z=5&3y-z=5&x+3y-z=5";
             // Parse the equation string and get the matrix
             Matrix matrix = solver.parseEquation(equationString);
 
