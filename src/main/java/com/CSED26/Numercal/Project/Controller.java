@@ -16,13 +16,11 @@ import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
 public class Controller {
     private String type;
     private String LUType;
-    private Solver solver;
+    private Solver solver = new Solver();
 
     @GetMapping("/equations")
     public void equations(@RequestParam String equs) {
-        this.solver = new Solver();
         this.solver.parseEquation(equs);
-
     }
 
     @GetMapping("/SF")
@@ -33,12 +31,23 @@ public class Controller {
     @GetMapping("/G")
     public String GauseElSolver() {
         Numeric method = solver.getMethod("G");
-        solver.solve(method);
+        try {
+            solver.solve(method);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
         return solver.getAnswer();
     }
 
     @GetMapping("/GJ")
-    public void GauseJourdanElSolver() {
+    public String GauseJourdanElSolver() {
+        Numeric method = solver.getMethod("GJ");
+        try {
+            solver.solve(method);
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+        return solver.getAnswer();
 
     }
 
@@ -46,6 +55,7 @@ public class Controller {
     public String LUDoElSolver() {
         Numeric method = solver.getMethod("LU");
         solver.solveLU(method,"do");
+        System.out.println(solver.getAnswer());
         return solver.getAnswer();
     }
 

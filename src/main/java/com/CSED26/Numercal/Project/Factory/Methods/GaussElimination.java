@@ -121,7 +121,7 @@ public class GaussElimination extends Numeric {
              }
          }
          ramkaug=rank;
-         if(matrix.getRow(matrix.getNumRows()-1).get(matrix.getNumCols()-1)!=0)
+         if(matrix.getRow(matrix.getNumRows()-1).get(matrix.getNumCols()-1)!=0 && ramkaug!=matrix.getNumRows())
          {
              ramkaug++;
          }
