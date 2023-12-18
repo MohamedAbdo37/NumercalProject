@@ -1,7 +1,6 @@
 package com.CSED26.Numercal.Project;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.CSED26.Numercal.Project.Factory.Numeric;
@@ -14,7 +13,7 @@ import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
 
 public class Solver {
     private static final String String = null;
-    private List<String> variables = new ArrayList<>();
+    private List<ArrayList<String>> variables = new ArrayList<>();
     private List<Float> answers = new ArrayList<>();
     private ArrayList<ArrayList<Float>> coefficients = new ArrayList<>();
     private Matrix matrix;
@@ -39,30 +38,17 @@ public class Solver {
         return null;
     }
 
-    public String getAnswer(List<Float> ans, List<String> variables) {
+    public String getAnswer(List<Float> ans, List<ArrayList<String>> variables) {
         String answer = "";
         int l = 0;
         for (Float i : ans) {
-            answer = answer.concat(variables.get(l));
+            answer = answer.concat(variables.get(0).get(l));
             answer = answer.concat("=");
             answer = answer.concat(String.valueOf(i));
             answer = answer.concat(",");
             l++;
         }
         return answer;
-    }
-
-    public static int getMaxOccurrences(List<String> variables, String target) {
-        int maxOccurrences = 0;
-
-        for (String variable : variables) {
-            int occurrences = Collections.frequency(variables, variable);
-            if (variable.equals(target) && occurrences > maxOccurrences) {
-                maxOccurrences = occurrences;
-            }
-        }
-
-        return maxOccurrences;
     }
 
     public Matrix parseEquation(String eq) {
@@ -73,6 +59,7 @@ public class Solver {
         for (String equation : equations) {
             String[] terms = equation.split("(?=[-+])");
             ArrayList<Double> equationCoefficients = new ArrayList<>();
+             ArrayList<String> ec = new ArrayList<>();
             for (int i = 0; i < terms.length; i++) {
                 String term = terms[i].trim();
                 if (term.matches(".*[a-z].*")) {
@@ -96,7 +83,7 @@ public class Solver {
 
                         // System.out.println(coefficientString);
                     }
-                    variables.add(variable);
+                    ec.add(variable);
                     double coefficient;
                     if (coefficientString.isEmpty()) {
                         coefficient = 1.0;
@@ -111,105 +98,57 @@ public class Solver {
                     equationCoefficients.add(coefficient);
                 }
             }
+            variables.add(ec);
             coefficients.add(equationCoefficients);
             String constantString = equation.split("=")[equation.split("=").length - 1].trim();
             double constant = Double.parseDouble(constantString);
             constants.add(constant);
         }
-
-        int maxlength = 0;
-        for (String m : variables) {
-            int l = getMaxOccurrences(variables, m);
-            if (l > maxlength) {
-                maxlength = l;
+    int b=0;
+    int l=0 ;
+    int i=0;
+    int v=0;
+   int  maxlen=0;
+   for(int e =0 ;e<variables.size();e++){
+    if(variables.get(e).size()>maxlen){
+        maxlen=variables.get(e).size();
+    }
+   }
+   while (v==0) {
+        try {
+            for( l =0 ; l<variables.size();l++){
+        if(variables.get(l).size()==maxlen){
+            for( i =0 ;i<maxlen;i++){
+                for( b =0 ;b<variables.size();b++){
+            if(!variables.get(l).get(i).equalsIgnoreCase(variables.get(b).get(i))){
+            variables.get(b).add(i,variables.get(l).get(i));
+            coefficients.get((b)).add(i, 0.0);
+                    }
+                                                }
+                            }
+                    }
+            v=1;
+        } 
+        } catch (IndexOutOfBoundsException e) {
+            variables.get(b).add(variables.get(l).get(i));
+            coefficients.get((b)).add(0.0);
+           v=0;
             }
         }
-        int size = maxlength * coefficients.size();
-        int z = 0;
-        for (int q = 0; q < variables.size(); q++) {
-            boolean flag = false;
-            String k = variables.get(q);
-            if (getMaxOccurrences(variables, k) < maxlength) {
-                flag = true;
-                z = q;
-                System.out.println("z=" + z);
-                int nq = 0;
-                System.out.println("nq=" + nq);
-                while (z >= 0 && z < variables.size() && nq < maxlength) {
-                    if (!variables.get(q).equalsIgnoreCase(variables.get(z))) {
-                        System.out.println(variables.get(q));
-                        System.out.println(variables.get(z));
-                        variables.add(z, k);
-                        System.out.println("z=" + z);
-                        coefficients.get((z / maxlength)).add(z % maxlength, 0.0);
-                        flag = false;
-                        nq++;
-                        System.out.println("nq=" + nq);
-                    } else {
-                        System.out.println(variables.get(q));
-                        System.out.println(variables.get(z));
-                        z = z + maxlength;
-                        System.out.println("z=" + z);
-                        if (z == size - 1 && variables.get(z - 1).equalsIgnoreCase(k)) {
-                            variables.add(k);
-                            System.out.println("z=" + z);
-                            coefficients.get((z / maxlength)).add(z % maxlength, 0.0);
-                        }
-                        nq++;
-                        System.out.println("nq=" + nq);
-                    }
-                }
-                if (nq < maxlength) {
-                    z = q;
-                    nq--;
-                }
-                int fi = 0;
-                while (z >= 0 && z < size - 1 && nq < maxlength) {
-                    if (!variables.get(q).equalsIgnoreCase(variables.get(z))) {
-                        System.out.println(variables.get(q));
-                        System.out.println(variables.get(z));
-                        variables.add(z, k);
-                        nq++;
-                        if (nq == 3) {
-                            fi = 1;
-                        }
-                        System.out.println("nq2=" + nq);
-                        if (z < 0) {
-                            z = z + maxlength;
-                        }
-                        System.out.println("z=" + z);
-                        if (fi != 1) {
-                            z++;
-                        }
-                        coefficients.get((z / maxlength)).add(z % maxlength, 0.0);
-                        if (fi != 1) {
-                            z--;
-                        }
 
-                        q++;
-                        flag = false;
-                    } else {
-                        System.out.println(variables.get(q));
-                        System.out.println(variables.get(z));
-                        z = z - maxlength + 1;
-                        nq++;
-                        System.out.println("nq1=" + nq);
-                        if (nq == 3) {
-                            variables.add(z, k);
-                            System.out.println("z=" + z);
-                            coefficients.get((z / maxlength)).add(z % maxlength, 0.0);
-                        }
-                    }
-                }
-            }
-        }
-        // Print the extracted values
+
+
+
+
+
+
+        // Print the updated values
         System.out.println("Variables: " + variables);
         System.out.println("Coefficients: " + coefficients);
         System.out.println("Constants: " + constants);
         Matrix cof = new Matrix(coefficients.size(), coefficients.get(0).size());
-        for (int i = 0; i < cof.getNumRows(); i++) {
-            cof.setRow(i, coefficients.get(i));
+        for (int z = 0; z < cof.getNumRows(); z++) {
+            cof.setRow(z, coefficients.get(z));
         }
         this.matrix = cof;
         return cof;
@@ -220,7 +159,7 @@ public class Solver {
             Solver solver = new Solver();
 
             // Example equation string
-            String equationString = "-2y-z=10&x-4y+z=5&x-y-z=-5";
+            String equationString = "x-y=10&x+y=5&x-y=-5";
             // Parse the equation string and get the matrix
             Matrix matrix = solver.parseEquation(equationString);
 
