@@ -13,7 +13,6 @@
     </select>
 </template>
 <script>
-import axios from 'axios';
 export default {
   name: 'Method',
   data(){
@@ -25,15 +24,15 @@ export default {
     
   },
   watch:{
-    async method(){
-        console.log("form methods");
-        await axios.get("http://localhost:8081/method", {
-        params: {
-          type: this.method
-        }
-      });
-      console.log(this.method);
-    }
+    // async method(){
+    //     console.log("form methods");
+    //     await axios.get("http://localhost:8081/method", {
+    //     params: {
+    //       type: this.method
+    //     }
+    //   });
+    //   console.log(this.method);
+    // }
   },
   methods:{
   }

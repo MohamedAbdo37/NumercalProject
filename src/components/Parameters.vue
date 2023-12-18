@@ -41,6 +41,8 @@
     <input type="button" @click="solve" value="Solve"/>
     </template>
     <script>
+    import axios from 'axios';
+
     export default {
       name: 'Parameters',
       props: ['methodChosen'],
@@ -57,11 +59,11 @@
         async solve(){
             switch(this.methodChosen){
                 case 'G':
-                    await axios.get("http://localhost:8081/G",{
-                        params:{
-                                    
-                                }
-                        });
+                    await axios.get("http://localhost:8081/G").then(r =>{
+                        this.answers = r.data;
+                        this.$emit('answers', this.answers);
+                        console.log(this.answers);
+                    });
                     break;
                 case 'GJ':
                     await axios.get("http://localhost:8081/GJ",{
@@ -103,24 +105,35 @@
                             noIter: this.noItr,
                             εa: this.εa
                         }
-                    });
+                    }).then(r =>{
+                        
+                        this.answers = r.data;
+                        this.$emit('answers', this.answers);
+                        console.log(this.answers);
+                    });;
                     break;
                 case 'J':
+                    console.log("lsdkjf");
                     await axios.get("http://localhost:8081/J", {
                         params:{
                             initGuess: this.initSGuess,
                             noIter: this.noItr,
                             εa: this.εa
                         }
+                    }).then(r =>{
+                        
+                        this.answers = r.data;
+                        this.$emit('answers', this.answers);
+                        console.log(this.answers);
                     });
                     break;
                 default: break;
                 }
-                await axios.get("http://localhost:8081/solve").then(r=>{
-                    this.answers = r.data;
-                    this.$emit('answers', this.answers);
-                    console.log(this.answers);
-                });
+                // await axios.get("http://localhost:8081/solve").then(r=>{
+                //     this.answers = r.data;
+                //     this.$emit('answers', this.answers);
+                //     console.log(this.answers);
+                // });
         }
 
       }
