@@ -34,6 +34,10 @@ public class GaussElimination extends Numeric {
                 max_index = j;
             }
         }
+        if(max==0)
+        {
+            throw new IllegalArgumentException("infinite number of solutions");
+        }
         return max_index;
     }
 
@@ -79,6 +83,10 @@ public class GaussElimination extends Numeric {
      sum+=x;
      }
      sum=chop_number(sum);
+     if(matrix.getRow(i).get(i)==0)
+     {
+         throw new IllegalArgumentException("infinite number of solutions");
+     }
      double y=chop_number((matrix.getRow(i).get(matrix.getNumCols()-1)-sum)/matrix.getRow(i).get(i));
      result.set(i,y);
 
@@ -107,26 +115,16 @@ public class GaussElimination extends Numeric {
         ArrayList<Double>result=BackWordSub();
         return result;
     }
-   protected Double chop_number(Double number)
+    protected Double chop_number(Double number)
     {
-          int n=(int) Math.log10(number)+1 ;
-         
-        int y=(int) (number*Math.pow(10,3-n+1)); //1039//1059
-        
-        int z=(int) Math.floor(number*Math.pow(10,3-n)); 
-         
+        int n=(int) Math.log10(number)+1 ;
+        int y=(int) (number*Math.pow(10,matrix.getSignificantFigures()-n+1)); //1039//1059
+        int z=(int) Math.floor(number*Math.pow(10,matrix.getSignificantFigures()-n)); //1030
         z=z*10;
-         
         y=y-z;
-        
-        int x=(int) (number*Math.pow(10,3-n+1));
-        
-        x=y>=5? x+10:x;
-         
-        number=x/Math.pow(10,3-n+1);
-       x=(int)(number*Math.pow(10,3-n));
-        number=x/Math.pow(10,3-n);
-         
+        int x=(int) (number*Math.pow(10,matrix.getSignificantFigures()-n+1));
+        x=y>=5? x+1:x;
+        number=x/Math.pow(10,matrix.getSignificantFigures()-n+1);
         return number;
     }
 }
