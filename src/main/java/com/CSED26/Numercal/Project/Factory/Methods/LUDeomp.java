@@ -10,9 +10,9 @@ public class LUDeomp extends Numeric{
     private double[] lMatrix;
     private double[] uMatrix;
     private ArrayList<Double> xArray;
-    
+
     public LUDeomp (Matrix auMatrix){
-        int size = (auMatrix.getNumRows() *(auMatrix.getNumRows()+1))/2;
+        int size =  (auMatrix.getNumRows() * (auMatrix.getNumRows()+1))/2;
         this.lMatrix = new double[size];
         this.uMatrix = new double[size];
         this.mat = auMatrix.deleteColumn(auMatrix.getNumCols());

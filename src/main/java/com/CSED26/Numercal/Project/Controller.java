@@ -18,9 +18,11 @@ public class Controller {
 
 
     @GetMapping("/method")
-    public void setMethod(@RequestParam String method){
+    public void setMethod(@RequestParam String method,@RequestParam String equs ){
         Solver solver = new Solver();
+        solver.parseEquation(equs);
         this.method = solver.getMethod(method);
+        
     }
     
     @GetMapping("/inputs")
