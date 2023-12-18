@@ -15,12 +15,8 @@ import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
 @CrossOrigin
 public class Controller {
     private String type;
+    private String LUType;
     private Solver solver;
-
-    @GetMapping("/method")
-    public void setMethod(@RequestParam String type) {
-        this.type = type;
-    }
 
     @GetMapping("/equations")
     public void equations(@RequestParam String equs) {
@@ -34,12 +30,55 @@ public class Controller {
         Matrix.significantFigures = SF;
     }
 
-    @GetMapping("/solve")
-    public String solve() {
-        ArrayList<Double> results = new ArrayList<>();
-        Numeric method = solver.getMethod(type);
+    @GetMapping("/G")
+    public String GauseElSolver() {
+        Numeric method = solver.getMethod("G");
+        solver.solve(method);
+        return solver.getAnswer();
+    }
 
-        return "null";
+    @GetMapping("/GJ")
+    public void GauseJourdanElSolver() {
+
+    }
+
+    @GetMapping("/LUDo")
+    public String LUDoElSolver() {
+        Numeric method = solver.getMethod("LU");
+        solver.solveLU(method,"do");
+        return solver.getAnswer();
+    }
+
+    @GetMapping("/LUCr")
+    public String LUCrElSolver() {
+        Numeric method = solver.getMethod("LU");
+        solver.solveLU(method,"Court");
+        return solver.getAnswer();
+    }
+
+    @GetMapping("/LUChol")
+    public String LUCholElSolver() {
+        Numeric method = solver.getMethod("LU");
+        solver.solveLU(method,"Chelsky");
+        return solver.getAnswer();
+    }
+
+    @GetMapping("/GS")
+    public String GSElSolver(@RequestParam double initGuess, @RequestParam int noIter, @RequestParam double εa) {
+        solver.setIteration(noIter);
+        solver.setTolerance(εa);
+        Numeric method = solver.getMethod("GS");
+        solver.solve(method);
+        return solver.getAnswer();
+    }
+
+    @GetMapping("/J")
+    public String JElSolver(@RequestParam double initGuess, @RequestParam int noIter, @RequestParam double εa) {
+        solver.setIteration(noIter);
+        solver.setTolerance(εa);
+        Numeric method = solver.getMethod("J");
+        solver.solve(method);
+        return solver.getAnswer();
     }
 
 }

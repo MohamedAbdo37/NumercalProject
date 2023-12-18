@@ -16,15 +16,21 @@ public class Jacobi extends Numeric {
     public Jacobi(Matrix matrix) {
         this.augMatrix = matrix;
     }
+
     public Jacobi(Matrix matrix, int maxIterations) {
         this.augMatrix = matrix;
         this.maxIterations = maxIterations;
     }
+
     public Jacobi(Matrix matrix, int maxIterations, double tol) {
         this.augMatrix = matrix;
         this.maxIterations = maxIterations;
         this.tol = tol;
+        System.out.println(
+                "----------------------------------------------------------------------------------------------------------------------");
+        System.out.println(this.maxIterations);
     }
+
     public double[] evaluate() {
         int iterations = 0;
         int n = augMatrix.getNumRows();
@@ -32,11 +38,12 @@ public class Jacobi extends Numeric {
         double[] currentsolution = new double[n];
         Arrays.fill(nextsolution, 0);
         Arrays.fill(currentsolution, 0);
-        while(true) {
-            for(int i = 0; i < n; i++) {
+        while (true) {
+            System.out.println(iterations);
+            for (int i = 0; i < n; i++) {
                 nextsolution[i] = augMatrix.getElement(i, n);
-                for(int j = 0; j < n; j++) {
-                    if(j != i)
+                for (int j = 0; j < n; j++) {
+                    if (j != i)
                         nextsolution[i] -= augMatrix.getElement(i, j) * currentsolution[j];
                 }
                 nextsolution[i] /= augMatrix.getElement(i, i);
@@ -46,7 +53,7 @@ public class Jacobi extends Numeric {
                 System.out.println("Converged after " + (iterations + 1) + " iterations.");
                 this.convergedAfter = iterations;
             }
-            if(iterations == maxIterations) {
+            if (iterations == maxIterations) {
                 break;
             }
             currentsolution = (double[]) nextsolution.clone();
@@ -62,24 +69,32 @@ public class Jacobi extends Numeric {
         double norm = Math.sqrt(sum);
         return norm < tolerance;
     }
+
     @Override
     public Matrix forwardElim() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'forwardElim'");
     }
+
     @Override
     public Matrix backElim() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'backElim'");
     }
+
     @Override
     public ArrayList<Double> solve() {
         // TODO Auto-generated method stub
         ArrayList<Double> doubleList = new ArrayList<>();
         double[] solution = this.evaluate();
+
         for (double value : solution) {
             doubleList.add(Matrix.roundToSignificantFigures(value, Matrix.significantFigures));
         }
+        // System.out.println(
+        // "----------------------------------------------------------------------------------------------------------------------");
+        // System.out.println(doubleList);
+
         return doubleList;
     }
 }

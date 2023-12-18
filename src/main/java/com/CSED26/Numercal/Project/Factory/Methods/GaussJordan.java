@@ -22,7 +22,7 @@ public class GaussJordan extends GaussElimination {
 
             Double pivot = matrix.getRow(i).get(i);
             for (int j = i - 1; j >= 0; j--) {
-                
+
                 Double factor = matrix.getRow(j).get(i) / pivot;
                 matrix.setRow(j, multadd(factor, matrix.getRow(i), matrix.getRow(j)));
 
@@ -37,6 +37,11 @@ public class GaussJordan extends GaussElimination {
      ArrayList<Double>result=new ArrayList<>();
      for(int i=0;i<matrix.getNumRows();i++)
      {
+         if(matrix.getRow(i).get(i)==0.0)
+         {
+             result.add(chop_number(1.0));
+             continue;
+         }
          double x=chop_number(matrix.getRow(i).get(matrix.getNumRows())/matrix.getRow(i).get(i));
          result.add(x);
      }

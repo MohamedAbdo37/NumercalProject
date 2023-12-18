@@ -1,5 +1,7 @@
 package com.CSED26.Numercal.Project.Factory.Methods;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import com.CSED26.Numercal.Project.Matrix;
@@ -34,6 +36,10 @@ public class GaussElimination extends Numeric {
                 max_index = j;
             }
         }
+//        if(max==0)
+//        {
+//            throw new IllegalArgumentException("infinite number of solutions");
+//        }
         return max_index;
     }
 
@@ -59,11 +65,19 @@ public class GaussElimination extends Numeric {
                 matrix.setRow(j, multadd(factor, matrix.getRow(i), matrix.getRow(j)));
 
             }
+            String s=IsSol();
+            if(s.equals("inconsistent"))
+            {
+                throw new RuntimeException("inconsistent System");
+            }
+
         }
         return matrix;
     }
      private ArrayList<Double> BackWordSub()
      {
+
+
      ArrayList<Double>result=new ArrayList<>();
      for(int i=0;i<matrix.getNumRows();i++)
      {
@@ -79,6 +93,11 @@ public class GaussElimination extends Numeric {
      sum+=x;
      }
      sum=chop_number(sum);
+     if(matrix.getRow(i).get(i)==0.0)
+     {
+        result.set(i,chop_number(1.0));
+        continue;
+     }
      double y=chop_number((matrix.getRow(i).get(matrix.getNumCols()-1)-sum)/matrix.getRow(i).get(i));
      result.set(i,y);
 
@@ -90,6 +109,34 @@ public class GaussElimination extends Numeric {
      }
 
 
+     private String IsSol()
+     {
+         int rank=0;
+         int ramkaug=0;
+         for(int i=0;i<matrix.getNumRows();i++)
+         {
+             if(matrix.getRow(i).get(i)!=0.0)
+             {
+                 rank++;
+             }
+         }
+         ramkaug=rank;
+         if(matrix.getRow(matrix.getNumRows()-1).get(matrix.getNumCols()-1)!=0)
+         {
+             ramkaug++;
+         }
+         if(ramkaug>rank)
+         {
+             return "inconsistent";
+
+         } else if (ramkaug==rank&&ramkaug==matrix.getNumRows()) {
+             return "onesol";
+         }
+         else
+         {
+             return "infinite";
+         }
+     }
 
 
     @Override
@@ -107,26 +154,23 @@ public class GaussElimination extends Numeric {
         ArrayList<Double>result=BackWordSub();
         return result;
     }
-   protected Double chop_number(Double number)
+    protected Double chop_number(double value)
     {
-          int n=(int) Math.log10(number)+1 ;
-         
-        int y=(int) (number*Math.pow(10,3-n+1)); //1039//1059
-        
-        int z=(int) Math.floor(number*Math.pow(10,3-n)); 
-         
-        z=z*10;
-         
-        y=y-z;
-        
-        int x=(int) (number*Math.pow(10,3-n+1));
-        
-        x=y>=5? x+10:x;
-         
-        number=x/Math.pow(10,3-n+1);
-       x=(int)(number*Math.pow(10,3-n));
-        number=x/Math.pow(10,3-n);
-         
-        return number;
+        int n=matrix.getSignificantFigures();
+        if (Double.isInfinite(value) || Double.isNaN(value) || n <= 0) {
+            throw new IllegalArgumentException("Invalid input");
+        }
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        int scale = n - bd.precision() + bd.scale();
+
+        if (scale > 0) {
+            bd = bd.setScale(scale, RoundingMode.HALF_UP);
+        } else {
+            bd = bd.round(new java.math.MathContext(n, RoundingMode.HALF_UP));
+        }
+
+        return bd.doubleValue();
+
     }
 }
