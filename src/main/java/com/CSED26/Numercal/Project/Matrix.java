@@ -54,7 +54,7 @@ public class Matrix {
         matrix.set(rowIndex, rowValues);
         return this;
     }
-
+    
     public ArrayList<Double> getRow(int i) {
         return matrix.get(i);
     }
@@ -62,7 +62,9 @@ public class Matrix {
     public int getDim() {
         return numRows * numCols;
     }
-
+   public static int getSignificantFigures() {
+        return significantFigures;
+    }
     public double getElement(int r, int c) {
         if (r < 0 || r >= numRows || c < 0 || c >= numCols) {
             throw new IndexOutOfBoundsException("Invalid row or column index.");
