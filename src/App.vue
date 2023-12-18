@@ -1,11 +1,10 @@
 <template>
   
   <form class="canvas">
-    <Method @methodChosen = "this.methodChosen = $event"></Method>
+    <Method @methodChosen="this.methodChosen = $event"></Method>
     <hr>
-    <Inputs></Inputs>
-    <Parameters :methodChosen=methodChosen @answers = "this.answers = $event"></Parameters>
-    <!-- <input type="button" @click="solve" value="Solve"/> -->
+    <Inputs @equations="this.equations = $event"></Inputs>
+    <Parameters :methodChosen=methodChosen :equations=equations @answers="this.answers = $event"></Parameters>
   </form>
   <Answer :answers=answers v-if="answers != null"></Answer>
 </template>
@@ -15,7 +14,6 @@ import Method from './components/Method.vue'
 import Inputs from './components/Inputs.vue'
 import Parameters from './components/Parameters.vue'
 import Answer from './components/Answer.vue'
-import axios from 'axios'
 
 
 export default {
@@ -29,26 +27,13 @@ export default {
   data(){
     return{
       methodChosen: null,
-      answers: null
+      answers: null,
+      equations: ""
     }
   },
-  // watch:{
-  //   async methodChosen(){
-  //     await axios.get("http://localhost:8081/method", {
-  //       params: {
-  //         method: this.methodChosen
-  //       }
-  //     })
-  //   }
-  // },
+ 
   methods:{
-      // async solve(){
-      //   await axios.get("http://localhost:8081/solve").then(r=>{
-      //     this.answers = r.data;
-      //     console.log(this.answers);
-      //   });
-
-      // }
+      
     },
     
   }

@@ -15,11 +15,7 @@
         <h3>Enter initial guess</h3>
         <input type="text" v-model="initSGuess" name="initialGuess" placeholder="Enter initial guess" required/>
         
-        <!-- <select name="stopCondition" v-model="stpCondGS" required>
-            <option value="" disabled selected hidden>Choose a stopping condition</option>
-            <option value="NI">Number of Iterations</option>
-            <option value="ARE">Absolute Relative Error</option>
-        </select> -->
+       
         <h3>Enter number of iterations</h3>
         <input type="text" v-model="noItr" name="noIterations" placeholder="Enter # of iter." required/>
         <h3>Enter absolute relative error</h3>
@@ -28,11 +24,7 @@
     <div class="J" v-if="this.methodChosen=='J'">
         <h3>Enter initial guess</h3>
         <input type="text" v-model="initSGuess" name="initialGuess" placeholder="Enter initial guess" required/>
-        <!-- <select name="stopCondition" v-model="stpCondJ" required>
-            <option value="" disabled selected hidden>Choose a stopping condition</option>
-            <option value="NI">Number of Iterations</option>
-            <option value="ARE">Absolute Relative Error</option>
-        </select> -->
+        
         <h3>Enter number of iterations</h3>
         <input type="text" v-model="noItr" name="noIterations" placeholder="Enter # of iter." required/>
         <h3>Enter absolute relative error</h3>
@@ -45,7 +37,7 @@
 
     export default {
       name: 'Parameters',
-      props: ['methodChosen'],
+      props: ['methodChosen', 'equations'],
       data() {
         return{
             noItr: 0,
@@ -57,6 +49,12 @@
       },
       methods:{
         async solve(){
+            await axios.get("http://localhost:8081/equations", {
+                params: {
+                    equs:this.equations.replace('\n', '&')
+
+                }
+            });
             switch(this.methodChosen){
                 case 'G':
                     await axios.get("http://localhost:8081/G").then(r =>{
@@ -70,7 +68,11 @@
                         params:{
                                     
                                 }
-                        });
+                        }).then(r =>{
+                        this.answers = r.data;
+                        this.$emit('answers', this.answers);
+                        console.log(this.answers);
+                    });
                     break;
                 case 'LU':
                     switch(this.LUFormat){
@@ -79,21 +81,33 @@
                                 params:{
                                     
                                 }
-                                });
+                                }).then(r =>{
+                        this.answers = r.data;
+                        this.$emit('answers', this.answers);
+                        console.log(this.answers);
+                    });
                             break;
                         case 'Crout': 
                             await axios.get("http://localhost:8081/LUCr",{
                                 params:{
                                     
                                 }
-                                });
+                                }).then(r =>{
+                        this.answers = r.data;
+                        this.$emit('answers', this.answers);
+                        console.log(this.answers);
+                    });
                             break;
                         case 'Cholesky':
                             await axios.get("http://localhost:8081/LUChol", {
                                 params:{
 
                                 }
-                                });
+                                }).then(r =>{
+                        this.answers = r.data;
+                        this.$emit('answers', this.answers);
+                        console.log(this.answers);
+                    });
                             break;
                         default: break;
                     }
@@ -113,7 +127,6 @@
                     });;
                     break;
                 case 'J':
-                    console.log("lsdkjf");
                     await axios.get("http://localhost:8081/J", {
                         params:{
                             initGuess: this.initSGuess,
@@ -134,8 +147,11 @@
                 //     this.$emit('answers', this.answers);
                 //     console.log(this.answers);
                 // });
-        }
-
+        },
+        async equations(){
+            console.log("form equations");
+            
+    }
       }
 
     }

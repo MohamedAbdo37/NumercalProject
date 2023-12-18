@@ -3,7 +3,7 @@
     Inputs
 </h1>
 <h3>Enter the System of Linear Equations </h3>
-<textarea v-model="equations" id ="eq" type="multiliner" placeholder="Enter System" required/>
+<textarea v-model="equations" id ="eq" type="multiliner" placeholder="Enter System"  @input="$emit('equations', equations)" required/>
 <h3>Enter the Precision (number of significant figures)</h3>
 <input id="prec" v-model="precision"  type="number" placeholder="Enter precision" required/>
 </template>
@@ -30,16 +30,7 @@ export default {
       });
       console.log(this.precision);
     },
-    async equations(){
-      console.log("form equations");
-      this.equations = String(this.equations).replace('\n', '&');
-      await axios.get("http://localhost:8081/equations", {
-        params: {
-            equs: this.equations
-        }
-      });
-      console.log(this.equations);
-    }
+    
   },
   methods:{
 
