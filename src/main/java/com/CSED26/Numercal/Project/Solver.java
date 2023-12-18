@@ -226,23 +226,24 @@ public class Solver {
 
         }
     }
-
-    // public class Main {
-    // public static void main(String[] args) {
-    // Solver solver = new Solver();
+/* 
+     public class Main {
+     public static void main(String[] args) {
+     Solver solver = new Solver();
 
             // Example equation string
-            String equationString = "2x+3y-z=5&3y-z=5&x+3y-z=5";
+            String equationString = "2x1+3x2-x3=5&3x2-x3=5&x1+3x2-x3=5";
             // Parse the equation string and get the matrix
-            Matrix matrix = solver.parseEquation(equationString);
+            Matrix matri = solver.parseEquation(equationString);
 
-    // // Print the parsed matrix
-    // for (int i = 0; i < matrix.getNumRows(); i++) {
-    // for (int j = 0; j < matrix.getNumCols(); j++) {
-    // System.out.print(matrix.getElement(i, j) + " ");
-    // }
-    // System.out.println();
-    // }
-    // }
-    // }
+      
+     for (int i = 0; i < matri.getNumRows(); i++) {
+     for (int j = 0; j < matri.getNumCols(); j++) {
+     System.out.print(matri.getElement(i, j) + " ");
+     }
+     System.out.println();
+     }
+     }
+     }
+     */
 }
