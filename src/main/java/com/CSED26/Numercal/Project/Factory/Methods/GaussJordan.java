@@ -39,7 +39,7 @@ public class GaussJordan extends GaussElimination {
      {
          if(matrix.getRow(i).get(i)==0.0)
          {
-             result.set(i,chop_number(1.0));
+             result.add(chop_number(1.0));
              continue;
          }
          double x=chop_number(matrix.getRow(i).get(matrix.getNumRows())/matrix.getRow(i).get(i));
