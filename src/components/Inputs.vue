@@ -3,9 +3,9 @@
     Inputs
 </h1>
 <h3>Enter the System of Linear Equations </h3>
-<textarea id ="eq" type="multiliner" placeholder="Enter System" required/>
+<textarea name="equ" id ="eq" type="multiliner" placeholder="Enter System" required/>
 <h3>Enter the Precision (number of significant figures)</h3>
-<input id="prec" type="number" placeholder="Enter precision" required/>
+<input id="prec" name="pres" type="number" placeholder="Enter precision" required/>
 </template>
 
 <script>

@@ -3,7 +3,7 @@
         Methods
     </h1>
     
-    <select name="methods" required v-model="method" @change="$emit('methodChosen', method)">
+    <select name="method" required v-model="method" @change="$emit('methodChosen', method)" >
         <option value="" disabled selected hidden>Choose a method</option>
         <option value="G" >Gauss Elimination</option>
         <option value="GJ" >Gauss-Jordan Elimination</option>

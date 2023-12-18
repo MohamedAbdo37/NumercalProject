@@ -1,6 +1,6 @@
 <template>
   
-  <form class="canvas" action="">
+  <form class="canvas" action="http://localhost:8081/inputs">
     <Method @methodChosen = "this.methodChosen = $event"></Method>
     <hr>
     <Inputs></Inputs>
@@ -14,7 +14,7 @@
 import Method from './components/Method.vue'
 import Inputs from './components/Inputs.vue'
 import Parameters from './components/Parameters.vue'
-
+import axios from 'axios'
 
 export default {
   name: 'App',
@@ -27,6 +27,15 @@ export default {
   data(){
     return{
       methodChosen: null
+    }
+  },
+  watch:{
+    methodChosen(){
+      axios.post("http://localhost:8081/method", {
+        params: {
+          'method': 'this.methodChosen'
+        }
+      })
     }
   },
   methods:{
