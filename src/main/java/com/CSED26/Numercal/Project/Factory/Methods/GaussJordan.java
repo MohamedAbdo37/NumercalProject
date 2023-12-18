@@ -37,9 +37,10 @@ public class GaussJordan extends GaussElimination {
      ArrayList<Double>result=new ArrayList<>();
      for(int i=0;i<matrix.getNumRows();i++)
      {
-         if(matrix.getRow(i).get(i)==0)
+         if(matrix.getRow(i).get(i)==0.0)
          {
-             throw new IllegalArgumentException("infinite number of solutions");
+             result.set(i,chop_number(1.0));
+             continue;
          }
          double x=chop_number(matrix.getRow(i).get(matrix.getNumRows())/matrix.getRow(i).get(i));
          result.add(x);
