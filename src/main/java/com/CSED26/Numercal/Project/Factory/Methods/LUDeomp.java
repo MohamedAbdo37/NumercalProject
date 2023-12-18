@@ -27,7 +27,7 @@ public class LUDeomp extends Numeric{
             if(i != 0) this.lMatrix[(int)((i+1)*(i+2)*0.5) - 1] = 1;
             for (int j = i+1; j < this.mat.getNumRows(); j++) {
                 double valu = (-this.mat.getElement(j,i)) / this.mat.getElement(i,i);
-                m = this.mat.mulRow(i,valu).addRows(i,j);
+                m = this.mat.mulRow(i,valu).addRows(j,i);
                 this.lMatrix[(int)(j*(j+1)*0.5)+i+1] = valu;
             }
         }
