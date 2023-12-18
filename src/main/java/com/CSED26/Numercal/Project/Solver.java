@@ -14,7 +14,7 @@ import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
 public class Solver {
     private static final String String = null;
     private List<ArrayList<String>> variables = new ArrayList<>();
-    private List<Float> answers = new ArrayList<>();
+    private List<Double> answers = new ArrayList<>();
     private ArrayList<ArrayList<Float>> coefficients = new ArrayList<>();
     private Matrix matrix;
 
@@ -38,11 +38,11 @@ public class Solver {
         return null;
     }
 
-    public String getAnswer(List<Float> ans, List<ArrayList<String>> variables) {
+    public String getAnswer() {
         String answer = "";
         int l = 0;
-        for (Float i : ans) {
-            answer = answer.concat(variables.get(0).get(l));
+        for (Double i : this.answers) {
+            answer = answer.concat(this.variables.get(0).get(l));
             answer = answer.concat("=");
             answer = answer.concat(String.valueOf(i));
             answer = answer.concat(",");
@@ -154,23 +154,8 @@ public class Solver {
         return cof;
     }
 
-    public class Main {
-        public static void main(String[] args) {
-            Solver solver = new Solver();
-
-            // Example equation string
-            String equationString = "x-y=10&x+y=5&x-y=-5";
-            // Parse the equation string and get the matrix
-            Matrix matrix = solver.parseEquation(equationString);
-
-            // Print the parsed matrix
-            for (int i = 0; i < matrix.getNumRows(); i++) {
-                for (int j = 0; j < matrix.getNumCols(); j++) {
-                    System.out.print(matrix.getElement(i, j) + " ");
-                }
-                System.out.println();
-            }
-        }
+    public void solve(Numeric method){
+        this.answers = method.solve();
     }
 
 }
