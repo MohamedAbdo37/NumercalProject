@@ -25,6 +25,9 @@ public class Matrix {
         }
         numRows = n;
         numCols = m;
+    } 
+    public static int getSignificantFigures() {
+        return significantFigures;
     }
 
     public Matrix(int numRows2) {
@@ -54,7 +57,7 @@ public class Matrix {
         matrix.set(rowIndex, rowValues);
         return this;
     }
-    
+
     public ArrayList<Double> getRow(int i) {
         return matrix.get(i);
     }
@@ -62,9 +65,7 @@ public class Matrix {
     public int getDim() {
         return numRows * numCols;
     }
-   public static int getSignificantFigures() {
-        return significantFigures;
-    }
+
     public double getElement(int r, int c) {
         if (r < 0 || r >= numRows || c < 0 || c >= numCols) {
             throw new IndexOutOfBoundsException("Invalid row or column index.");
@@ -166,8 +167,13 @@ public class Matrix {
         }
     }
 
-    private Double roundToSignificantFigures(double sum, int significantFigures) {
-        return null;
+    public static double roundToSignificantFigures(double value, int significantFigures) {
+        if (value == 0) {
+            return 0;
+        }
+
+        double magnitude = Math.pow(10, significantFigures - Math.floor(Math.log10(Math.abs(value))));
+        return (Math.round(value * magnitude) / magnitude);
     }
 
     public Matrix Copy() {
