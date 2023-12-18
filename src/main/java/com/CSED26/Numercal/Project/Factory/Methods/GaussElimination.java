@@ -1,5 +1,7 @@
 package com.CSED26.Numercal.Project.Factory.Methods;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 import com.CSED26.Numercal.Project.Matrix;
@@ -34,17 +36,16 @@ public class GaussElimination extends Numeric {
                 max_index = j;
             }
         }
-        if(max==0)
-        {
-            throw new IllegalArgumentException("infinite number of solutions");
-        }
+        // if (max == 0) {
+        // throw new IllegalArgumentException("infinite number of solutions");
+        // }
         return max_index;
     }
 
     protected ArrayList<Double> multadd(double factor, ArrayList<Double> r1, ArrayList<Double> r2) {
-        factor=chop_number(factor);
+        factor = chop_number(factor);
         for (int i = 0; i < r1.size(); i++) {
-            double x= r1.get(i) * factor - r2.get(i);
+            double x = r1.get(i) * factor - r2.get(i);
             r2.set(i, chop_number(x));
         }
         return r2;
@@ -66,39 +67,31 @@ public class GaussElimination extends Numeric {
         }
         return matrix;
     }
-     private ArrayList<Double> BackWordSub()
-     {
-     ArrayList<Double>result=new ArrayList<>();
-     for(int i=0;i<matrix.getNumRows();i++)
-     {
-     result.add(matrix.getRow(i).get(matrix.getNumCols()-1));
 
-     }
-     double sum=0;
-     for (int i=matrix.getNumRows()-1;i>=0;i--)
-     {
-     for (int j=i+1;j<matrix.getNumRows();j++)
-     {
-         double x=chop_number(matrix.getRow(i).get(j)*result.get(j));
-     sum+=x;
-     }
-     sum=chop_number(sum);
-     if(matrix.getRow(i).get(i)==0)
-     {
-         throw new IllegalArgumentException("infinite number of solutions");
-     }
-     double y=chop_number((matrix.getRow(i).get(matrix.getNumCols()-1)-sum)/matrix.getRow(i).get(i));
-     result.set(i,y);
+    private ArrayList<Double> BackWordSub() {
+        ArrayList<Double> result = new ArrayList<>();
+        for (int i = 0; i < matrix.getNumRows(); i++) {
+            result.add(matrix.getRow(i).get(matrix.getNumCols() - 1));
 
-     sum=0;
-     }
+        }
+        double sum = 0;
+        for (int i = matrix.getNumRows() - 1; i >= 0; i--) {
+            for (int j = i + 1; j < matrix.getNumRows(); j++) {
+                double x = chop_number(matrix.getRow(i).get(j) * result.get(j));
+                sum += x;
+            }
+            sum = chop_number(sum);
+            if (matrix.getRow(i).get(i) == 0) {
+                throw new IllegalArgumentException("infinite number of solutions");
+            }
+            double y = chop_number((matrix.getRow(i).get(matrix.getNumCols() - 1) - sum) / matrix.getRow(i).get(i));
+            result.set(i, y);
 
+            sum = 0;
+        }
 
-     return result;
-     }
-
-
-
+        return result;
+    }
 
     @Override
     public Matrix backElim() {
@@ -107,24 +100,30 @@ public class GaussElimination extends Numeric {
 
     @Override
     public ArrayList<Double> solve() {
-        if(!checkValidaty())
-        {
+        if (!checkValidaty()) {
             throw new RuntimeException("Matrix isn't wellformated --> {A(Square)|B}");
         }
         forwardElim();
-        ArrayList<Double>result=BackWordSub();
+        ArrayList<Double> result = BackWordSub();
         return result;
     }
-    protected Double chop_number(Double number)
-    {
-        int n=(int) Math.log10(number)+1 ;
-        int y=(int) (number*Math.pow(10,matrix.getSignificantFigures()-n+1)); //1039//1059
-        int z=(int) Math.floor(number*Math.pow(10,matrix.getSignificantFigures()-n)); //1030
-        z=z*10;
-        y=y-z;
-        int x=(int) (number*Math.pow(10,matrix.getSignificantFigures()-n+1));
-        x=y>=5? x+1:x;
-        number=x/Math.pow(10,matrix.getSignificantFigures()-n+1);
-        return number;
+
+    protected Double chop_number(double value) {
+        int n = matrix.getSignificantFigures();
+        if (Double.isInfinite(value) || Double.isNaN(value) || n <= 0) {
+            throw new IllegalArgumentException("Invalid input");
+        }
+
+        BigDecimal bd = BigDecimal.valueOf(value);
+        int scale = n - bd.precision() + bd.scale();
+
+        if (scale > 0) {
+            bd = bd.setScale(scale, RoundingMode.HALF_UP);
+        } else {
+            bd = bd.round(new java.math.MathContext(n, RoundingMode.HALF_UP));
+        }
+
+        return bd.doubleValue();
+
     }
 }

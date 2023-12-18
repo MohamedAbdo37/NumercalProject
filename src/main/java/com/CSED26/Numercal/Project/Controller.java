@@ -36,8 +36,11 @@ public class Controller {
     }
 
     @GetMapping("/G")
-    public void GauseElSolver() {
-
+    public String GauseElSolver() {
+        Numeric method = solver.getMethod("G");
+        solver.solve(method);
+        return solver.getAnswer();
+        // solve();
     }
 
     @GetMapping("/GJ")
@@ -61,13 +64,18 @@ public class Controller {
     }
 
     @GetMapping("/GS")
-    public void GSElSolver(@RequestParam double initGuess, @RequestParam int noIter, @RequestParam double εa) {
-
+    public String GSElSolver(@RequestParam double initGuess, @RequestParam int noIter, @RequestParam double εa) {
+        Numeric method = solver.getMethod("GS");
+        solver.solve(method);
+        return solver.getAnswer();
     }
 
     @GetMapping("/J")
-    public void JElSolver(@RequestParam double initGuess, @RequestParam int noIter, @RequestParam double εa) {
+    public String JElSolver(@RequestParam double initGuess, @RequestParam int noIter, @RequestParam double εa) {
 
+        Numeric method = solver.getMethod("J");
+        solver.solve(method);
+        return solver.getAnswer();
     }
 
     @GetMapping("/solve")
