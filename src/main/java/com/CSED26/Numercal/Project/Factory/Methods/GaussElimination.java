@@ -36,16 +36,17 @@ public class GaussElimination extends Numeric {
                 max_index = j;
             }
         }
-        // if (max == 0) {
-        // throw new IllegalArgumentException("infinite number of solutions");
-        // }
+//        if(max==0)
+//        {
+//            throw new IllegalArgumentException("infinite number of solutions");
+//        }
         return max_index;
     }
 
     protected ArrayList<Double> multadd(double factor, ArrayList<Double> r1, ArrayList<Double> r2) {
-        factor = chop_number(factor);
+        factor=chop_number(factor);
         for (int i = 0; i < r1.size(); i++) {
-            double x = r1.get(i) * factor - r2.get(i);
+            double x= r1.get(i) * factor - r2.get(i);
             r2.set(i, chop_number(x));
         }
         return r2;
@@ -64,34 +65,79 @@ public class GaussElimination extends Numeric {
                 matrix.setRow(j, multadd(factor, matrix.getRow(i), matrix.getRow(j)));
 
             }
+            String s=IsSol();
+            if(s.equals("inconsistent"))
+            {
+                throw new RuntimeException("inconsistent System");
+            }
+
         }
         return matrix;
     }
+     private ArrayList<Double> BackWordSub()
+     {
 
-    private ArrayList<Double> BackWordSub() {
-        ArrayList<Double> result = new ArrayList<>();
-        for (int i = 0; i < matrix.getNumRows(); i++) {
-            result.add(matrix.getRow(i).get(matrix.getNumCols() - 1));
 
-        }
-        double sum = 0;
-        for (int i = matrix.getNumRows() - 1; i >= 0; i--) {
-            for (int j = i + 1; j < matrix.getNumRows(); j++) {
-                double x = chop_number(matrix.getRow(i).get(j) * result.get(j));
-                sum += x;
-            }
-            sum = chop_number(sum);
-            if (matrix.getRow(i).get(i) == 0) {
-                throw new IllegalArgumentException("infinite number of solutions");
-            }
-            double y = chop_number((matrix.getRow(i).get(matrix.getNumCols() - 1) - sum) / matrix.getRow(i).get(i));
-            result.set(i, y);
+     ArrayList<Double>result=new ArrayList<>();
+     for(int i=0;i<matrix.getNumRows();i++)
+     {
+     result.add(matrix.getRow(i).get(matrix.getNumCols()-1));
 
-            sum = 0;
-        }
+     }
+     double sum=0;
+     for (int i=matrix.getNumRows()-1;i>=0;i--)
+     {
+     for (int j=i+1;j<matrix.getNumRows();j++)
+     {
+         double x=chop_number(matrix.getRow(i).get(j)*result.get(j));
+     sum+=x;
+     }
+     sum=chop_number(sum);
+     if(matrix.getRow(i).get(i)==0.0)
+     {
+        result.set(i,chop_number(1.0));
+        continue;
+     }
+     double y=chop_number((matrix.getRow(i).get(matrix.getNumCols()-1)-sum)/matrix.getRow(i).get(i));
+     result.set(i,y);
 
-        return result;
-    }
+     sum=0;
+     }
+
+
+     return result;
+     }
+
+
+     private String IsSol()
+     {
+         int rank=0;
+         int ramkaug=0;
+         for(int i=0;i<matrix.getNumRows();i++)
+         {
+             if(matrix.getRow(i).get(i)!=0.0)
+             {
+                 rank++;
+             }
+         }
+         ramkaug=rank;
+         if(matrix.getRow(matrix.getNumRows()-1).get(matrix.getNumCols()-1)!=0)
+         {
+             ramkaug++;
+         }
+         if(ramkaug>rank)
+         {
+             return "inconsistent";
+
+         } else if (ramkaug==rank&&ramkaug==matrix.getNumRows()) {
+             return "onesol";
+         }
+         else
+         {
+             return "infinite";
+         }
+     }
+
 
     @Override
     public Matrix backElim() {
@@ -100,16 +146,17 @@ public class GaussElimination extends Numeric {
 
     @Override
     public ArrayList<Double> solve() {
-        if (!checkValidaty()) {
+        if(!checkValidaty())
+        {
             throw new RuntimeException("Matrix isn't wellformated --> {A(Square)|B}");
         }
         forwardElim();
-        ArrayList<Double> result = BackWordSub();
+        ArrayList<Double>result=BackWordSub();
         return result;
     }
-
-    protected Double chop_number(double value) {
-        int n = matrix.getSignificantFigures();
+    protected Double chop_number(double value)
+    {
+        int n=matrix.getSignificantFigures();
         if (Double.isInfinite(value) || Double.isNaN(value) || n <= 0) {
             throw new IllegalArgumentException("Invalid input");
         }
