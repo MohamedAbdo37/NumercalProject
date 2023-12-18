@@ -99,4 +99,10 @@ public class GaussElimination extends Numeric {
     public Matrix backElim() {
         return null;
     }
+
+    @Override
+    public ArrayList<Double> solve() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'solve'");
+    }
 }

@@ -13,6 +13,8 @@ public abstract class Numeric {
 
     public abstract Matrix backElim();
 
+    public abstract ArrayList<Double> solve();
+
     private double solveFirstDeg(ArrayList<Double> variables, int i) {
         double result = variables.get(variables.size());
         for (int j = 0; j < variables.size() - 1; j++) {

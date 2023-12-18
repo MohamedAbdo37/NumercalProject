@@ -1,6 +1,8 @@
 
 package com.CSED26.Numercal.Project.Factory.Methods;
 
+import java.util.ArrayList;
+
 import com.CSED26.Numercal.Project.Matrix;
 
 /**
@@ -10,6 +12,11 @@ public class GaussJordan extends GaussElimination {
 
     public GaussJordan(Matrix matrix) {
         super(matrix);
+    }
+
+    @Override
+    public ArrayList<Double> solve(){
+        return null;
     }
 
     @Override

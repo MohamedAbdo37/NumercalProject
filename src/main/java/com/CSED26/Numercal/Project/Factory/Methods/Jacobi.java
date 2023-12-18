@@ -3,6 +3,7 @@ package com.CSED26.Numercal.Project.Factory.Methods;
 import com.CSED26.Numercal.Project.Matrix;
 import com.CSED26.Numercal.Project.Factory.Numeric;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Jacobi extends Numeric {
@@ -55,5 +56,10 @@ public class Jacobi extends Numeric {
     public Matrix backElim() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'backElim'");
+    }
+    @Override
+    public ArrayList<Double> solve() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'solve'");
     }
 }

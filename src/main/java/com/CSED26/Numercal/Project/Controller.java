@@ -14,34 +14,38 @@ import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
 @RestController
 @CrossOrigin
 public class Controller {
-    Numeric method;
-
+    private String type;
+    private Solver solver;
 
     @GetMapping("/method")
-    public void setMethod(@RequestParam String method,@RequestParam String equs ){
-        Solver solver = new Solver();
-        solver.parseEquation(equs);
-        this.method = solver.getMethod(method);
-        
+    public void setMethod(@RequestParam String type,@RequestParam String equs ){
+        this.type = type;
     }
     
-    @GetMapping("/inputs")
-    public ArrayList<Double> Inputs(@RequestParam String method,@RequestParam String equs, @RequestParam int pres, @RequestParam String format){
-        Solver solver = new Solver();
-        solver.parseEquation(equs);
-        Matrix.significantFigures = pres;
-        this.method = solver.getMethod(method);
-
-        switch (format) {
-            case "Dolittle":
-                return ((LUDeomp) this.method).doLittle();
-            case "Crout":
-                return ((LUDeomp) this.method).crout();
-            case "Cholesky":
-                return ((LUDeomp) this.method).cholesky();
-            default:
-                return null;
-        }
-
+    @GetMapping("/equations")
+    public void equations(@RequestParam String equs){
+        this.solver = new Solver();
+        this.solver.parseEquation(equs);
     }
+
+    @GetMapping("/SF")
+    public void significantFigures(@RequestParam int SF){
+        Matrix.significantFigures = SF;
+    }
+
+    @GetMapping("/solve")
+    public String solve(){
+        ArrayList<Double> results = new ArrayList<>();
+        Numeric method;
+        switch (this.type) {
+            case "LU":
+                method = solver.getMethod(type);
+                break;
+            default:
+                break;
+        }
+        return null;
+    }
+
+
 }

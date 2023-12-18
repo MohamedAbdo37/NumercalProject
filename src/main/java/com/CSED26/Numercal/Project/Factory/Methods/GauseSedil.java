@@ -80,4 +80,10 @@ public class GauseSedil  extends Numeric{
             // TODO Auto-generated method stub
             throw new UnsupportedOperationException("Unimplemented method 'backElim'");
         }
+
+        @Override
+        public ArrayList<Double> solve() {
+            // TODO Auto-generated method stub
+            throw new UnsupportedOperationException("Unimplemented method 'solve'");
+        }
 }

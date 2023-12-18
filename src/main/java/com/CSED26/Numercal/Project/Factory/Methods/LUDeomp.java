@@ -15,8 +15,8 @@ public class LUDeomp extends Numeric{
         int size =  (auMatrix.getNumRows() * (auMatrix.getNumRows()+1))/2;
         this.lMatrix = new double[size];
         this.uMatrix = new double[size];
-        this.mat = auMatrix.deleteColumn(auMatrix.getNumCols());
-        this.xArray = auMatrix.getColumn(auMatrix.getNumCols());
+        this.mat = auMatrix.deleteColumn(auMatrix.getNumCols()-1);
+        this.xArray = auMatrix.getColumn(auMatrix.getNumCols()-1);
     }
 
     @Override
@@ -127,6 +127,12 @@ public class LUDeomp extends Numeric{
         results = super.forwardSub(middel);
 
         return results;
+    }
+
+    @Override
+    public ArrayList<Double> solve() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'solve'");
     }
 
 
