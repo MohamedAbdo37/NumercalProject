@@ -18,23 +18,23 @@ public class Controller {
     private Solver solver;
 
     @GetMapping("/method")
-    public void setMethod(@RequestParam String type,@RequestParam String equs ){
+    public void setMethod(@RequestParam String type) {
         this.type = type;
     }
-    
+
     @GetMapping("/equations")
-    public void equations(@RequestParam String equs){
+    public void equations(@RequestParam String equs) {
         this.solver = new Solver();
         this.solver.parseEquation(equs);
     }
 
     @GetMapping("/SF")
-    public void significantFigures(@RequestParam int SF){
+    public void significantFigures(@RequestParam int SF) {
         Matrix.significantFigures = SF;
     }
 
     @GetMapping("/solve")
-    public String solve(){
+    public String solve() {
         ArrayList<Double> results = new ArrayList<>();
         Numeric method;
         switch (this.type) {
@@ -56,8 +56,7 @@ public class Controller {
             default:
                 break;
         }
-        return null;
+        return "answer is here";
     }
-
 
 }
