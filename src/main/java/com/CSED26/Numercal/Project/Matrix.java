@@ -283,5 +283,12 @@ public class Matrix {
 
         return result;
     }
-
+    public void print(){
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                System.out.print(getElement(i, j) + " ");
+            }
+            System.out.println();
+        }
+    }
 }

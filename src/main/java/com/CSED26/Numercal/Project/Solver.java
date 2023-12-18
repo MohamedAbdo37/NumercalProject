@@ -27,9 +27,9 @@ public class Solver {
 
         else if (type.equalsIgnoreCase("G")) {
 
-            return new GaussElimination(matrix,getIteration(),getTolerance());
+            return new GaussElimination(matrix);
         } else if (type.equalsIgnoreCase("GJ")) {
-            return new GaussJordan(matrix,getIteration(),getTolerance());
+            return new GaussJordan(matrix);
         } else if (type.equalsIgnoreCase("LU")) {
             return new LUDeomp(matrix,getIteration(),getTolerance());
         } else if (type.equalsIgnoreCase("GS")) {
