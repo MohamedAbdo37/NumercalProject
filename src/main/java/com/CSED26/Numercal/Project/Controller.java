@@ -39,7 +39,7 @@ public class Controller {
         ArrayList<Double> results = new ArrayList<>();
         Numeric method = solver.getMethod(type);
 
-        return null;
+        return "null";
     }
 
 }

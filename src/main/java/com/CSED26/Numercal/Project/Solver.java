@@ -20,7 +20,7 @@ public class Solver {
     private int niteration;
     private double tolerance;
 
- /*    public Numeric getMethod(String type) {
+     public Numeric getMethod(String type) {
         if (type == null) {
             return null;
         }
@@ -31,9 +31,9 @@ public class Solver {
         } else if (type.equalsIgnoreCase("GJ")) {
             return new GaussJordan(matrix);
         } else if (type.equalsIgnoreCase("LU")) {
-            return new LUDeomp(matrix,getIteration(),getTolerance());
+            return new LUDeomp(matrix);
         } else if (type.equalsIgnoreCase("GS")) {
-            return new GauseSedil(matrix,getIteration(),getTolerance());
+            // return new GauseSedil(matrix,getIteration(),getTolerance());
         } else if (type.equalsIgnoreCase("J")) {
             return new Jacobi(matrix,getIteration(),getTolerance());
         }
@@ -63,7 +63,7 @@ public class Solver {
         }
         return answer;
     }
-*/
+
     public Matrix parseEquation(String eq) {
         List<ArrayList<Double>> coefficients = new ArrayList<>();
         List<Double> constants = new ArrayList<>();
