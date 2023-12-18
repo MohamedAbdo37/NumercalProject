@@ -26,7 +26,7 @@ public class Controller {
     public void equations(@RequestParam String equs) {
         this.solver = new Solver();
         this.solver.parseEquation(equs);
-        
+
     }
 
     @GetMapping("/SF")
