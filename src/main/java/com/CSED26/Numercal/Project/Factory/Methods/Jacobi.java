@@ -24,8 +24,11 @@ public class Jacobi extends Numeric {
 
     public Jacobi(Matrix matrix, int maxIterations, double tol) {
         this.augMatrix = matrix;
-        this.maxIterations = 100;
+        this.maxIterations = maxIterations;
         this.tol = tol;
+        System.out.println(
+                "----------------------------------------------------------------------------------------------------------------------");
+        System.out.println(this.maxIterations);
     }
 
     public double[] evaluate() {

@@ -27,10 +27,8 @@ public class GauseSedil extends Numeric {
         double[] previousSolution = new double[n];
 
         // Perform Gauss-Seidel iterations
-        for (int iteration = 0; iteration < 100; iteration++) {
-            System.out.println(
-                    "----------------------------------------------------------------------------------------------------------------------");
-            System.out.println(iteration);
+        for (int iteration = 0; iteration < maxIterations; iteration++) {
+
             System.arraycopy(solution, 0, previousSolution, 0, n);
 
             for (int i = 0; i < n; i++) {
@@ -79,7 +77,7 @@ public class GauseSedil extends Numeric {
     public ArrayList<Double> solve() {
         // TODO Auto-generated method stub
         ArrayList<Double> doubleList = new ArrayList<>();
-        double[] solution = solve1(coefficients, arrayList, 100, tolerance);
+        double[] solution = solve1(coefficients, arrayList, maxIterations, tolerance);
         for (double value : solution) {
             doubleList.add(Matrix.roundToSignificantFigures(value, Matrix.significantFigures));
         }

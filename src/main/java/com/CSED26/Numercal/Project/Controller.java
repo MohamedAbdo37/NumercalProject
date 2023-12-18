@@ -18,11 +18,6 @@ public class Controller {
     private String LUType;
     private Solver solver;
 
-    // @GetMapping("/method")
-    // public void setMethod(@RequestParam String type) {
-    // this.type = type;
-    // }
-
     @GetMapping("/equations")
     public void equations(@RequestParam String equs) {
         this.solver = new Solver();
@@ -40,7 +35,6 @@ public class Controller {
         Numeric method = solver.getMethod("G");
         solver.solve(method);
         return solver.getAnswer();
-        // solve();
     }
 
     @GetMapping("/GJ")
@@ -65,6 +59,8 @@ public class Controller {
 
     @GetMapping("/GS")
     public String GSElSolver(@RequestParam double initGuess, @RequestParam int noIter, @RequestParam double εa) {
+        solver.setIteration(noIter);
+        solver.setTolerance(εa);
         Numeric method = solver.getMethod("GS");
         solver.solve(method);
         return solver.getAnswer();
@@ -72,19 +68,11 @@ public class Controller {
 
     @GetMapping("/J")
     public String JElSolver(@RequestParam double initGuess, @RequestParam int noIter, @RequestParam double εa) {
-
+        solver.setIteration(noIter);
+        solver.setTolerance(εa);
         Numeric method = solver.getMethod("J");
         solver.solve(method);
         return solver.getAnswer();
-    }
-
-    @GetMapping("/solve")
-    public String solve(String answer) {
-        // ArrayList<Double> results = new ArrayList<>();
-        // Numeric method = solver.getMethod(type);
-        // solver.solve(method);
-        // return solver.getAnswer();
-        return answer;
     }
 
 }
