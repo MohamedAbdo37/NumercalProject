@@ -11,6 +11,8 @@ public class Jacobi extends Numeric {
     public static int maxIterations = 100;
     public static double tol = 0.00001;
 
+    public int convergedAfter = 0;
+
     public Jacobi(Matrix matrix) {
         this.augMatrix = matrix;
     }
@@ -40,12 +42,25 @@ public class Jacobi extends Numeric {
                 nextsolution[i] /= augMatrix.getElement(i, i);
             }
             iterations++;
+            if (converged(nextsolution, currentsolution, this.tol)) {
+                System.out.println("Converged after " + (iterations + 1) + " iterations.");
+                this.convergedAfter = iterations;
+            }
             if(iterations == maxIterations) {
                 break;
             }
             currentsolution = (double[]) nextsolution.clone();
         }
         return nextsolution;
+    }
+
+    private static boolean converged(double[] current, double[] previous, double tolerance) {
+        double sum = 0.0;
+        for (int i = 0; i < current.length; i++) {
+            sum += Math.pow(current[i] - previous[i], 2);
+        }
+        double norm = Math.sqrt(sum);
+        return norm < tolerance;
     }
     @Override
     public Matrix forwardElim() {
@@ -60,6 +75,11 @@ public class Jacobi extends Numeric {
     @Override
     public ArrayList<Double> solve() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'solve'");
+        ArrayList<Double> doubleList = new ArrayList<>();
+        double[] solution = this.evaluate();
+        for (double value : solution) {
+            doubleList.add(Matrix.roundToSignificantFigures(value, Matrix.significantFigures));
+        }
+        return doubleList;
     }
 }
