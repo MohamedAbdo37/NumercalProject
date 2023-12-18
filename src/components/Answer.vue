@@ -1,5 +1,5 @@
 <template>
-    <h1>Answer is : {{ this.answers }}</h1>
+    <h1 class="answer">Answer is : {{ this.answers }}</h1>
     <input type="button" value="Show Steps" @click="this.stepsShow = !this.stepsShow"/>
     <div class="steps" v-if="this.stepsShow"></div>
 </template>
@@ -23,5 +23,8 @@ export default {
 }
 </script>
 <style>
+.answer{
+    width: 400px;
+}
 
 </style>

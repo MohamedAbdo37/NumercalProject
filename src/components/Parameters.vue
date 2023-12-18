@@ -59,6 +59,7 @@
                 case 'G':
                     await axios.get("http://localhost:8081/G").then(r =>{
                         this.answers = r.data;
+                        this.answers=this.answers.replaceAll(',', '\n');
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
@@ -70,6 +71,7 @@
                                 }
                         }).then(r =>{
                         this.answers = r.data;
+                        this.answers=this.answers.replaceAll(',', '\n');
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
@@ -83,6 +85,7 @@
                                 }
                                 }).then(r =>{
                         this.answers = r.data;
+                        this.answers=this.answers.replaceAll(',', '\n');
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
@@ -94,6 +97,7 @@
                                 }
                                 }).then(r =>{
                         this.answers = r.data;
+                        this.answers=this.answers.replaceAll(',', '\n');
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
@@ -105,6 +109,7 @@
                                 }
                                 }).then(r =>{
                         this.answers = r.data;
+                        this.answers=this.answers.replaceAll(',', '\n');
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
@@ -120,8 +125,8 @@
                             εa: this.εa
                         }
                     }).then(r =>{
-                        
                         this.answers = r.data;
+                        this.answers=this.answers.replaceAll(',', '\n');
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });;
@@ -136,17 +141,13 @@
                     }).then(r =>{
                         
                         this.answers = r.data;
+                        this.answers=this.answers.replaceAll(',', '\n');
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
                     break;
                 default: break;
                 }
-                // await axios.get("http://localhost:8081/solve").then(r=>{
-                //     this.answers = r.data;
-                //     this.$emit('answers', this.answers);
-                //     console.log(this.answers);
-                // });
         },
         async equations(){
             console.log("form equations");
@@ -166,5 +167,7 @@
     margin: 10px;
     cursor: pointer;
     border: 1px solid rgb(159, 156, 149);
+    padding: 2px;
+    font-weight: bold;
     }
     </style>
