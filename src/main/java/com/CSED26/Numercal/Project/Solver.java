@@ -17,6 +17,8 @@ public class Solver {
     private List<Double> answers = new ArrayList<>();
     private ArrayList<ArrayList<Float>> coefficients = new ArrayList<>();
     private Matrix matrix;
+    private int niteration;
+    private double tolerance;
 
     public Numeric getMethod(String type) {
         if (type == null) {
@@ -25,19 +27,30 @@ public class Solver {
 
         else if (type.equalsIgnoreCase("G")) {
 
-            return new GaussElimination(matrix);
+            return new GaussElimination(matrix,getIteration(),getTolerance());
         } else if (type.equalsIgnoreCase("GJ")) {
-            return new GaussJordan(matrix);
+            return new GaussJordan(matrix,getIteration(),getTolerance());
         } else if (type.equalsIgnoreCase("LU")) {
-            return new LUDeomp(matrix);
+            return new LUDeomp(matrix,getIteration(),getTolerance());
         } else if (type.equalsIgnoreCase("GS")) {
-            return new GauseSedil(matrix);
+            return new GauseSedil(matrix,getIteration(),getTolerance());
         } else if (type.equalsIgnoreCase("J")) {
-            return new Jacobi(matrix);
+            return new Jacobi(matrix,getIteration(),getTolerance());
         }
         return null;
     }
-
+    public void setIteration(int niteration){
+        this.niteration=niteration;
+    }
+    public int getIteration(){
+        return niteration;
+    }
+       public void setTolerance(double tolerance){
+        this.tolerance=tolerance;
+    }
+    public double getTolerance(){
+        return tolerance;
+    }
     public String getAnswer() {
         String answer = "";
         int l = 0;
@@ -135,7 +148,7 @@ public class Solver {
            v=0;
             }
         }
-
+    
 
 
 
