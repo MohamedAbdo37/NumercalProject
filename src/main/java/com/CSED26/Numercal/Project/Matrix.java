@@ -2,6 +2,8 @@ package com.CSED26.Numercal.Project;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.DecompositionSolver;
 import org.apache.commons.math3.linear.LUDecomposition;
@@ -239,12 +241,12 @@ public class Matrix {
         matrix.get(i).set(j, d);
     }
 
-    public void addColumn(ArrayList<Double> columnValues) {
-        if (columnValues.size() != numRows) {
+    public void addColumn(List<Double> constants) {
+        if (constants.size() != numRows) {
             throw new IllegalArgumentException("Invalid number of elements in the column.");
         }
         for (int i = 0; i < numRows; i++) {
-            matrix.get(i).add(columnValues.get(i));
+            matrix.get(i).add(constants.get(i));
         }
         numCols++;
     }

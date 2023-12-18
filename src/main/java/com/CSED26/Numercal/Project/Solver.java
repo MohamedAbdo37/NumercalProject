@@ -20,7 +20,7 @@ public class Solver {
     private int niteration;
     private double tolerance;
 
-    public Numeric getMethod(String type) {
+     public Numeric getMethod(String type) {
         if (type == null) {
             return null;
         }
@@ -88,6 +88,7 @@ public class Solver {
                         coefficientString = parts[0].substring(0, parts[0].trim().length() - 1);
                         // System.out.println(coefficientString);
                     } else {
+                     //   while()
                         // System.out.println(term.trim().length() - 1);
                         variable = term.substring(term.trim().length() - 1);
                         // System.out.println(variable);
@@ -145,7 +146,7 @@ public class Solver {
         } catch (IndexOutOfBoundsException e) {
             variables.get(b).add(variables.get(l).get(i));
             coefficients.get((b)).add(0.0);
-           v=0;
+            v=0;
             }
         }
     
@@ -163,6 +164,7 @@ public class Solver {
         for (int z = 0; z < cof.getNumRows(); z++) {
             cof.setRow(z, coefficients.get(z));
         }
+        cof.addColumn(constants);
         this.matrix = cof;
         return cof;
     }
@@ -171,4 +173,22 @@ public class Solver {
         this.answers = method.solve();
     }
 
+    public class Main {
+        public static void main(String[] args) {
+            Solver solver = new Solver();
+
+            // Example equation string
+            String equationString = "2x-3y=10&4x+5y=5&x-y=-5";
+            // Parse the equation string and get the matrix
+            Matrix matrix = solver.parseEquation(equationString);
+
+            // Print the parsed matrix
+            for (int i = 0; i < matrix.getNumRows(); i++) {
+                for (int j = 0; j < matrix.getNumCols(); j++) {
+                    System.out.print(matrix.getElement(i, j) + " ");
+                }
+                System.out.println();
+            }
+        }
+    }
 }
