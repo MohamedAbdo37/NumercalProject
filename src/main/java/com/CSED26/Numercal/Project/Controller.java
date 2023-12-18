@@ -41,6 +41,18 @@ public class Controller {
             case "LU":
                 method = solver.getMethod(type);
                 break;
+            case "G":
+                method = solver.getMethod(type);
+                break;
+            case "GJ":
+                method = solver.getMethod(type);
+                break;
+            case "GS":
+                method = solver.getMethod(type);
+                break;
+            case "J":
+                method = solver.getMethod(type);
+                break;
             default:
                 break;
         }
