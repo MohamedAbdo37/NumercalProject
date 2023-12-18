@@ -20,7 +20,7 @@ public class Jacobi extends Numeric {
         this.augMatrix = matrix;
         this.maxIterations = maxIterations;
     }
-    public Jacobi(Matrix matrix, int maxIterations, int tol) {
+    public Jacobi(Matrix matrix, int maxIterations, double tol) {
         this.augMatrix = matrix;
         this.maxIterations = maxIterations;
         this.tol = tol;
