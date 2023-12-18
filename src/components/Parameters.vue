@@ -51,7 +51,7 @@
         async solve(){
             await axios.get("http://localhost:8081/equations", {
                 params: {
-                    equs:this.equations.replace('\n', '&')
+                    equs:this.equations.replaceAll('\n', '&')
 
                 }
             });
