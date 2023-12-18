@@ -26,6 +26,7 @@ public class Controller {
     public void equations(@RequestParam String equs){
         this.solver = new Solver();
         this.solver.parseEquation(equs);
+        
     }
 
     @GetMapping("/SF")
@@ -36,26 +37,8 @@ public class Controller {
     @GetMapping("/solve")
     public String solve(){
         ArrayList<Double> results = new ArrayList<>();
-        Numeric method;
-        switch (this.type) {
-            case "LU":
-                method = solver.getMethod(type);
-                break;
-            case "G":
-                method = solver.getMethod(type);
-                break;
-            case "GJ":
-                method = solver.getMethod(type);
-                break;
-            case "GS":
-                method = solver.getMethod(type);
-                break;
-            case "J":
-                method = solver.getMethod(type);
-                break;
-            default:
-                break;
-        }
+        Numeric method = solver.getMethod(type);
+
         return null;
     }
 
