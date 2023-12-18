@@ -20,7 +20,7 @@ public class Solver {
     private int niteration;
     private double tolerance;
 
- /*    public Numeric getMethod(String type) {
+     public Numeric getMethod(String type) {
         if (type == null) {
             return null;
         }
@@ -63,7 +63,7 @@ public class Solver {
         }
         return answer;
     }
-*/
+
     public Matrix parseEquation(String eq) {
         List<ArrayList<Double>> coefficients = new ArrayList<>();
         List<Double> constants = new ArrayList<>();
