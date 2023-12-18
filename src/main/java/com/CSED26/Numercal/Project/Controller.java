@@ -43,18 +43,24 @@ public class Controller {
     }
 
     @GetMapping("/LUDo")
-    public void LUDoElSolver() {
-
+    public String LUDoElSolver() {
+        Numeric method = solver.getMethod("LU");
+        solver.solveLU(method,"do");
+        return solver.getAnswer();
     }
 
     @GetMapping("/LUCr")
-    public void LUCrElSolver() {
-
+    public String LUCrElSolver() {
+        Numeric method = solver.getMethod("LU");
+        solver.solveLU(method,"Court");
+        return solver.getAnswer();
     }
 
     @GetMapping("/LUChol")
-    public void LUCholElSolver() {
-
+    public String LUCholElSolver() {
+        Numeric method = solver.getMethod("LU");
+        solver.solveLU(method,"Chelsky");
+        return solver.getAnswer();
     }
 
     @GetMapping("/GS")
