@@ -31,6 +31,7 @@
         <input type="text" name="εa" v-model="εa" placeholder="Enter εa" required/>
     </div>
     <input type="button" @click="solve" value="Solve"/>
+    <h4 v-show="excutionTime!=0"> {{ excutionTime }} ms</h4>
     </template>
     <script>
     import axios from 'axios';
@@ -44,7 +45,8 @@
             εa: 0.0,
             LUFormat: "",
             initSGuess: 0.0,
-            answers: null
+            answers: null,
+            excutionTime: 0
         }
       },
       methods:{
@@ -57,14 +59,18 @@
             });
             switch(this.methodChosen){
                 case 'G':
+                    const startTime=performance.now();
                     await axios.get("http://localhost:8081/G").then(r =>{
                         this.answers = r.data;
                         this.answers=this.answers.replaceAll(',', '\n');
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
+                    const endTime=performance.now();
+                    this.excutionTime = endTime - startTime;
                     break;
                 case 'GJ':
+                    startTime=performance.now();
                     await axios.get("http://localhost:8081/GJ",{
                         params:{
                                     
@@ -75,10 +81,13 @@
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
+                    endTime=performance.now();
+                    this.excutionTime = endTime - startTime;
                     break;
                 case 'LU':
                     switch(this.LUFormat){
                         case 'Dolittle':
+                            startTime=performance.now();
                             await axios.get("http://localhost:8081/LUDo",{
                                 params:{
                                     
@@ -89,8 +98,11 @@
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
+                    endTime=performance.now();
+                    this.excutionTime = endTime - startTime;
                             break;
                         case 'Crout': 
+                            startTime=performance.now();
                             await axios.get("http://localhost:8081/LUCr",{
                                 params:{
                                     
@@ -101,8 +113,11 @@
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
+                    endTime=performance.now();
+                    this.excutionTime = endTime - startTime;
                             break;
                         case 'Cholesky':
+                            startTime=performance.now();
                             await axios.get("http://localhost:8081/LUChol", {
                                 params:{
 
@@ -113,11 +128,15 @@
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
+                    endTime=performance.now();
+                    this.excutionTime = endTime - startTime;
+                    
                             break;
                         default: break;
                     }
                     break;
                 case 'GS':
+                    startTime=performance.now();
                     await axios.get("http://localhost:8081/GS", {
                         params:{
                             initGuess: this.initSGuess,
@@ -129,9 +148,12 @@
                         this.answers=this.answers.replaceAll(',', '\n');
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
-                    });;
+                    });
+                    endTime=performance.now();
+                    this.excutionTime = endTime - startTime;
                     break;
                 case 'J':
+                    startTime=performance.now();
                     await axios.get("http://localhost:8081/J", {
                         params:{
                             initGuess: this.initSGuess,
@@ -145,6 +167,8 @@
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
+                    endTime=performance.now();
+                    this.excutionTime = endTime - startTime;
                     break;
                 default: break;
                 }
