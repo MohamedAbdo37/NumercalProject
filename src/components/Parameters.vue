@@ -31,7 +31,7 @@
         <input type="text" name="εa" v-model="εa" placeholder="Enter εa" required/>
     </div>
     <input type="button" @click="solve" value="Solve"/>
-    <h4 v-show="excutionTime!=0"> {{ excutionTime }} ms</h4>
+    <h4 v-show="excutionTime!=0"> excution time = {{ excutionTime }} ms</h4>
     </template>
     <script>
     import axios from 'axios';
@@ -57,7 +57,8 @@
 
                 }
             });
-            let startTime = 0, endTime=0;
+            let startTime=0;
+            let endTime=0;
             switch(this.methodChosen){
                 case 'G':
                     startTime=performance.now();
