@@ -57,16 +57,17 @@
 
                 }
             });
+            let startTime = 0, endTime=0;
             switch(this.methodChosen){
                 case 'G':
-                    const startTime=performance.now();
+                    startTime=performance.now();
                     await axios.get("http://localhost:8081/G").then(r =>{
                         this.answers = r.data;
                         this.answers=this.answers.replaceAll(',', '\n');
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
-                    const endTime=performance.now();
+                    endTime=performance.now();
                     this.excutionTime = endTime - startTime;
                     break;
                 case 'GJ':
