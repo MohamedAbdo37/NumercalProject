@@ -18,7 +18,7 @@ public class Controller {
     private Solver solver;
 
     @GetMapping("/time")
-    public long time(@RequestParam String equs) {
+    public long time() {
         return this.time;
     }
     @GetMapping("/equations")
