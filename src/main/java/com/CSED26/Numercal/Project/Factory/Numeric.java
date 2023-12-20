@@ -54,7 +54,7 @@ public abstract class Numeric {
             variables = m.getRow(i);
             for (int j = results.size() - 1; j > i; j--)
                 variables.set(j, variables.get(j) * results.get(j));
-            results.set(i, this.solveFirstDeg(variables, i));
+            results.set(i, Matrix.roundToSignificantFigures(this.solveFirstDeg(variables, i), Matrix.significantFigures));
         }
 
         return results;

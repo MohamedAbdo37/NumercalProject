@@ -169,13 +169,13 @@ public class Matrix {
         }
     }
 
-    public static double roundToSignificantFigures(double value, int significantFigures) {
+    public static double roundToSignificantFigures(double value, int n) {
+        int significantFigures = n - 1;
         if (value == 0) {
             return 0;
         }
-
-        double magnitude = Math.pow(10, significantFigures - Math.floor(Math.log10(Math.abs(value))));
-        return (Math.round(value * magnitude) / magnitude);
+        double magnitude = Math.pow(10, Math.max(0, significantFigures - Math.floor(Math.log10(Math.abs(value)))));
+        return (double) (Math.round(value * magnitude) / magnitude);
     }
 
     public Matrix Copy() {
