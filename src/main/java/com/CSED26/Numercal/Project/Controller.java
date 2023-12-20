@@ -45,21 +45,21 @@ public class Controller {
     @GetMapping("/LUDo")
     public String LUDoElSolver() {
         Numeric method = solver.getMethod("LU");
-        solver.solveLU(method,"do");
+        solver.solveLU(method, "do");
         return solver.getAnswer();
     }
 
     @GetMapping("/LUCr")
     public String LUCrElSolver() {
         Numeric method = solver.getMethod("LU");
-        solver.solveLU(method,"Court");
+        solver.solveLU(method, "Court");
         return solver.getAnswer();
     }
 
     @GetMapping("/LUChol")
     public String LUCholElSolver() {
         Numeric method = solver.getMethod("LU");
-        solver.solveLU(method,"Chelsky");
+        solver.solveLU(method, "Chelsky");
         return solver.getAnswer();
     }
 
