@@ -32,7 +32,7 @@
     </div>
     <input type="button" @click="solve" value="Solve" />
     <h4 v-show="excutionTime != 0"> excution time = {{ excutionTime }} ms</h4>
-    <h4 v-show="converge">{{ reportCovergence() }}</h4>
+    <h4 v-if="converge">{{ this.message }}</h4>
 </template>
 <script>
 import axios from 'axios';
@@ -48,22 +48,26 @@ export default {
             initSGuess: 0.0,
             answers: null,
             excutionTime: 0,
-            converge: false
+            converge: false,
+            message: null
         }
     },
     methods: {
         async reportCovergence() {
             let conv = 0;
-            if (this.methodChosen === 'J')
+            if (this.methodChosen === 'J') {
                 await axios.get("http://localhost:8081/convJ").then((r) => conv = r.data);
+                console.log(conv)
+            }
 
             if (this.methodChosen === 'GS')
                 await axios.get("http://localhost:8081/convGS").then((r) => conv = r.data);
+                console.log(conv)
 
-            if (r !== 0)
-                return `Converg After ${r} iteration(s)`;
+            if (conv !== 0)
+                this.message = `Converg After ${conv} iteration(s)`;
             else
-                return `the system failed to converge in the spicified iterations`;
+                this.message =  `the system failed to converge in the spicified iterations`;
         },
         async solve() {
             await axios.get("http://localhost:8081/equations", {
@@ -147,7 +151,6 @@ export default {
                     }
                     break;
                 case 'GS':
-                    this.converge = true;
                     await axios.get("http://localhost:8081/GS", {
                         params: {
                             initGuess: this.initSGuess,
@@ -161,9 +164,11 @@ export default {
                         console.log(this.answers);
                     });
                     await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
+                    this.reportCovergence();
+                    this.converge = true;
                     break;
                 case 'J':
-                this.converge = true;
+                
                     await axios.get("http://localhost:8081/J", {
                         params: {
                             initGuess: this.initSGuess,
@@ -178,6 +183,8 @@ export default {
                         console.log(this.answers);
                     });
                     await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
+                    this.reportCovergence();
+                    this.converge = true;
                     break;
                 default: break;
             }
