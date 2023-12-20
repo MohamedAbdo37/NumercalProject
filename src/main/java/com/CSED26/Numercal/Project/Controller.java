@@ -16,10 +16,11 @@ import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
 public class Controller {
     private String type;
     private String LUType;
-    private Solver solver = new Solver();
+    private Solver solver;
 
     @GetMapping("/equations")
     public void equations(@RequestParam String equs) {
+        solver = new Solver();
         this.solver.parseEquation(equs);
     }
 
@@ -63,6 +64,7 @@ public class Controller {
     public String LUCrElSolver() {
         Numeric method = solver.getMethod("LU");
         solver.solveLU(method,"Court");
+        System.out.println(solver.getAnswer());
         return solver.getAnswer();
     }
 
@@ -70,6 +72,7 @@ public class Controller {
     public String LUCholElSolver() {
         Numeric method = solver.getMethod("LU");
         solver.solveLU(method,"Chelsky");
+        System.out.println(solver.getAnswer());
         return solver.getAnswer();
     }
 

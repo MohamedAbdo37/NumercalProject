@@ -204,6 +204,11 @@ public class Solver {
         }
         cof.addColumn(constants);
         this.matrix = cof;
+        b = 0;
+        l=0;
+        i=0;
+        v=0;
+        maxlen= 0;
         return cof;
     }
 

@@ -158,7 +158,7 @@ public class Matrix {
         if (r1 >= numRows || r2 >= numRows) {
             throw new IllegalArgumentException("Invalid row index.");
         } else {
-            Matrix result = new Matrix(numRows, numCols);
+            Matrix result = this;
 
             for (int i = 0; i < numCols; i++) {
                 double sum = matrix.get(r1).get(i) + matrix.get(r2).get(i);
@@ -241,7 +241,7 @@ public class Matrix {
         matrix.get(i).set(j, d);
     }
 
-    public void addColumn(List<Double> constants) {
+    public Matrix addColumn(List<Double> constants) {
         if (constants.size() != numRows) {
             throw new IllegalArgumentException("Invalid number of elements in the column.");
         }
@@ -249,6 +249,7 @@ public class Matrix {
             matrix.get(i).add(constants.get(i));
         }
         numCols++;
+        return this;
     }
 
     public Matrix swapRows(int r1, int r2) {
@@ -270,7 +271,7 @@ public class Matrix {
         if (col >= numCols)
             throw new IllegalArgumentException("Invalid column index.");
 
-        Matrix result = new Matrix(numRows, numCols);
+        Matrix result = this;
 
         for (int i = 0; i < numRows; i++) {
             result.matrix.get(i).set(col, this.matrix.get(i).get(col) * scalar);
