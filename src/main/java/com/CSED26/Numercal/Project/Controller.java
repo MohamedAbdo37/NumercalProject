@@ -78,15 +78,30 @@ public class Controller {
 
     @GetMapping("/LUDo")
     public String LUDoElSolver() {
-        Numeric method = solver.getMethod("LU");
-        solver.solveLU(method, "do");
+        long begin = System.currentTimeMillis();
+        try {
+            Numeric method = solver.getMethod("LU");
+            solver.solveLU(method, "do");
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+        long end = System.currentTimeMillis();
+
+        this.time = end - begin;
         return solver.getAnswer();
     }
 
     @GetMapping("/LUCr")
     public String LUCrElSolver() {
-        Numeric method = solver.getMethod("LU");
-        solver.solveLU(method, "Court");
+        long begin = System.currentTimeMillis();
+        try {
+            Numeric method = solver.getMethod("LU");
+            solver.solveLU(method, "Court");
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+        long end = System.currentTimeMillis();
+        this.time = end - begin;
         return solver.getAnswer();
     }
 
@@ -94,7 +109,14 @@ public class Controller {
     public String LUCholElSolver() {
         long begin = System.currentTimeMillis();
         Numeric method = solver.getMethod("LU");
-        solver.solveLU(method, "Chelsky");
+        try {
+            solver.solveLU(method, "Chelsky");
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+        long end = System.currentTimeMillis();
+
+        this.time = end - begin;
         return solver.getAnswer();
     }
 
