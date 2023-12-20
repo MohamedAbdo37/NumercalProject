@@ -158,7 +158,7 @@ public class Matrix {
         if (r1 >= numRows || r2 >= numRows) {
             throw new IllegalArgumentException("Invalid row index.");
         } else {
-            Matrix result = new Matrix(numRows, numCols);
+            Matrix result = this;
 
             for (int i = 0; i < numCols; i++) {
                 double sum = matrix.get(r1).get(i) + matrix.get(r2).get(i);
@@ -169,13 +169,13 @@ public class Matrix {
         }
     }
 
-    public static double roundToSignificantFigures(double value, int significantFigures) {
+    public static double roundToSignificantFigures(double value, int n) {
+        int significantFigures = n - 1;
         if (value == 0) {
             return 0;
         }
-
-        double magnitude = Math.pow(10, significantFigures - Math.floor(Math.log10(Math.abs(value))));
-        return (Math.round(value * magnitude) / magnitude);
+        double magnitude = Math.pow(10, Math.max(0, significantFigures - Math.floor(Math.log10(Math.abs(value)))));
+        return (double) (Math.round(value * magnitude) / magnitude);
     }
 
     public Matrix Copy() {
@@ -241,7 +241,7 @@ public class Matrix {
         matrix.get(i).set(j, d);
     }
 
-    public void addColumn(List<Double> constants) {
+    public Matrix addColumn(List<Double> constants) {
         if (constants.size() != numRows) {
             throw new IllegalArgumentException("Invalid number of elements in the column.");
         }
@@ -249,6 +249,7 @@ public class Matrix {
             matrix.get(i).add(constants.get(i));
         }
         numCols++;
+        return this;
     }
 
     public Matrix swapRows(int r1, int r2) {
@@ -263,14 +264,14 @@ public class Matrix {
             this.matrix.get(r2).set(i, result.matrix.get(r1).get(i));
         }
 
-        return result;
+        return this;
     }
 
     public Matrix mulCol(int col, double scalar) {
         if (col >= numCols)
             throw new IllegalArgumentException("Invalid column index.");
 
-        Matrix result = new Matrix(numRows, numCols);
+        Matrix result = this;
 
         for (int i = 0; i < numRows; i++) {
             result.matrix.get(i).set(col, this.matrix.get(i).get(col) * scalar);

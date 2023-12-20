@@ -61,7 +61,7 @@ public class Solver {
         for (Double i : this.answers) {
             answer = answer.concat(this.variables.get(0).get(l));
             answer = answer.concat("=");
-            answer = answer.concat(String.valueOf(i));
+            answer = answer.concat(String.valueOf(Matrix.roundToSignificantFigures(i,Matrix.significantFigures)));
             answer = answer.concat(",");
             l++;
         }
@@ -94,7 +94,7 @@ public class Solver {
                         coefficientString = parts[0].substring(0, parts[0].trim().length() - 1);
                         // System.out.println(coefficientString);
                     } else {
-                        // while()
+                     //   while()
                         // System.out.println(term.trim().length() - 1);
                         variable = term.substring(term.trim().length() - 1);
                         // System.out.println(variable);
@@ -162,35 +162,35 @@ public class Solver {
             double constant = Double.parseDouble(constantString);
             constants.add(constant);
         }
-        int b = 0;
-        int l = 0;
-        int i = 0;
-        int v = 0;
-        int maxlen = 0;
-        for (int e = 0; e < variables.size(); e++) {
-            if (variables.get(e).size() > maxlen) {
-                maxlen = variables.get(e).size();
-            }
-        }
-        while (v == 0) {
-            try {
-                for (l = 0; l < variables.size(); l++) {
-                    if (variables.get(l).size() == maxlen) {
-                        for (i = 0; i < maxlen; i++) {
-                            for (b = 0; b < variables.size(); b++) {
-                                if (!variables.get(l).get(i).equalsIgnoreCase(variables.get(b).get(i))) {
-                                    variables.get(b).add(i, variables.get(l).get(i));
-                                    coefficients.get((b)).add(i, 0.0);
-                                }
-                            }
-                        }
+    int b=0;
+    int l=0 ;
+    int i=0;
+    int v=0;
+   int  maxlen=0;
+   for(int e =0 ;e<variables.size();e++){
+    if(variables.get(e).size()>maxlen){
+        maxlen=variables.get(e).size();
+    }
+   }
+   while (v==0) {
+        try {
+            for( l =0 ; l<variables.size();l++){
+        if(variables.get(l).size()==maxlen){
+            for( i =0 ;i<maxlen;i++){
+                for( b =0 ;b<variables.size();b++){
+            if(!variables.get(l).get(i).equalsIgnoreCase(variables.get(b).get(i))){
+            variables.get(b).add(i,variables.get(l).get(i));
+            coefficients.get((b)).add(i, 0.0);
                     }
-                    v = 1;
-                }
-            } catch (IndexOutOfBoundsException e) {
-                variables.get(b).add(variables.get(l).get(i));
-                coefficients.get((b)).add(0.0);
-                v = 0;
+                                                }
+                            }
+                    }
+            v=1;
+        } 
+        } catch (IndexOutOfBoundsException e) {
+            variables.get(b).add(variables.get(l).get(i));
+            coefficients.get((b)).add(0.0);
+            v=0;
             }
         }
 
@@ -204,6 +204,11 @@ public class Solver {
         }
         cof.addColumn(constants);
         this.matrix = cof;
+        b = 0;
+        l=0;
+        i=0;
+        v=0;
+        maxlen= 0;
         return cof;
     }
 

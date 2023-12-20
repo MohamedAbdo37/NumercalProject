@@ -5,85 +5,92 @@ import java.util.ArrayList;
 import com.CSED26.Numercal.Project.Matrix;
 import com.CSED26.Numercal.Project.Factory.Numeric;
 
-public class LUDeomp extends Numeric{
+public class LUDeomp extends Numeric {
     private Matrix mat;
-    private double[] lMatrix;
-    private double[] uMatrix;
+    private Matrix lMatrix;
+    private Matrix uMatrix;
     private ArrayList<Double> xArray;
 
-    public LUDeomp (Matrix auMatrix){
-        int size =  (auMatrix.getNumRows() * (auMatrix.getNumRows()+1))/2;
-        this.lMatrix = new double[size];
-        this.uMatrix = new double[size];
-        this.mat = auMatrix.deleteColumn(auMatrix.getNumCols()-1);
-        this.xArray = auMatrix.getColumn(auMatrix.getNumCols()-1);
+    public LUDeomp(Matrix auMatrix) {
+        this.lMatrix = new Matrix(auMatrix.getNumRows());
+        this.uMatrix = new Matrix(auMatrix.getNumRows());
+        this.xArray = auMatrix.getColumn(auMatrix.getNumCols() - 1);
+        this.mat = auMatrix.deleteColumn(auMatrix.getNumCols() - 1);
+        this.mat = this.forwardElim();
     }
 
     @Override
     public Matrix forwardElim() {
-        this.lMatrix[0] = 1;
         Matrix m = this.mat;
         for (int i = 0; i < this.mat.getNumRows(); i++) {
-            if(i != 0) this.lMatrix[(int)((i+1)*(i+2)*0.5) - 1] = 1;
-            for (int j = i+1; j < this.mat.getNumRows(); j++) {
-                double valu = (-this.mat.getElement(j,i)) / this.mat.getElement(i,i);
-                m = this.mat.mulRow(i,valu).addRows(j,i);
-                this.lMatrix[(int)(j*(j+1)*0.5)+i+1] = valu;
+            this.lMatrix.setEle(i, i, 1);
+            if (m.getElement(i, i) == 0) {
+                for (int index = i + 1; index < this.mat.getNumRows(); index++) {
+                    if ((m.getElement(index, i)) != 0) {
+                        m = m.swapRows(index, i);
+                        break;
+                    }
+                }
+            }
+            for (int j = i + 1; j < this.mat.getNumRows(); j++) {
+                double valu = (m.getElement(j, i)) / m.getElement(i, i);
+                double l = valu;
+                if ((valu * m.getElement(i, i) * m.getElement(j, i)) > 0) {
+                    valu = -valu;
+                }
+                if (valu != 0) {
+                    m = m.mulRow(i, valu).addRows(j, i);
+                    m = m.mulRow(i, (1 / valu));
+                }
+                this.lMatrix.setEle(j, i, l);
             }
         }
         this.setUMatrix(m);
+
+        String s = IsSol();
+        if (s.equals("inconsistent")) {
+            throw new RuntimeException("inconsistent System");
+        }
         return m;
+    }
+
+    private String IsSol() {
+        int rank = 0;
+        int ramkaug = 0;
+        for (int i = 0; i < mat.getNumRows(); i++) {
+            if (mat.getRow(i).get(i) != 0.0) {
+                rank++;
+            }
+        }
+        ramkaug = rank;
+        if (mat.getRow(mat.getNumRows() - 1).get(mat.getNumCols() - 1) != 0
+                && ramkaug != mat.getNumRows()) {
+            ramkaug++;
+        }
+        if (ramkaug > rank) {
+            return "inconsistent";
+
+        } else if (ramkaug == rank && ramkaug == mat.getNumRows()) {
+            return "onesol";
+        } else {
+            return "infinite";
+        }
     }
 
     private void setUMatrix(Matrix m) {
-        int i = 0;
-        int j = 0;
-        for (int index = 0; index < this.uMatrix.length; index++) {
-            this.uMatrix[index] =  m.getElement(i, j);
-            if(j == m.getNumRows()){
-                i++;
-                j = i;
-            }else j++;
-        }
+        this.uMatrix = m;
     }
+
     private void setLMatrix(Matrix m) {
-        int i = 0;
-        int j = 0;
-        for (int index = 0; index < this.uMatrix.length; index++) {
-            this.lMatrix[index] =  m.getElement(i, j);
-            if(i == j){
-                i++;
-                j = 0;
-            }else j++;
-        }
+        this.lMatrix = m;
     }
 
     public Matrix getUMatrix() {
-        Matrix m = new Matrix(this.mat.getNumRows());
-        int i = 0;
-        int j = 0;
-        for (int index = 0; index < this.uMatrix.length; index++) {
-            m.setEle(i, j, this.uMatrix[index]);
-            if(j == m.getNumRows()){
-                i++;
-                j = i;
-            }else j++;
-        }
-        return m;
+        return this.uMatrix;
     }
 
     public Matrix getLMatrix() {
-        Matrix m = new Matrix(this.mat.getNumRows());
-        int i = 0;
-        int j = 0;
-        for (int index = 0; index < this.lMatrix.length; index++) {
-            m.setEle(i, j, this.lMatrix[index]);
-            if(i == j){
-                i++;
-                j = 0;
-            }else j++;
-        }
-        return m;
+        return this.lMatrix;
     }
 
     @Override
@@ -91,11 +98,11 @@ public class LUDeomp extends Numeric{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'backElim'");
     }
-    
+
     public ArrayList<Double> crout() {
         Matrix newL = this.getLMatrix();
         Matrix newU = this.getUMatrix();
-        //newL.setEle();
+        // newL.setEle();
         for (int i = 0; i < mat.getNumRows(); i++) {
             newL = newL.mulCol(i, newU.getElement(i, i));
             newU = newU.mulRow(i, 1 / newU.getElement(i, i));
@@ -104,10 +111,11 @@ public class LUDeomp extends Numeric{
         setUMatrix(newU);
         return this.doLittle();
     }
+
     public ArrayList<Double> cholesky() {
         Matrix newL = this.getLMatrix();
         Matrix newU = this.getUMatrix();
-        //newL.setEle();
+        // newL.setEle();
         for (int i = 0; i < mat.getNumRows(); i++) {
             newL = newL.mulCol(i, Math.sqrt(newU.getElement(i, i)));
             newU = newU.mulRow(i, Math.sqrt(1 / newU.getElement(i, i)));
@@ -116,15 +124,16 @@ public class LUDeomp extends Numeric{
         setUMatrix(newU);
         return this.doLittle();
     }
-    public ArrayList<Double> doLittle(){
+
+    public ArrayList<Double> doLittle() {
         ArrayList<Double> results;
         Matrix middel = this.getLMatrix();
-        middel.addColumn(this.xArray);
+        middel = middel.addColumn(this.xArray);
         results = super.forwardSub(middel);
 
         middel = this.getUMatrix();
         middel.addColumn(results);
-        results = super.forwardSub(middel);
+        results = super.backSub(middel);
 
         return results;
     }
@@ -134,6 +143,5 @@ public class LUDeomp extends Numeric{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'solve'");
     }
-
 
 }

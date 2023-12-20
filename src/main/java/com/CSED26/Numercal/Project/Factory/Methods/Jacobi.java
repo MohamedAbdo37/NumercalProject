@@ -11,7 +11,7 @@ public class Jacobi extends Numeric {
     public static int maxIterations = 100;
     public static double tol = 0.00001;
 
-    public int convergedAfter = 0;
+    public static int convergedAfter = 0;
 
     public Jacobi(Matrix matrix) {
         this.augMatrix = matrix;
@@ -23,6 +23,7 @@ public class Jacobi extends Numeric {
     }
 
     public Jacobi(Matrix matrix, int maxIterations, double tol) {
+        convergedAfter = 0;
         this.augMatrix = matrix;
         this.maxIterations = maxIterations;
         this.tol = tol;
@@ -52,6 +53,7 @@ public class Jacobi extends Numeric {
             if (converged(nextsolution, currentsolution, this.tol)) {
                 System.out.println("Converged after " + (iterations + 1) + " iterations.");
                 this.convergedAfter = iterations;
+                return nextsolution;
             }
             if (iterations == maxIterations) {
                 break;
