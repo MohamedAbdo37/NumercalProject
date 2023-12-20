@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.CSED26.Numercal.Project.Factory.Numeric;
+import com.CSED26.Numercal.Project.Factory.Methods.GauseSedil;
+import com.CSED26.Numercal.Project.Factory.Methods.Jacobi;
 import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
 
 @RestController
@@ -21,6 +23,17 @@ public class Controller {
     public long time() {
         return this.time;
     }
+
+    @GetMapping("/convJ")
+    public int convJ() {
+        return Jacobi.convergedAfter;
+    }
+
+    @GetMapping("/convGS")
+    public int convGS() {
+        return GauseSedil.convergedAfter;
+    }
+
     @GetMapping("/equations")
     public void equations(@RequestParam String equs) {
         solver = new Solver();

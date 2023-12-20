@@ -11,7 +11,7 @@ public class Jacobi extends Numeric {
     public static int maxIterations = 100;
     public static double tol = 0.00001;
 
-    public int convergedAfter = 0;
+    public static int convergedAfter = 0;
 
     public Jacobi(Matrix matrix) {
         this.augMatrix = matrix;
