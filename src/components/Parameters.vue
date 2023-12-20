@@ -48,14 +48,22 @@ export default {
             initSGuess: 0.0,
             answers: null,
             excutionTime: 0,
-            converge: False
+            converge: false
         }
     },
     methods: {
         async reportCovergence() {
-            await axios.get("http://localhost:8081/convJ").then((r) => {
-                
-            })
+            let conv = 0;
+            if (this.methodChosen === 'J')
+                await axios.get("http://localhost:8081/convJ").then((r) => conv = r.data);
+
+            if (this.methodChosen === 'GS')
+                await axios.get("http://localhost:8081/convGS").then((r) => conv = r.data);
+
+            if (r !== 0)
+                return `Converg After ${r} iteration(s)`;
+            else
+                return `the system failed to converge in the spicified iterations`;
         },
         async solve() {
             await axios.get("http://localhost:8081/equations", {
@@ -67,7 +75,7 @@ export default {
 
             switch (this.methodChosen) {
                 case 'G':
-
+                    this.converge = false;
                     await axios.get("http://localhost:8081/G").then(r => {
                         this.answers = r.data;
                         this.answers = this.answers.replaceAll(',', '\n');
@@ -78,7 +86,7 @@ export default {
                     await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
                     break;
                 case 'GJ':
-
+                    this.converge = false;
                     await axios.get("http://localhost:8081/GJ", {
                         params: {
 
@@ -92,6 +100,7 @@ export default {
                     await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
                     break;
                 case 'LU':
+                    this.converge = false;
                     switch (this.LUFormat) {
                         case 'Dolittle':
 
@@ -138,7 +147,7 @@ export default {
                     }
                     break;
                 case 'GS':
-                    startTime = performance.now();
+                    this.converge = true;
                     await axios.get("http://localhost:8081/GS", {
                         params: {
                             initGuess: this.initSGuess,
@@ -151,11 +160,10 @@ export default {
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
-                    endTime = performance.now();
-                    this.excutionTime = endTime - startTime;
+                    await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
                     break;
                 case 'J':
-                    startTime = performance.now();
+                this.converge = true;
                     await axios.get("http://localhost:8081/J", {
                         params: {
                             initGuess: this.initSGuess,
@@ -169,8 +177,7 @@ export default {
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });
-                    endTime = performance.now();
-                    this.excutionTime = endTime - startTime;
+                    await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
                     break;
                 default: break;
             }
