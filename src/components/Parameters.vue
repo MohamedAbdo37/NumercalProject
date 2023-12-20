@@ -32,6 +32,7 @@
     </div>
     <input type="button" @click="solve" value="Solve" />
     <h4 v-show="excutionTime != 0"> excution time = {{ excutionTime }} ms</h4>
+    <h4 v-show="converge">{{ reportCovergence() }}</h4>
 </template>
 <script>
 import axios from 'axios';
@@ -46,10 +47,16 @@ export default {
             LUFormat: "",
             initSGuess: 0.0,
             answers: null,
-            excutionTime: 0
+            excutionTime: 0,
+            converge: False
         }
     },
     methods: {
+        async reportCovergence() {
+            await axios.get("http://localhost:8081/convJ").then((r) => {
+                
+            })
+        },
         async solve() {
             await axios.get("http://localhost:8081/equations", {
                 params: {
