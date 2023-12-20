@@ -16,11 +16,11 @@ public class GauseSedil  extends Numeric{
         public static double tolerance;
         public static int convergedAfter = 0;
         public GauseSedil(Matrix matrix,int maxIterations,double tolerance){
-            convergedAfter = 0;
+            this.convergedAfter = 0 ;
             this.arrayList=matrix.getColumn((matrix.getNumCols()-1));
             this.coefficients=matrix.deleteColumn(matrix.getNumCols()-1);
             GauseSedil.maxIterations = maxIterations;
-            this.solve1(coefficients,arrayList ,maxIterations,tolerance);
+            GauseSedil.tolerance=tolerance;
         }
         public double[] solve1(Matrix coefficients , ArrayList < Double >arrayList, int maxIterations,double tolerance){
                 int n = arrayList.size();
@@ -30,7 +30,6 @@ public class GauseSedil  extends Numeric{
                 // Perform Gauss-Seidel iterations
                 for (int iteration = 0; iteration < maxIterations; iteration++) {
                     System.arraycopy(solution, 0, previousSolution, 0, n);
-                    System.out.println("iteration");
                     for (int i = 0; i < n; i++) {
                         double sum = arrayList.get(i);
                         for (int j = 0; j < n; j++) {

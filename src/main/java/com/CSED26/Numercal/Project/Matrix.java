@@ -264,7 +264,7 @@ public class Matrix {
             this.matrix.get(r2).set(i, result.matrix.get(r1).get(i));
         }
 
-        return result;
+        return this;
     }
 
     public Matrix mulCol(int col, double scalar) {

@@ -61,7 +61,7 @@ public class Solver {
         for (Double i : this.answers) {
             answer = answer.concat(this.variables.get(0).get(l));
             answer = answer.concat("=");
-            answer = answer.concat(String.valueOf(Matrix.roundToSignificantFigures(i,Matrix.significantFigures));
+            answer = answer.concat(String.valueOf(Matrix.roundToSignificantFigures(i,Matrix.significantFigures)));
             answer = answer.concat(",");
             l++;
         }

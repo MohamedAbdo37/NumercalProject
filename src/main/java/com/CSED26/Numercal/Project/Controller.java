@@ -63,8 +63,8 @@ public class Controller {
     @GetMapping("/GJ")
     public String GauseJourdanElSolver() {
         long begin = System.currentTimeMillis();
-        Numeric method = solver.getMethod("GJ");
         try {
+            Numeric method = solver.getMethod("GJ");
             solver.solve(method);
         } catch (Exception e) {
             return e.getMessage();
@@ -79,8 +79,12 @@ public class Controller {
     @GetMapping("/LUDo")
     public String LUDoElSolver() {
         long begin = System.currentTimeMillis();
-        Numeric method = solver.getMethod("LU");
-        solver.solveLU(method, "do");
+        try {
+            Numeric method = solver.getMethod("LU");
+            solver.solveLU(method, "do");
+        } catch (Exception e) {
+            return e.getMessage();
+        }
         long end = System.currentTimeMillis();
 
         this.time = end - begin;
@@ -90,8 +94,14 @@ public class Controller {
     @GetMapping("/LUCr")
     public String LUCrElSolver() {
         long begin = System.currentTimeMillis();
-        Numeric method = solver.getMethod("LU");
-        solver.solveLU(method, "Court");
+        try {
+            Numeric method = solver.getMethod("LU");
+            solver.solveLU(method, "Court");
+        } catch (Exception e) {
+            return e.getMessage();
+        }
+        long end = System.currentTimeMillis();
+        this.time = end - begin;
         return solver.getAnswer();
     }
 
@@ -99,7 +109,11 @@ public class Controller {
     public String LUCholElSolver() {
         long begin = System.currentTimeMillis();
         Numeric method = solver.getMethod("LU");
-        solver.solveLU(method, "Chelsky");
+        try {
+            solver.solveLU(method, "Chelsky");
+        } catch (Exception e) {
+            return e.getMessage();
+        }
         long end = System.currentTimeMillis();
 
         this.time = end - begin;
