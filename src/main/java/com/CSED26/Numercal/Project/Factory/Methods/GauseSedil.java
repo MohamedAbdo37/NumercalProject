@@ -16,6 +16,7 @@ public class GauseSedil  extends Numeric{
         public static double tolerance;
         public static int convergedAfter = 0;
         public GauseSedil(Matrix matrix,int maxIterations,double tolerance){
+            convergedAfter = 0;
             this.arrayList=matrix.getColumn((matrix.getNumCols()-1));
             this.coefficients=matrix.deleteColumn(matrix.getNumCols()-1);
             GauseSedil.maxIterations = maxIterations;
