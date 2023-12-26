@@ -1,36 +1,69 @@
 <template>
-    <hr v-if="this.methodChosen != 'G' && this.methodChosen != 'GJ' && this.methodChosen != null">
-    <h1 v-if="this.methodChosen != 'G' && this.methodChosen != 'GJ' && this.methodChosen != null">
+    <hr>
+    <h1>
         Parameters
     </h1>
-    <div class="LU" v-if="this.methodChosen == 'LU'">
-        <select name="format" v-model="LUFormat" required>
-            <option value="" disabled selected hidden>Choose the format of LU</option>
-            <option value="Dolittle">Dolittle Form</option>
-            <option value="Crout">Crout Form</option>
-            <option value="Cholesky">Cholesky Form</option>
-        </select>
-    </div>
-    <div class="GS" v-if="this.methodChosen == 'GS'">
-        <h3>Enter initial guess</h3>
-        <input type="text" v-model="initSGuess" name="initialGuess" placeholder="Enter initial guess" required />
-
-
+    <div class="B" v-if="this.methodChosen == 'B'">
+        <h3>Enter first initial guess</h3>
+        <input type="text" v-model="initSGuess1" name="initialGuess1" placeholder="Enter first initial guess" required />
+        <h3>Enter second initial guess</h3>
+        <input type="text" v-model="initSGuess2" name="initialGuess2" placeholder="Enter second initial guess" required />
         <h3>Enter number of iterations</h3>
         <input type="text" v-model="noItr" name="noIterations" placeholder="Enter # of iter." required />
         <h3>Enter absolute relative error</h3>
         <input type="text" v-model="εa" name="εa" placeholder="Enter εa" required />
     </div>
-    <div class="J" v-if="this.methodChosen == 'J'">
-        <h3>Enter initial guess</h3>
-        <input type="text" v-model="initSGuess" name="initialGuess" placeholder="Enter initial guess" required />
 
+    <div class="FL" v-if="this.methodChosen == 'FL'">
+        <h3>Enter first initial guess</h3>
+        <input type="text" v-model="initSGuess1" name="initialGuess1" placeholder="Enter first initial guess" required />
+        <h3>Enter second initial guess</h3>
+        <input type="text" v-model="initSGuess2" name="initialGuess2" placeholder="Enter second initial guess" required />
         <h3>Enter number of iterations</h3>
         <input type="text" v-model="noItr" name="noIterations" placeholder="Enter # of iter." required />
         <h3>Enter absolute relative error</h3>
-        <input type="text" name="εa" v-model="εa" placeholder="Enter εa" required />
+        <input type="text" v-model="εa" name="εa" placeholder="Enter εa" required />
     </div>
-    <input type="button" @click="solve" value="Solve" />
+
+    <div class="FX" v-if="this.methodChosen == 'FX'">
+        <h3>Enter initial guess</h3>
+        <input type="text" v-model="initSGuess" name="initialGuess" placeholder="Enter initial guess" required />
+        <h3>Enter number of iterations</h3>
+        <input type="text" v-model="noItr" name="noIterations" placeholder="Enter # of iter." required />
+        <h3>Enter absolute relative error</h3>
+        <input type="text" v-model="εa" name="εa" placeholder="Enter εa" required />
+    </div>
+
+    <div class="ON" v-if="this.methodChosen == 'ON'">
+        <h3>Enter initial guess</h3>
+        <input type="text" v-model="initSGuess" name="initialGuess" placeholder="Enter initial guess" required />
+        <h3>Enter number of iterations</h3>
+        <input type="text" v-model="noItr" name="noIterations" placeholder="Enter # of iter." required />
+        <h3>Enter absolute relative error</h3>
+        <input type="text" v-model="εa" name="εa" placeholder="Enter εa" required />
+    </div>
+
+    <div class="MN" v-if="this.methodChosen == 'MN'">
+        <h3>Enter initial guess</h3>
+        <input type="text" v-model="initSGuess" name="initialGuess" placeholder="Enter initial guess" required />
+        <h3>Enter number of iterations</h3>
+        <input type="text" v-model="noItr" name="noIterations" placeholder="Enter # of iter." required />
+        <h3>Enter absolute relative error</h3>
+        <input type="text" v-model="εa" name="εa" placeholder="Enter εa" required />
+    </div>
+
+    <div class="S" v-if="this.methodChosen == 'S'">
+        <h3>Enter first initial guess</h3>
+        <input type="text" v-model="initSGuess1" name="initialGuess1" placeholder="Enter first initial guess" required />
+        <h3>Enter second initial guess</h3>
+        <input type="text" v-model="initSGuess2" name="initialGuess2" placeholder="Enter second initial guess" required />
+        <h3>Enter number of iterations</h3>
+        <input type="text" v-model="noItr" name="noIterations" placeholder="Enter # of iter." required />
+        <h3>Enter absolute relative error</h3>
+        <input type="text" v-model="εa" name="εa" placeholder="Enter εa" required />
+    </div>
+    
+    <input type="submit" @click="solve" value="Solve" />
     <h4 v-show="excutionTime != 0"> excution time = {{ excutionTime }} ms</h4>
     <h4 v-if="converge">{{ this.message }}</h4>
 </template>
@@ -46,6 +79,8 @@ export default {
             εa: 0.0,
             LUFormat: "",
             initSGuess: 0.0,
+            initGuess1: 0.0,
+            initGuess2: 0.0,
             answers: null,
             excutionTime: 0,
             converge: false,
@@ -72,7 +107,7 @@ export default {
         async solve() {
             await axios.get("http://localhost:8081/equations", {
                 params: {
-                    equs: this.equations.replaceAll('\n', '&')
+                    equs: this.equations.replaceAll('\n', '&').replaceAll(" ",'').replaceAll("−","-")
 
                 }
             });
@@ -199,7 +234,7 @@ export default {
 </script>
     
 <style>
-input[type="button"] {
+input[type="submit"] {
     width: 80px;
     height: 30px;
     border-radius: 15px;

@@ -5,11 +5,12 @@
     
     <select name="method" required v-model="method" @change="$emit('methodChosen', method)">
         <option value="" disabled selected hidden>Choose a method</option>
-        <option value="G" >Gauss Elimination</option>
-        <option value="GJ" >Gauss-Jordan Elimination</option>
-        <option value="LU" >LU Decomposition</option>
-        <option value="GS" >Gauss-Seidel</option>
-        <option value="J" >Jacobi Iteration</option>
+        <option value="B" >Bisection</option>
+        <option value="FL" >False-Position</option>
+        <option value="FX" >Fixed point</option>
+        <option value="ON" >Original Newton-Raphson</option>
+        <option value="MN" >Modified Newton-Raphson</option>
+        <option value="S" >Secant Method</option>
     </select>
 </template>
 <script>
@@ -45,6 +46,7 @@ select{
     color: black;
     background-color: blanchedalmond;
     height: 25px;
+    width: 300px;
 }
 option{
     color: black;
