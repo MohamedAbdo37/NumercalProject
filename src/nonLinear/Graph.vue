@@ -1,6 +1,6 @@
 <template>
 <div class="graphCanvas">
-
+<iframe src="https://www.desmos.com/calculator" width="100%" height="100%"></iframe>
 </div>
 </template>
 <script>

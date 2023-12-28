@@ -43,7 +43,16 @@
         <input type="text" v-model="εa" name="εa" placeholder="Enter εa" required />
     </div>
 
-    <div class="MN" v-if="this.methodChosen == 'MN'">
+    <div class="MN" v-if="this.methodChosen == 'MN1'">
+        <h3>Enter initial guess</h3>
+        <input type="text" v-model="initSGuess" name="initialGuess" placeholder="Enter initial guess" required />
+        <h3>Enter number of iterations</h3>
+        <input type="text" v-model="noItr" name="noIterations" placeholder="Enter # of iter." required />
+        <h3>Enter absolute relative error</h3>
+        <input type="text" v-model="εa" name="εa" placeholder="Enter εa" required />
+    </div>
+
+    <div class="MN" v-if="this.methodChosen == 'MN2'">
         <h3>Enter initial guess</h3>
         <input type="text" v-model="initSGuess" name="initialGuess" placeholder="Enter initial guess" required />
         <h3>Enter number of iterations</h3>
