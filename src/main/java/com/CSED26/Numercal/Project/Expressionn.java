@@ -1,7 +1,8 @@
 package com.CSED26.Numercal.Project;
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.ArrayList;
 
 public class Expressionn {
@@ -50,20 +51,40 @@ public class Expressionn {
     }
 
     private double evaluateTerm(String term, double val) {
+        if(term.contains("ln")){
+            Expressionn exp = new Expressionn();
+            term= exp.convertLnToLog(term);
+              System.out.println(term);
+        }
         Expression expression = new ExpressionBuilder(term)
                 .variable("x")
                 .build();
         expression.setVariable("x", val);
         return expression.evaluate();
     }
+
+    public static String convertLnToLog(String term) {
+        String convertedTerm = term.replaceAll("ln", "log") + "/log(e)";
+        return convertedTerm;
+    }
+   public static String extractContentWithinParentheses(String input) {
+        Pattern pattern = Pattern.compile("\\(([^\\)]+)\\)");
+        Matcher matcher = pattern.matcher(input);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+
+        return null;
+    }
     public static void main(String[] args) {
         Expressionn expression = new Expressionn();
-        
+
         // Example usage
         expression.addTerm("5x^10");
         expression.addTerm("sin(x)^3");
         expression.addTerm("log(x^2+5)");
-        expression.addTerm("log(x)/log(e)"); // Natural logarithm
+        expression.addTerm("ln(x^2+5)"); 
 
         System.out.println("Number of terms: " + expression.noOfTerms());
 
@@ -79,5 +100,7 @@ public class Expressionn {
 
         expression.deleteTerm("sin(x)^3");
         System.out.println("Number of terms after deletion: " + expression.noOfTerms());
+        
+        System.out.println( expression.extractContentWithinParentheses("ln(x+5xx)"));
     }
 }
