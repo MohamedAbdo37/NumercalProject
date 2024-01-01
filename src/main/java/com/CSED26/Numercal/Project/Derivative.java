@@ -29,6 +29,6 @@ public class Derivative {
     }
 
     private Expression explicit(Expression exp){
-        return null
+        return null;
     }
 }
