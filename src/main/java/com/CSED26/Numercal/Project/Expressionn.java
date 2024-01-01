@@ -77,6 +77,15 @@ public class Expressionn {
 
         return null;
     }
+    public static String gettype(String input) {
+        if(input.contains("ln")){
+            return "ln";
+        }
+       else  if(input.contains("sin")||input.contains("cos")||input.contains("tan")){
+            return "ln";
+        }
+        else{return "polynomial";}
+    }
     public static void main(String[] args) {
         Expressionn expression = new Expressionn();
 
