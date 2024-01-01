@@ -2,11 +2,11 @@ package com.CSED26.Numercal.Project.Factory.Methods;
 
 
 import com.CSED26.Numercal.Project.Matrix;
+import com.CSED26.Numercal.Project.Factory.Numeric;
 
 import java.util.ArrayList;
 
 import com.CSED26.Numercal.Project.Matrix;
-import com.CSED26.Numercal.Project.Factory.Numeric;
 
 public class GauseSedil  extends Numeric{
         private Matrix coefficients;

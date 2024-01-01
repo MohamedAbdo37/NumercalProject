@@ -28,6 +28,9 @@ public class LUDeomp extends Numeric {
                 for (int index = i + 1; index < this.mat.getNumRows(); index++) {
                     if ((m.getElement(index, i)) != 0) {
                         m = m.swapRows(index, i);
+                        double temp = this.xArray.get(index);
+                        this.xArray.set(index,this.xArray.get(i));
+                        this.xArray.set(i,temp);
                         break;
                     }
                 }
