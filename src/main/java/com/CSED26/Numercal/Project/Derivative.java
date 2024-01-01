@@ -1,10 +1,10 @@
 package com.CSED26.Numercal.Project;
 
 public class Derivative {
-    private Expression exp;
-    private Expression derivative;
+    private Expressionn exp;
+    private Expressionn derivative;
 
-    public Expression getDrevative(){
+    public Expressionn getDrevative(){
         return null;
     }
 
@@ -12,23 +12,23 @@ public class Derivative {
         return 0;
     }
 
-    private Expression polynomial(Expression exp){
+    private Expressionn polynomial(Expressionn exp){
         return null;
     }
 
-    private Expression exponential(Expression exp){
+    private Expressionn exponential(Expressionn exp){
         return null;
     }
 
-    private Expression trigonometric(Expression exp){
+    private Expressionn trigonometric(Expressionn exp){
         return null;
     }
 
-    private Expression multipleD(Expression exp){
+    private Expressionn multipleD(Expressionn exp){
         return null;
     }
 
-    private Expression explicit(Expression exp){
+    private Expressionn explicit(Expressionn exp){
         return null;
     }
 }
