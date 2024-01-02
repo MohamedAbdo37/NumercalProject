@@ -155,6 +155,8 @@ public class Controller {
     @GetMapping("/S")
     public String secantSolver(@RequestParam double x0, @RequestParam double x1, @RequestParam int noIter,
             @RequestParam double Ea) {
+        System.out.println(x0 + " " + x1);
+
         return solver.solveBySecant(x0, x1, Ea, noIter);
     }
 

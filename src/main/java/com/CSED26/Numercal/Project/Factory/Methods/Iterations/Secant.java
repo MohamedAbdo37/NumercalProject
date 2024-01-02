@@ -43,12 +43,17 @@ public class Secant extends Iterations {
 
     @Override
     public boolean evaluate() {
+        System.out.println("ldskjflksjdfljsldkjflskjdflkjsldkfjlskdjflksjdflkjsdlkfjlsdkjf");
         this.Fl = iteration(this.Xl, this.expressionn);
         this.Fu = iteration(this.Xu, this.expressionn);
         this.Xr = ((this.Fu * this.Xl) - (this.Fl * this.Xu)) / (this.Fu - this.Fl);
         double error = errorCalc(this.Xr, this.Xu);
+        System.out.println(this.Xr + " " + this.Xu + " " + error + "  " + this.maxError + " " + this.maxIterations);
+
         for (this.numOfIterations = 1; this.numOfIterations <= this.maxIterations
                 && error > this.maxError; this.numOfIterations++) {
+            System.out.println(this.Xu);
+            System.out.println("------------------------------------------------------------------------");
             this.Xl = this.Xu;
             this.Xu = this.Xr;
             this.Fl = iteration(this.Xl, this.expressionn);
