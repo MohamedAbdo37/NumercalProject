@@ -4,6 +4,9 @@ import com.CSED26.Numercal.Project.Expressionn;
 import com.CSED26.Numercal.Project.Factory.Numeric;
 import com.CSED26.Numercal.Project.Matrix;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class FixedPoint extends Iterations {
 
     private int maxIterations = 50;
@@ -12,6 +15,10 @@ public class FixedPoint extends Iterations {
 
     private Expressionn exp;
     private double initialGuess;
+
+    private long excutiontime;
+
+    private Queue<Double> queue = new LinkedList<>();
 
     public static int convergedAfter = 0;
 
@@ -41,6 +48,7 @@ public class FixedPoint extends Iterations {
         double solution = 0.0;
         for (int i = 0; i < maxIterations; i++) {
             solution = Matrix.roundToSignificantFigures(exp.substitute(prev), this.significantFigures);
+            this.queue.add(solution);
             if(Math.abs(solution - prev) <= tol) {
                 convergedAfter = i;
                 return solution;
@@ -53,7 +61,11 @@ public class FixedPoint extends Iterations {
 
     @Override
     public double getAnswers() {
-        return iteration(this.initialGuess, this.exp);
+        long start = System.currentTimeMillis();
+        double solution =  iteration(this.initialGuess, this.exp);
+        long end = System.currentTimeMillis();
+        this.excutiontime = end - start;
+        return solution;
     }
 
     @Override
@@ -61,11 +73,20 @@ public class FixedPoint extends Iterations {
         return false;
     }
 
+    public long getExcutiontime() {
+        return excutiontime;
+    }
+
+    public Queue<Double> getQueue() {
+        return queue;
+    }
+
     public static void main(String[] args) {
         Expressionn exp = new Expressionn();
         exp.addTerm("1+1/x");
         FixedPoint fp = new FixedPoint(2, exp);
         System.out.println(fp.getAnswers());
-        
+        System.out.println(fp.getExcutiontime());
+
     }
 }
