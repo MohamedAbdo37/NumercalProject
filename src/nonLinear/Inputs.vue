@@ -2,8 +2,8 @@
     <h1>
         Inputs
     </h1>
-    <h3>Enter the System of Linear Equations </h3>
-    <textarea v-model="equations" id ="eq" type="multiliner" placeholder="Enter System"  @input="$emit('equations', equations)" required/>
+    <h3>Enter the Non-Linear Equation </h3>
+    <textarea v-model="equations" id ="eq" type="multiliner" placeholder="Enter System"  @input="sendInput" required/>
     <br>
     <input type="button" @click="graph" class="graphBtn" id="graphBtn" value="Graph">
     <h3>Enter the Precision (number of significant figures)</h3>
@@ -35,6 +35,23 @@
         
       },
       methods:{
+        insertAtIndex(substring, index) {
+            this.equations = this.equations.slice(0, index) + substring + this.equations.slice(index)
+        },
+        putPlusesToEqu(){
+            let temp = this.equations.indexOf('-', 0)
+            for (let i=temp; i != -1; i = this.equations.indexOf("-", i+2)){
+              this.insertAtIndex("+", i)
+            }
+        },
+        sendInput(){
+          this.putPlusesToEqu()
+          console.log(this.equations)
+          this.equations = this.equations.split("+")
+          if(this.equations[0] == '') this.equations.shift()
+          // console.log(this.equations)
+          this.$emit('equations', this.equations)
+        },
         graph(){
             this.graphShow = !this.graphShow;
             if (!this.graphShow) this.graphStatus = "Graph";
