@@ -2,8 +2,28 @@ package com.CSED26.Numercal.Project.Factory.Methods.Iterations;
 
 import com.CSED26.Numercal.Project.Expressionn;
 
-public class FalsePosition extends Iterations{
+import java.util.ArrayList;
 
+public class FalsePosition extends Iterations{
+    private String function;
+    private double xl;
+    private double xu;
+    private double Ea;
+    private double releror;
+    public static int iterations;
+    public static boolean converge;
+    Expressionn exp;
+
+    public FalsePosition(String function, double xl, double xu, double ea, double releror) {
+        this.function = function;
+        this.xl = xl;
+        this.xu = xu;
+        Ea = ea;
+        this.releror = releror;
+        converge = true;
+        iterations = 0;
+        Expressionn exp=new Expressionn();
+    }
     @Override
     protected double iteration(double point, Expressionn exp) {
         return 0;
@@ -11,7 +31,40 @@ public class FalsePosition extends Iterations{
 
     @Override
     public double getAnswers() {
-        return 0;
+        double xr = 0.0;
+        ArrayList<Double> arr = new ArrayList<>();
+        for (int i = 0; true; i++) {
+            double error = 0.0;
+            double fl = exp.substitute(xl);
+            double fu = exp.substitute(xu);
+            xr = (xl * fu - xu * fl) / (fu - fl);
+            double fxr = exp.substitute(xr);
+            arr.add(xr);
+            if (i > 0) {
+                error = Math.abs((arr.get(i) - arr.get(i - 1)) / arr.get(i)) * 100.0;
+            }
+            if (fxr < 0) {
+                xu = xr;
+            } else if (fxr > 0) {
+                xl = xr;
+            } else {
+                System.out.println("terminate here ");
+                iterations = i + 1;
+                break;
+            }
+
+            if (error < releror && i > 0) {
+                System.out.println("Convergence criteria met!");
+                iterations = i + 1;
+                break;
+            }
+            if ((fl * fxr > 0 && fu * fxr > 0) ||xr==0) {
+                iterations=i+1;
+                converge = false;
+                break;
+            }
+        }
+        return xr;
     }
 
     @Override
