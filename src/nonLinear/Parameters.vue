@@ -122,9 +122,9 @@ export default {
             });
 
             switch (this.methodChosen) {
-                case 'G':
+                case 'B':
                     this.converge = false;
-                    await axios.get("http://localhost:8081/G").then(r => {
+                    await axios.get("http://localhost:8081/B").then(r => {
                         this.answers = r.data;
                         this.answers = this.answers.replaceAll(',', '\n');
                         this.$emit('answers', this.answers);
@@ -133,9 +133,9 @@ export default {
 
                     await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
                     break;
-                case 'GJ':
+                case 'FL':
                     this.converge = false;
-                    await axios.get("http://localhost:8081/GJ", {
+                    await axios.get("http://localhost:8081/FL", {
                         params: {
 
                         }
@@ -147,55 +147,22 @@ export default {
                     });
                     await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
                     break;
-                case 'LU':
+                case 'FX':
                     this.converge = false;
-                    switch (this.LUFormat) {
-                        case 'Dolittle':
+                        await axios.get("http://localhost:8081/FX", {
+                            params: {
 
-                            await axios.get("http://localhost:8081/LUDo", {
-                                params: {
-
-                                }
-                            }).then(r => {
-                                this.answers = r.data;
-                                this.answers = this.answers.replaceAll(',', '\n');
-                                this.$emit('answers', this.answers);
-                                console.log(this.answers);
-                            });
-                            await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
-                            break;
-                        case 'Crout':
-                            await axios.get("http://localhost:8081/LUCr", {
-                                params: {
-
-                                }
-                            }).then(r => {
-                                this.answers = r.data;
-                                this.answers = this.answers.replaceAll(',', '\n');
-                                this.$emit('answers', this.answers);
-                                console.log(this.answers);
-                            });
-                            await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
-                            break;
-                        case 'Cholesky':
-                            await axios.get("http://localhost:8081/LUChol", {
-                                params: {
-
-                                }
-                            }).then(r => {
-                                this.answers = r.data;
-                                this.answers = this.answers.replaceAll(',', '\n');
-                                this.$emit('answers', this.answers);
-                                console.log(this.answers);
-                            });
-                            await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
-
-                            break;
-                        default: break;
-                    }
-                    break;
-                case 'GS':
-                    await axios.get("http://localhost:8081/GS", {
+                            }
+                        }).then(r => {
+                            this.answers = r.data;
+                            this.answers = this.answers.replaceAll(',', '\n');
+                            this.$emit('answers', this.answers);
+                            console.log(this.answers);
+                        });
+                        await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
+                        break;
+                case 'ON':
+                    await axios.get("http://localhost:8081/ON", {
                         params: {
                             initGuess: this.initSGuess,
                             noIter: this.noItr,
@@ -211,9 +178,44 @@ export default {
                     this.reportCovergence();
                     this.converge = true;
                     break;
-                case 'J':
-                
-                    await axios.get("http://localhost:8081/J", {
+                case 'MN1':
+                    await axios.get("http://localhost:8081/MN1", {
+                        params: {
+                            initGuess: this.initSGuess,
+                            noIter: this.noItr,
+                            εa: this.εa
+                        }
+                    }).then(r => {
+
+                        this.answers = r.data;
+                        this.answers = this.answers.replaceAll(',', '\n');
+                        this.$emit('answers', this.answers);
+                        console.log(this.answers);
+                    });
+                    await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
+                    this.reportCovergence();
+                    this.converge = true;
+                    break;
+                case 'MN2':
+                    await axios.get("http://localhost:8081/MN2", {
+                        params: {
+                            initGuess: this.initSGuess,
+                            noIter: this.noItr,
+                            εa: this.εa
+                        }
+                    }).then(r => {
+
+                        this.answers = r.data;
+                        this.answers = this.answers.replaceAll(',', '\n');
+                        this.$emit('answers', this.answers);
+                        console.log(this.answers);
+                    });
+                    await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
+                    this.reportCovergence();
+                    this.converge = true;
+                    break;
+                case 'S':
+                    await axios.get("http://localhost:8081/S", {
                         params: {
                             initGuess: this.initSGuess,
                             noIter: this.noItr,
