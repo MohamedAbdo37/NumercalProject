@@ -2,9 +2,9 @@
     <form>
       <Method @methodChosen="this.methodChosen = $event"></Method>
       <hr>
-      <Inputs @equations="this.equations = $event" @graphShow = "this.graphShow = $event"></Inputs>
+      <Inputs @equations="this.equations = $event" @precision="this.precision = $event" @graphShow = "this.graphShow = $event"></Inputs>
       <Graph v-show="this.graphShow"></Graph>
-      <Parameters :methodChosen=methodChosen :equations=equations @answers="this.answers = $event"></Parameters>
+      <Parameters :methodChosen=methodChosen :equations=equations :precision=precision @answers="this.answers = $event"></Parameters>
       <Answer :answers=answers v-if="answers != null"></Answer>
     </form>
   </template>
@@ -31,7 +31,8 @@
         methodChosen: null,
         answers: null,
         equations: "", 
-        graphShow: false
+        graphShow: false,
+        precision: 0
       }
     },
    

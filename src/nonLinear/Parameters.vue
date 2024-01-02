@@ -50,6 +50,8 @@
         <input type="text" v-model="noItr" name="noIterations" placeholder="Enter # of iter." required />
         <h3>Enter absolute relative error</h3>
         <input type="text" v-model="εa" name="εa" placeholder="Enter εa" required />
+        <h3>Enter the multiplicity</h3>
+        <input type="text" v-model="mul" name="mul" placeholder="Enter multiplicity" required />
     </div>
 
     <div class="MN" v-if="this.methodChosen == 'MN2'">
@@ -63,9 +65,9 @@
 
     <div class="S" v-if="this.methodChosen == 'S'">
         <h3>Enter first initial guess</h3>
-        <input type="text" v-model="initSGuess1" name="initialGuess1" placeholder="Enter first initial guess" required />
+        <input type="text" v-model="initGuess1" name="initialGuess1" placeholder="Enter first initial guess" required />
         <h3>Enter second initial guess</h3>
-        <input type="text" v-model="initSGuess2" name="initialGuess2" placeholder="Enter second initial guess" required />
+        <input type="text" v-model="initGuess2" name="initialGuess2" placeholder="Enter second initial guess" required />
         <h3>Enter number of iterations</h3>
         <input type="text" v-model="noItr" name="noIterations" placeholder="Enter # of iter." required />
         <h3>Enter absolute relative error</h3>
@@ -74,14 +76,14 @@
     
     <input type="button" @click="solve" value="Solve" />
     <h4 v-show="excutionTime != 0"> excution time = {{ excutionTime }} ms</h4>
-    <h4 v-if="converge">{{ this.message }}</h4>
+    <h4>{{ this.message }}</h4>
 </template>
 <script>
 import axios from 'axios';
 
 export default {
     name: 'Parameters',
-    props: ['methodChosen', 'equations'],
+    props: ['methodChosen', 'equations', 'precision'],
     data() {
         return {
             noItr: 0,
@@ -93,7 +95,8 @@ export default {
             answers: null,
             excutionTime: 0,
             converge: false,
-            message: null
+            message: null,
+            mul: 0
         }
     },
     methods: {
@@ -218,25 +221,31 @@ export default {
                     this.converge = true;
                     break;
                 case 'S':
+                    console.log("precision: " + this.precision)
                     await axios.get("http://localhost:8081/S", {
                         params: {
                             x0: this.initGuess1,
                             x1: this.initGuess2,
                             noIter: this.noItr,
-                            Ea: this.εa
+                            Ea: this.εa,
+                            significantFigures: this.precision
                         }
                     }).then(r => {
                         console.log("solved secant successfully")
-                        this.answers = r.data;
-                        // this.answers = this.answers.replaceAll(',', '\n');
+                        this.answers = r.data[0];
+                        this.testConvergence(r.data[1]);
                         this.$emit('answers', this.answers);
-                        console.log(this.answers);
+                        console.log(r.data[1]);
                     });
-                    await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
-                    this.reportCovergence();
-                    this.converge = true;
-                    break;
+                    
                 default: break;
+            }
+        },
+        testConvergence(reachedIterations){
+            if (reachedIterations < this.noItr){
+                this.message = `Converged after ${reachedIterations} iterations`
+            }else {
+                this.message = `Failed to converge in the given iterations`
             }
         },
         async equations() {

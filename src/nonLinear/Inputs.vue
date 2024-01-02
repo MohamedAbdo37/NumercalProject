@@ -7,7 +7,7 @@
     <br>
     <input type="button" @click="graph" class="graphBtn" id="graphBtn" value="Graph">
     <h3>Enter the Precision (number of significant figures)</h3>
-    <input id="prec" v-model="precision"  type="number" placeholder="Enter precision" required/>
+    <input id="prec" v-model="precision"  type="number" placeholder="Enter precision" @input="sendInput" required/>
     </template>
     
     <script>
@@ -16,7 +16,7 @@
       name: 'Inputs',
       data(){
         return{
-            precision: null,
+            precision: 0,
             equations: null,
             graphShow: false,
             graphStatus: "Graph"
@@ -51,6 +51,7 @@
           if(ex[0] == '') ex.shift()
           console.log(ex)
           this.$emit('equations', ex)
+          this.$emit('precision', this.precision)
         },
         graph(){
             this.graphShow = !this.graphShow;
