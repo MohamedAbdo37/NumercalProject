@@ -72,7 +72,7 @@
         <input type="text" v-model="εa" name="εa" placeholder="Enter εa" required />
     </div>
     
-    <input type="submit" @click="solve" value="Solve" />
+    <input type="button" @click="solve" value="Solve" />
     <h4 v-show="excutionTime != 0"> excution time = {{ excutionTime }} ms</h4>
     <h4 v-if="converge">{{ this.message }}</h4>
 </template>
@@ -117,7 +117,7 @@ export default {
             
             await axios.get("http://localhost:8081/nonLinearEquations", {
                 params: {
-                    equs: this.equations
+                    equs: this.equations.join(",")
 
                 }
             }).then(r =>{
@@ -220,10 +220,10 @@ export default {
                 case 'S':
                     await axios.get("http://localhost:8081/S", {
                         params: {
-                            x0: this.initSGuess1,
-                            x1: this.iniiSGuess2,
+                            x0: this.initGuess1,
+                            x1: this.initGuess2,
                             noIter: this.noItr,
-                            εa: this.εa
+                            Ea: this.εa
                         }
                     }).then(r => {
                         console.log("solved secant successfully")
