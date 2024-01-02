@@ -217,7 +217,8 @@ export default {
                 case 'S':
                     await axios.get("http://localhost:8081/S", {
                         params: {
-                            initGuess: this.initSGuess,
+                            x0: this.initSGuess1,
+                            x1: this.iniiSGuess2,
                             noIter: this.noItr,
                             εa: this.εa
                         }
