@@ -1,4 +1,5 @@
 package com.CSED26.Numercal.Project;
+
 import net.objecthunter.exp4j.Expression;
 import net.objecthunter.exp4j.ExpressionBuilder;
 import java.util.regex.Matcher;
@@ -15,8 +16,9 @@ public class Expressionn {
     public void addTerm(String term) {
         terms.add(term);
     }
-    public void setexpression(ArrayList<String> inputs){
-        for(String input:inputs){
+
+    public void setexpression(ArrayList<String> inputs) {
+        for (String input : inputs) {
             addTerm(input);
         }
     }
@@ -51,10 +53,10 @@ public class Expressionn {
     }
 
     private double evaluateTerm(String term, double val) {
-        if(term.contains("ln")){
+        if (term.contains("ln")) {
             Expressionn exp = new Expressionn();
-            term= exp.convertLnToLog(term);
-              System.out.println(term);
+            term = exp.convertLnToLog(term);
+            System.out.println(term);
         }
         Expression expression = new ExpressionBuilder(term)
                 .variable("x")
@@ -67,7 +69,8 @@ public class Expressionn {
         String convertedTerm = term.replaceAll("ln", "log") + "/log(e)";
         return convertedTerm;
     }
-   public static String extractContentWithinParentheses(String input) {
+
+    public static String extractContentWithinParentheses(String input) {
         Pattern pattern = Pattern.compile("\\(([^\\)]+)\\)");
         Matcher matcher = pattern.matcher(input);
 
@@ -77,15 +80,17 @@ public class Expressionn {
 
         return null;
     }
+
     public static String gettype(String input) {
-        if(input.contains("ln")){
+        if (input.contains("ln")) {
             return "ln";
+        } else if (input.contains("sin") || input.contains("cos") || input.contains("tan")) {
+            return "trig";
+        } else {
+            return "polynomial";
         }
-       else  if(input.contains("sin")||input.contains("cos")||input.contains("tan")){
-            return "ln";
-        }
-        else{return "polynomial";}
     }
+
     public static void main(String[] args) {
         Expressionn expression = new Expressionn();
 
@@ -93,7 +98,7 @@ public class Expressionn {
         expression.addTerm("5x^10");
         expression.addTerm("sin(x)^3");
         expression.addTerm("log(x^2+5)");
-        expression.addTerm("ln(x^2+5)"); 
+        expression.addTerm("ln(x^2+5)");
 
         System.out.println("Number of terms: " + expression.noOfTerms());
 
@@ -109,7 +114,7 @@ public class Expressionn {
 
         expression.deleteTerm("sin(x)^3");
         System.out.println("Number of terms after deletion: " + expression.noOfTerms());
-        
-        System.out.println( expression.extractContentWithinParentheses("ln(x+5xx)"));
+
+        System.out.println(expression.extractContentWithinParentheses("ln(x+5xx)"));
     }
 }

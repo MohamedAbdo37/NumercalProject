@@ -1,24 +1,21 @@
 package com.CSED26.Numercal.Project;
 
 public class Derivative {
-    private Expression expression;
-    private Expression derivative;
+    private Expressionn expressionn;
+    private Expressionn derivative;
 
-    public Expression getExpression() {
-        return expression;
+    public Expressionn getExpressionn() {
+        return expressionn;
     }
-    public Expression getDerivative() {
+    public Expressionn getDerivative() {
         return derivative;
     }
-    public Expression getDrevative(){
-        return null;
-    }
-
     public double differentiation(double point){
         return 0;
     }
 
-    private Expressionn polynomial(Expressionn exp){
+    private Expressionn polynomial(){
+        
         return null;
     }
 
