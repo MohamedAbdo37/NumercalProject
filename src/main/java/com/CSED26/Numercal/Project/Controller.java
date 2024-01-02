@@ -12,6 +12,7 @@ import com.CSED26.Numercal.Project.Factory.Numeric;
 import com.CSED26.Numercal.Project.Factory.Methods.GauseSedil;
 import com.CSED26.Numercal.Project.Factory.Methods.Jacobi;
 import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
+import com.CSED26.Numercal.Project.Factory.Methods.Iterations.Secant;
 
 @RestController
 @CrossOrigin
@@ -34,10 +35,10 @@ public class Controller {
         return GauseSedil.convergedAfter;
     }
 
-    @GetMapping("/equations")
+    @GetMapping("/linearEquations")
     public void equations(@RequestParam String equs) {
         solver = new Solver();
-        this.solver.parseEquation(equs);
+        this.solver.parseLinearEquation(equs);
     }
 
     @GetMapping("/SF")
@@ -143,6 +144,20 @@ public class Controller {
         long end = System.currentTimeMillis();
         this.time = end - begin;
         return solver.getAnswer();
+    }
+
+    @GetMapping("/nonLinearEquations")
+    public void equations(@RequestParam String[] equs) {
+        solver = new Solver();
+        this.solver.parseNonLinearEquation(equs);
+    }
+
+    @GetMapping("/S")
+    public String secantSolver(@RequestParam double x0, @RequestParam double x1, @RequestParam int noIter,
+            @RequestParam double Ea) {
+        System.out.println(x0 + " " + x1);
+
+        return solver.solveBySecant(x0, x1, Ea, noIter);
     }
 
 }

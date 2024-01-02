@@ -9,6 +9,7 @@ import com.CSED26.Numercal.Project.Factory.Methods.GaussElimination;
 import com.CSED26.Numercal.Project.Factory.Methods.GaussJordan;
 import com.CSED26.Numercal.Project.Factory.Methods.Jacobi;
 import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
+import com.CSED26.Numercal.Project.Factory.Methods.Iterations.Secant;
 
 public class Solver {
     private static final String String = null;
@@ -18,6 +19,7 @@ public class Solver {
     private Matrix matrix;
     private int niteration;
     private double tolerance;
+    private Expressionn nonLinearExpression;
 
     public Numeric getMethod(String type) {
         if (type == null) {
@@ -61,14 +63,14 @@ public class Solver {
         for (Double i : this.answers) {
             answer = answer.concat(this.variables.get(0).get(l));
             answer = answer.concat("=");
-            answer = answer.concat(String.valueOf(Matrix.roundToSignificantFigures(i,Matrix.significantFigures)));
+            answer = answer.concat(String.valueOf(Matrix.roundToSignificantFigures(i, Matrix.significantFigures)));
             answer = answer.concat(",");
             l++;
         }
         return answer;
     }
 
-    public Matrix parseEquation(String eq) {
+    public Matrix parseLinearEquation(String eq) {
         List<ArrayList<Double>> coefficients = new ArrayList<>();
         List<Double> constants = new ArrayList<>();
 
@@ -76,10 +78,10 @@ public class Solver {
         for (String equation : equations) {
             String[] terms = equation.split("(?=[-+])");
             ArrayList<Double> equationCoefficients = new ArrayList<>();
-             ArrayList<String> ec = new ArrayList<>();
-         
+            ArrayList<String> ec = new ArrayList<>();
+
             for (int i = 0; i < terms.length; i++) {
-                
+
                 String term = terms[i].trim();
                 if (term.matches(".*[a-z].*")) {
                     String variable;
@@ -94,7 +96,7 @@ public class Solver {
                         coefficientString = parts[0].substring(0, parts[0].trim().length() - 1);
                         // System.out.println(coefficientString);
                     } else {
-                     //   while()
+                        // while()
                         // System.out.println(term.trim().length() - 1);
                         variable = term.substring(term.trim().length() - 1);
                         // System.out.println(variable);
@@ -103,58 +105,55 @@ public class Solver {
 
                         // System.out.println(coefficientString);
                     }
-                    try{
-                   
-                    double coefficient;
-                    if (coefficientString.isEmpty()) {
-                        coefficient = 1.0;
-                    } else if (coefficientString.equalsIgnoreCase("+")) {
-                        coefficient = 1.0;
-                    } else if (coefficientString.equalsIgnoreCase("-")) {
-                        coefficient = -1.0;
-                    } else {
-                        coefficient = Double.parseDouble(coefficientString);
+                    try {
+
+                        double coefficient;
+                        if (coefficientString.isEmpty()) {
+                            coefficient = 1.0;
+                        } else if (coefficientString.equalsIgnoreCase("+")) {
+                            coefficient = 1.0;
+                        } else if (coefficientString.equalsIgnoreCase("-")) {
+                            coefficient = -1.0;
+                        } else {
+                            coefficient = Double.parseDouble(coefficientString);
+                        }
+                        ec.add(variable);
+                        equationCoefficients.add(coefficient);
+                    } catch (NumberFormatException e) {
+                        if (term.contains("=")) {
+                            String[] parts = term.split("=");
+                            // System.out.println(parts[0].trim().length() - 1);
+                            variable = parts[0].substring(parts[0].trim().length() - 2);
+                            // System.out.println(variable);
+
+                            coefficientString = parts[0].substring(0, parts[0].trim().length() - 2);
+                            // System.out.println(coefficientString);
+                        } else {
+                            // while()
+                            // System.out.println(term.trim().length() - 1);
+                            variable = term.substring(term.trim().length() - 2);
+                            // System.out.println(variable);
+
+                            coefficientString = term.substring(0, term.trim().length() - 2);
+
+                            // System.out.println(coefficientString);
+                        }
+                        ec.add(variable);
+                        double coefficient;
+                        if (coefficientString.isEmpty()) {
+                            coefficient = 1.0;
+                        } else if (coefficientString.equalsIgnoreCase("+")) {
+                            coefficient = 1.0;
+                        } else if (coefficientString.equalsIgnoreCase("-")) {
+                            coefficient = -1.0;
+                        } else {
+                            coefficient = Double.parseDouble(coefficientString);
+                        }
+
+                        equationCoefficients.add(coefficient);
                     }
-                     ec.add(variable);
-                    equationCoefficients.add(coefficient);
-                }catch(NumberFormatException e){
-                    if (term.contains("=")) {
-                        String[] parts = term.split("=");
-                        // System.out.println(parts[0].trim().length() - 1);
-                        variable = parts[0].substring(parts[0].trim().length() - 2);
-                        // System.out.println(variable);
-
-                        coefficientString = parts[0].substring(0, parts[0].trim().length() - 2);
-                        // System.out.println(coefficientString);
-                    } else {
-                     //   while()
-                        // System.out.println(term.trim().length() - 1);
-                        variable = term.substring(term.trim().length() - 2);
-                       //  System.out.println(variable);
-
-                        coefficientString = term.substring(0, term.trim().length() - 2);
-
-                        // System.out.println(coefficientString);
-                    } 
-                      ec.add(variable);
-                    double coefficient;
-                    if (coefficientString.isEmpty()) {
-                        coefficient = 1.0;
-                    } else if (coefficientString.equalsIgnoreCase("+")) {
-                        coefficient = 1.0;
-                    } else if (coefficientString.equalsIgnoreCase("-")) {
-                        coefficient = -1.0;
-                    } else {
-                        coefficient = Double.parseDouble(coefficientString);
-                    }
-
-                    equationCoefficients.add(coefficient); 
                 }
             }
-            }
-        
-
-
 
             variables.add(ec);
             coefficients.add(equationCoefficients);
@@ -162,35 +161,35 @@ public class Solver {
             double constant = Double.parseDouble(constantString);
             constants.add(constant);
         }
-    int b=0;
-    int l=0 ;
-    int i=0;
-    int v=0;
-   int  maxlen=0;
-   for(int e =0 ;e<variables.size();e++){
-    if(variables.get(e).size()>maxlen){
-        maxlen=variables.get(e).size();
-    }
-   }
-   while (v==0) {
-        try {
-            for( l =0 ; l<variables.size();l++){
-        if(variables.get(l).size()==maxlen){
-            for( i =0 ;i<maxlen;i++){
-                for( b =0 ;b<variables.size();b++){
-            if(!variables.get(l).get(i).equalsIgnoreCase(variables.get(b).get(i))){
-            variables.get(b).add(i,variables.get(l).get(i));
-            coefficients.get((b)).add(i, 0.0);
-                    }
-                                                }
+        int b = 0;
+        int l = 0;
+        int i = 0;
+        int v = 0;
+        int maxlen = 0;
+        for (int e = 0; e < variables.size(); e++) {
+            if (variables.get(e).size() > maxlen) {
+                maxlen = variables.get(e).size();
+            }
+        }
+        while (v == 0) {
+            try {
+                for (l = 0; l < variables.size(); l++) {
+                    if (variables.get(l).size() == maxlen) {
+                        for (i = 0; i < maxlen; i++) {
+                            for (b = 0; b < variables.size(); b++) {
+                                if (!variables.get(l).get(i).equalsIgnoreCase(variables.get(b).get(i))) {
+                                    variables.get(b).add(i, variables.get(l).get(i));
+                                    coefficients.get((b)).add(i, 0.0);
+                                }
                             }
+                        }
                     }
-            v=1;
-        } 
-        } catch (IndexOutOfBoundsException e) {
-            variables.get(b).add(variables.get(l).get(i));
-            coefficients.get((b)).add(0.0);
-            v=0;
+                    v = 1;
+                }
+            } catch (IndexOutOfBoundsException e) {
+                variables.get(b).add(variables.get(l).get(i));
+                coefficients.get((b)).add(0.0);
+                v = 0;
             }
         }
 
@@ -205,10 +204,10 @@ public class Solver {
         cof.addColumn(constants);
         this.matrix = cof;
         b = 0;
-        l=0;
-        i=0;
-        v=0;
-        maxlen= 0;
+        l = 0;
+        i = 0;
+        v = 0;
+        maxlen = 0;
         return cof;
     }
 
@@ -231,24 +230,35 @@ public class Solver {
 
         }
     }
-/* 
-     public class Main {
-     public static void main(String[] args) {
-     Solver solver = new Solver();
 
-            // Example equation string
-            String equationString = "2x1+3x2-x3=5&3x2-x3=5&x1+3x2-x3=5";
-            // Parse the equation string and get the matrix
-            Matrix matri = solver.parseEquation(equationString);
+    public void parseNonLinearEquation(String[] equations) {
+        this.nonLinearExpression = new Expressionn();
+        this.nonLinearExpression.setexpression(equations);
+    }
 
-      
-     for (int i = 0; i < matri.getNumRows(); i++) {
-     for (int j = 0; j < matri.getNumCols(); j++) {
-     System.out.print(matri.getElement(i, j) + " ");
-     }
-     System.out.println();
-     }
-     }
-     }
+    public String solveBySecant(double x0, double x1, double εa, int noIter) {
+        Secant secant = new Secant(x0, x1, εa, noIter, this.nonLinearExpression);
+        secant.evaluate();
+        return Double.toString(secant.getAnswers());
+    }
+    /*
+     * public class Main {
+     * public static void main(String[] args) {
+     * Solver solver = new Solver();
+     * 
+     * // Example equation string
+     * String equationString = "2x1+3x2-x3=5&3x2-x3=5&x1+3x2-x3=5";
+     * // Parse the equation string and get the matrix
+     * Matrix matri = solver.parseEquation(equationString);
+     * 
+     * 
+     * for (int i = 0; i < matri.getNumRows(); i++) {
+     * for (int j = 0; j < matri.getNumCols(); j++) {
+     * System.out.print(matri.getElement(i, j) + " ");
+     * }
+     * System.out.println();
+     * }
+     * }
+     * }
      */
 }
