@@ -1,9 +1,15 @@
 package com.CSED26.Numercal.Project;
 
 public class Derivative {
-    private Expression exp;
+    private Expression expression;
     private Expression derivative;
 
+    public Expression getExpression() {
+        return expression;
+    }
+    public Expression getDerivative() {
+        return derivative;
+    }
     public Expression getDrevative(){
         return null;
     }
