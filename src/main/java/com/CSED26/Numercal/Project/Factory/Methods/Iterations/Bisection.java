@@ -3,6 +3,8 @@ package com.CSED26.Numercal.Project.Factory.Methods.Iterations;
 import com.CSED26.Numercal.Project.Expressionn;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Bisection extends Iterations {
     private String function;
@@ -10,9 +12,41 @@ public class Bisection extends Iterations {
     private double xu;
     private double Ea;
     private double releror;
+    public static long timer;
     public static int iterations;
     public static boolean converge;
     Expressionn exp;
+    private Queue<Double> qxr;
+    private Queue<Double> qxl;
+    private Queue<Double> qxu;
+    private Queue<Double> qfxr;
+    private Queue<Double> qfxl;
+    private  Queue<Double> qfxu;
+    public Queue<Double> getQxr() {
+        return qxr;
+    }
+
+    public Queue<Double> getQxl() {
+        return qxl;
+    }
+
+    public Queue<Double> getQxu() {
+        return qxu;
+    }
+
+    public Queue<Double> getQfxr() {
+        return qfxr;
+    }
+
+    public Queue<Double> getQfxl() {
+        return qfxl;
+    }
+
+    public Queue<Double> getQfxu() {
+        return qfxu;
+    }
+
+
 
     public Bisection(String function, double xl, double xu, double ea, double releror) {
         this.function = function;
@@ -23,6 +57,13 @@ public class Bisection extends Iterations {
         converge = true;
         iterations = 0;
         Expressionn exp=new Expressionn();
+        qxr= new LinkedList<>();
+        qxl= new LinkedList<>();
+        qxu= new LinkedList<>();
+        qfxr= new LinkedList<>();
+        qfxl= new LinkedList<>();
+        qfxu= new LinkedList<>();
+
     }
     @Override
     protected double iteration(double point, Expressionn exp) {
@@ -31,6 +72,8 @@ public class Bisection extends Iterations {
 
     @Override
     public double getAnswers() {
+        long begin = System.currentTimeMillis();
+        long end = 0;
         double xr = 0.0;
         ArrayList<Double> arr = new ArrayList<>();
         for (int i = 0; true; i++) {
@@ -39,6 +82,12 @@ public class Bisection extends Iterations {
             double fu = exp.substitute(xu);
             double fxr = exp.substitute(xr);
             arr.add(xr);
+            qfxr.add(fxr);
+            qfxu.add(fu);
+            qfxl.add(fl);
+            qxu.add(xu);
+            qxl.add(xl);
+            qxr.add(xr);
             double error = 0;
             if (i > 0) {
                 error = Math.abs((arr.get(i) - arr.get(i - 1)) / arr.get(i)) * 100.0;
@@ -49,19 +98,21 @@ public class Bisection extends Iterations {
                 xl = xr;
             } else {
                 iterations = i + 1;
+                end = System.currentTimeMillis();
                 break;
             }
-
             if (error < releror && i > 0) {
                 iterations = i + 1;
+                end = System.currentTimeMillis();
                 break;
             }
             if (fl * fxr > 0 && fu * fxr > 0) {
                 converge = false;
+                end = System.currentTimeMillis();
                 break;
             }
         }
-
+       Bisection.timer=begin-end;
         return xr;
     }
     @Override
