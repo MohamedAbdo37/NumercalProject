@@ -119,7 +119,7 @@ public class Expressionn {
         expression.deleteTerm("sin(x)^3");
         System.out.println("Number of terms after deletion: " + expression.noOfTerms());
 
-        // System.out.println(expression.extractContentWithinParentheses("ln(x+5xx)"));
+        System.out.println(expression.extractContentWithinParentheses("ln(x+5xx)"));
     }
 
     public String getExpression() {
