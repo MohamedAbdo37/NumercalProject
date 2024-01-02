@@ -17,7 +17,7 @@ public class Expressionn {
         terms.add(term);
     }
 
-    public void setexpression(ArrayList<String> inputs) {
+    public void setexpression(String[] inputs) {
         for (String input : inputs) {
             addTerm(input);
         }

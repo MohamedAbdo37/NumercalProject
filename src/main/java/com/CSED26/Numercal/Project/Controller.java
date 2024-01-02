@@ -35,10 +35,10 @@ public class Controller {
         return GauseSedil.convergedAfter;
     }
 
-    @GetMapping("/equations")
+    @GetMapping("/linearEquations")
     public void equations(@RequestParam String equs) {
         solver = new Solver();
-        this.solver.parseEquation(equs);
+        this.solver.parseLinearEquation(equs);
     }
 
     @GetMapping("/SF")
@@ -146,15 +146,16 @@ public class Controller {
         return solver.getAnswer();
     }
 
-    @GetMapping("/S")
-    public String JElSolver(@RequestParam double x0, @RequestParam double x1, @RequestParam int noIter,
-            @RequestParam double εa) {
-        // solving equations?????????????????????????????????????????????
-        Expressionn expressionn = new Expressionn();
+    @GetMapping("/nonLinearEquations")
+    public void equations(@RequestParam String[] equs) {
+        solver = new Solver();
+        this.solver.parseNonLinearEquation(equs);
+    }
 
-        Secant secant = new Secant(x0, x1, εa, noIter, expressionn);
-        secant.evaluate();
-        return Double.toString(secant.getAnswers());
+    @GetMapping("/S")
+    public String secantSolver(@RequestParam double x0, @RequestParam double x1, @RequestParam int noIter,
+            @RequestParam double εa) {
+        return solver.solveBySecant(x0, x1, εa, noIter);
     }
 
 }
