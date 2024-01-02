@@ -154,8 +154,8 @@ public class Controller {
 
     @GetMapping("/S")
     public String secantSolver(@RequestParam double x0, @RequestParam double x1, @RequestParam int noIter,
-            @RequestParam double εa) {
-        return solver.solveBySecant(x0, x1, εa, noIter);
+            @RequestParam double Ea) {
+        return solver.solveBySecant(x0, x1, Ea, noIter);
     }
 
 }
