@@ -236,10 +236,11 @@ public class Solver {
         this.nonLinearExpression.setexpression(equations);
     }
 
-    public String solveBySecant(double x0, double x1, double εa, int noIter) {
-        Secant secant = new Secant(x0, x1, εa, noIter, this.nonLinearExpression);
+    public double[] solveBySecant(double x0, double x1, double εa, int noIter, int significantFigures) {
+        Secant secant = new Secant(x0, x1, εa, noIter, this.nonLinearExpression, significantFigures);
         secant.evaluate();
-        return Double.toString(secant.getAnswers());
+        double[] answer = { secant.getAnswers(), secant.getNumOfIterations() };
+        return answer;
     }
     /*
      * public class Main {

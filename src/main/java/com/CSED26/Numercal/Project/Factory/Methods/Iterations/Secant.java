@@ -1,5 +1,8 @@
 package com.CSED26.Numercal.Project.Factory.Methods.Iterations;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
+
 import com.CSED26.Numercal.Project.Expressionn;
 
 public class Secant extends Iterations {
@@ -13,14 +16,16 @@ public class Secant extends Iterations {
     private int numOfIterations;
     private double answer;
     private Expressionn expressionn;
+    private int significantFigures;
 
-    public Secant(double xl, double xu, double Ea, int maxIterations, Expressionn ex) {
+    public Secant(double xl, double xu, double Ea, int maxIterations, Expressionn ex, int significantFigures) {
         this.Xl = xl;
         this.Xu = xu;
         this.maxError = Ea;
         this.maxIterations = maxIterations;
         this.numOfIterations = 1;
         this.expressionn = ex;
+        this.significantFigures = significantFigures;
     }
 
     private double errorCalc(double xr1, double xr2) {
@@ -43,7 +48,6 @@ public class Secant extends Iterations {
 
     @Override
     public boolean evaluate() {
-        System.out.println("ldskjflksjdfljsldkjflskjdflkjsldkfjlskdjflksjdflkjsdlkfjlsdkjf");
         this.Fl = iteration(this.Xl, this.expressionn);
         this.Fu = iteration(this.Xu, this.expressionn);
         this.Xr = ((this.Fu * this.Xl) - (this.Fl * this.Xu)) / (this.Fu - this.Fl);
@@ -52,8 +56,6 @@ public class Secant extends Iterations {
 
         for (this.numOfIterations = 1; this.numOfIterations <= this.maxIterations
                 && error > this.maxError; this.numOfIterations++) {
-            System.out.println(this.Xu);
-            System.out.println("------------------------------------------------------------------------");
             this.Xl = this.Xu;
             this.Xu = this.Xr;
             this.Fl = iteration(this.Xl, this.expressionn);
@@ -61,8 +63,11 @@ public class Secant extends Iterations {
             this.Xr = ((this.Fu * this.Xl) - (this.Fl * this.Xu)) / (this.Fu - this.Fl);
             error = errorCalc(this.Xr, this.Xu);
         }
-
-        this.answer = this.Xr;
+        double d = this.Xr;
+        BigDecimal bd = new BigDecimal(d);
+        bd = bd.round(new MathContext(this.significantFigures));
+        double rounded = bd.doubleValue();
+        this.answer = rounded;
         return false;
     }
 }

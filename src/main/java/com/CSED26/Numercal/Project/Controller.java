@@ -2,6 +2,7 @@ package com.CSED26.Numercal.Project;
 
 import java.util.ArrayList;
 
+import org.apache.commons.math3.stat.descriptive.summary.SumOfSquares;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -153,11 +154,9 @@ public class Controller {
     }
 
     @GetMapping("/S")
-    public String secantSolver(@RequestParam double x0, @RequestParam double x1, @RequestParam int noIter,
-            @RequestParam double Ea) {
-        System.out.println(x0 + " " + x1);
-
-        return solver.solveBySecant(x0, x1, Ea, noIter);
+    public double[] secantSolver(@RequestParam double x0, @RequestParam double x1, @RequestParam int noIter,
+            @RequestParam double Ea, @RequestParam int significantFigures) {
+        return solver.solveBySecant(x0, x1, Ea, noIter, significantFigures);
     }
 
 }
