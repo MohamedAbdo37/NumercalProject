@@ -2,19 +2,26 @@ package com.CSED26.Numercal.Project.Factory.Methods.Iterations;
 
 import com.CSED26.Numercal.Project.Expressionn;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Newton extends Iterations {
-   int MAX_ITERATIONS=50;
-    double ea=0.001;
-    double initialguess;
-    int ConvergedAfter=-1;
-    Expressionn fx;
-    Expressionn fxdx;
-    Expressionn fxdx2;
-    Queue <Double> xi;
+    private int Selector;  // 0-->original , 1--> modified1 2-->modefied2
+   private int MAX_ITERATIONS=50;
+    private double ea=0.00001;
+    private double initialguess;
+    private int ConvergedAfter=-1;
+    private Expressionn fx;
+    private Expressionn fxdx;
+    private Expressionn fxdx2;
+    private Queue<Double> xi;
 
-    Queue <Double> ers;
+    private Queue <Double> ers;
 
-    int Significantfigures;
+    private int Significantfigures;
+    private int multiplicity;
 
     public int getConvergedAfter() {
         return ConvergedAfter;
@@ -29,7 +36,9 @@ public class Newton extends Iterations {
         return ers;
     }
 
-    public Newton(double initialguess, Expressionn fx, Expressionn fxdx, Expressionn fxdx2, int significantfigures) {
+    public Newton(int Selector,int multiplicity,double initialguess, Expressionn fx, Expressionn fxdx, Expressionn fxdx2, int significantfigures) {
+        this.Selector=Selector;
+        this.multiplicity=multiplicity;
         this.initialguess = initialguess;
         this.fx = fx;
         this.fxdx = fxdx;
@@ -37,7 +46,9 @@ public class Newton extends Iterations {
         Significantfigures = significantfigures;
     }
 
-    public Newton(int MAX_ITERATIONS, double ea, double initialguess, Expressionn fx, Expressionn fxdx, Expressionn fxdx2, int significantfigures) {
+    public Newton(int Selector,int multiplicity,int MAX_ITERATIONS, double ea, double initialguess, Expressionn fx, Expressionn fxdx, Expressionn fxdx2, int significantfigures) {
+        this.Selector=Selector;
+        this.multiplicity=multiplicity;
         this.MAX_ITERATIONS = MAX_ITERATIONS;
         this.ea = ea;
         this.initialguess = initialguess;
@@ -47,7 +58,7 @@ public class Newton extends Iterations {
         Significantfigures = significantfigures;
     }
 
-    private void original(int m)
+    private double original(int m)
     {
         ers=new LinkedList<>();
         xi=new LinkedList<>();
@@ -68,9 +79,10 @@ public class Newton extends Iterations {
                   break;
               }
           }
+          return x0;
     }
 
-    private void modified2(){
+    private double modified2(){
         ers=new LinkedList<>();
         xi=new LinkedList<>();
         double x0=initialguess;
@@ -90,18 +102,19 @@ public class Newton extends Iterations {
                 break;
             }
         }
+        return x0;
     }
-    public void solve_original()
+    public double solve_original()
     {
-        original(1);
+        return original(1);
     }
-    public void solve_modified1(int m)
+    public double solve_modified1(int m)
     {
-        original(m);
+        return original(m);
     }
-    public void solve_modified2()
+    public double solve_modified2()
     {
-        modified2();
+        return modified2();
     }
 
     private Double chop_number(double value) {
@@ -130,7 +143,20 @@ public class Newton extends Iterations {
 
     @Override
     public double getAnswers() {
-        return 0;
+        if(Selector==0)
+        {
+            return solve_original();
+        }
+        else if(Selector==1)
+        {
+             return solve_modified1(multiplicity);
+        } else if (Selector==2) {
+            return solve_modified2();
+        }else
+        {
+            throw new RuntimeException("Selector take values from 1 to 3");
+        }
+
     }
 
     @Override
