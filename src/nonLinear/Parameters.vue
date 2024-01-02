@@ -114,11 +114,14 @@ export default {
                 this.message =  `the system failed to converge in the spicified iterations`;
         },
         async solve() {
-            await axios.get("http://localhost:8081/equations", {
+            
+            await axios.get("http://localhost:8081/nonLinearEquations", {
                 params: {
-                    equs: this.equations.replaceAll('\n', '&').replaceAll(" ",'').replaceAll("−","-")
+                    equs: this.equations
 
                 }
+            }).then(r =>{
+                console.log("equations transfered successfully")
             });
 
             switch (this.methodChosen) {
@@ -223,9 +226,9 @@ export default {
                             εa: this.εa
                         }
                     }).then(r => {
-
+                        console.log("solved secant successfully")
                         this.answers = r.data;
-                        this.answers = this.answers.replaceAll(',', '\n');
+                        // this.answers = this.answers.replaceAll(',', '\n');
                         this.$emit('answers', this.answers);
                         console.log(this.answers);
                     });

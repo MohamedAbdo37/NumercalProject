@@ -70,7 +70,7 @@ export default {
                 this.message =  `the system failed to converge in the spicified iterations`;
         },
         async solve() {
-            await axios.get("http://localhost:8081/equations", {
+            await axios.get("http://localhost:8081/linearEquations", {
                 params: {
                     equs: this.equations.replaceAll('\n', '&').replaceAll(" ",'').replaceAll("−","-")
 

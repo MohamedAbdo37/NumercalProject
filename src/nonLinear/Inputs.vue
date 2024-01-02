@@ -47,10 +47,10 @@
         sendInput(){
           this.putPlusesToEqu()
           console.log(this.equations)
-          this.equations = this.equations.split("+")
-          if(this.equations[0] == '') this.equations.shift()
-          // console.log(this.equations)
-          this.$emit('equations', this.equations)
+          let ex = this.equations.split("+")
+          if(ex[0] == '') ex.shift()
+          console.log(ex)
+          this.$emit('equations', ex)
         },
         graph(){
             this.graphShow = !this.graphShow;
