@@ -7,7 +7,11 @@ import java.util.regex.Pattern;
 import java.util.ArrayList;
 
 public class Expressionn {
-    public ArrayList<String> terms;
+    private ArrayList<String> terms;
+
+    public ArrayList<String> getTerms() {
+        return terms;
+    }
 
     public Expressionn() {
         terms = new ArrayList<>();
@@ -116,5 +120,9 @@ public class Expressionn {
         System.out.println("Number of terms after deletion: " + expression.noOfTerms());
 
         System.out.println(expression.extractContentWithinParentheses("ln(x+5xx)"));
+    }
+
+    public String getExpression() {
+        return null;
     }
 }
