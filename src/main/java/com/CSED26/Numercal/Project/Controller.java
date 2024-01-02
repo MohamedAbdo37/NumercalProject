@@ -12,6 +12,7 @@ import com.CSED26.Numercal.Project.Factory.Numeric;
 import com.CSED26.Numercal.Project.Factory.Methods.GauseSedil;
 import com.CSED26.Numercal.Project.Factory.Methods.Jacobi;
 import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
+import com.CSED26.Numercal.Project.Factory.Methods.Iterations.Secant;
 
 @RestController
 @CrossOrigin
@@ -143,6 +144,17 @@ public class Controller {
         long end = System.currentTimeMillis();
         this.time = end - begin;
         return solver.getAnswer();
+    }
+
+    @GetMapping("/S")
+    public String JElSolver(@RequestParam double x0, @RequestParam double x1, @RequestParam int noIter,
+            @RequestParam double εa) {
+        // solving equations?????????????????????????????????????????????
+        Expressionn expressionn = new Expressionn();
+
+        Secant secant = new Secant(x0, x1, εa, noIter, expressionn);
+        secant.evaluate();
+        return Double.toString(secant.getAnswers());
     }
 
 }
