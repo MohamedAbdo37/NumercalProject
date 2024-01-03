@@ -116,11 +116,15 @@ export default {
             else
                 this.message =  `the system failed to converge in the spicified iterations`;
         },
+        checkInputs(){
+            if (this.initGuess1 == this.initGuess2)
+                return false
+        },
         async solve() {
-            
+            // if (!this.checkInputs) return;
             await axios.get("http://localhost:8081/nonLinearEquations", {
                 params: {
-                    equs: this.equations.join(",")
+                    equs: this.equations
 
                 }
             }).then(r =>{
@@ -233,7 +237,8 @@ export default {
                     }).then(r => {
                         console.log("solved secant successfully")
                         this.answers = r.data[0];
-                        this.testConvergence(r.data[1]);
+                        this.excutionTime = r.data[1];
+                        this.testConvergence(r.data[2], r.data[3]);
                         this.$emit('answers', this.answers);
                         console.log(r.data[1]);
                     });
@@ -241,11 +246,12 @@ export default {
                 default: break;
             }
         },
-        testConvergence(reachedIterations){
-            if (reachedIterations < this.noItr){
-                this.message = `Converged after ${reachedIterations} iterations`
+        testConvergence(reachedIterations, convTime){
+            if (reachedIterations != 0){
+                this.message = `Converged after ${reachedIterations} iterations (${convTime} ms)`
             }else {
-                this.message = `Failed to converge in the given iterations`
+                this.message = `Failed to converge`
+                this.answers = null
             }
         },
         async equations() {
