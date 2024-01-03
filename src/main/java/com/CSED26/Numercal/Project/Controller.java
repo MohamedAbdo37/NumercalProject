@@ -169,7 +169,7 @@ public class Controller {
         return solver.solveByFixedPoint(point, exp, maxIterations, significantFigures, tol);
     }
 
-    @GetMapping("/N1")
+    @GetMapping("/MN1")
     public double[] originalNewtonSolver(@RequestParam int MAX_ITERATIONS, @RequestParam double ea,
             @RequestParam double initialguess, @RequestParam int significantfigures, @RequestParam int m) {
         double[] answer = { solver.solveByONewton(1, m, MAX_ITERATIONS, ea, initialguess, significantfigures),
