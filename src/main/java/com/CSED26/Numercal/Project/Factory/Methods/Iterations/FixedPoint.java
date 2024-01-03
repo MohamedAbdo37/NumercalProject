@@ -20,12 +20,12 @@ public class FixedPoint extends Iterations {
 
     private Queue<Double> queue = new LinkedList<>();
 
-    public static int convergedAfter = 0;
+    public int convergedAfter = 0;
 
     public FixedPoint(double point, Expressionn exp, int maxIterations, int significantFigures, double tol) {
         this.initialGuess = point;
         this.exp = exp;
-        convergedAfter = 0;
+        this.convergedAfter = 0;
         if(maxIterations != 0)
             this.maxIterations = maxIterations;
         if(tol != 0)
@@ -47,7 +47,7 @@ public class FixedPoint extends Iterations {
         for (int i = 0; i < maxIterations; i++) {
             solution = Matrix.roundToSignificantFigures(exp.substitute(prev), this.significantFigures);
             this.queue.add(solution);
-            if(((Math.abs(solution - prev) / solution) * 100) <= tol) {
+            if(Math.abs(solution - prev) <= tol) {
                 convergedAfter = i;
                 return solution;
             }
@@ -81,9 +81,10 @@ public class FixedPoint extends Iterations {
 
     public static void main(String[] args) {
         Expressionn exp = new Expressionn();
-        exp.addTerm("1+1/x");
-        FixedPoint fp = new FixedPoint(2, exp, 100, 10, 0);
+        exp.addTerm("(x^(2)-3)/2");
+        FixedPoint fp = new FixedPoint(-2, exp, 100, 10, 0.00001);
         System.out.println(fp.getAnswers());
-        System.out.println(fp.getExcutiontime());
+        //System.out.println(fp.getExcutiontime());
+        System.out.println(fp.convergedAfter);
     }
 }
