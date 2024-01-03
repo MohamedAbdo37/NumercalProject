@@ -45,10 +45,13 @@
             }
         },
         sendInput(){
-          this.putPlusesToEqu()
-          console.log(this.equations)
-          let ex = this.equations.split("+")
-          if(ex[0] == '') ex.shift()
+          // this.putPlusesToEqu()
+          // console.log(this.equations)
+          // let ex = this.equations.split("+")
+          // if(ex[0] == '') ex.shift()
+          // console.log(ex)
+          let ex = []
+          ex.push(this.equations)
           console.log(ex)
           this.$emit('equations', ex)
           this.$emit('precision', this.precision)
