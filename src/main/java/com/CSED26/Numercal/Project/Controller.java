@@ -172,9 +172,23 @@ public class Controller {
     @GetMapping("/MN1")
     public double[] originalNewtonSolver(@RequestParam int MAX_ITERATIONS, @RequestParam double ea,
             @RequestParam double initialguess, @RequestParam int significantfigures, @RequestParam int m) {
-        double[] answer = { solver.solveByONewton(1, m, MAX_ITERATIONS, ea, initialguess, significantfigures),
-                solver.getONewtonTimeOfExecution(), solver.getONewtonNoOfIterations() };
+        double[] answer = solver.solveByONewton(1, m, MAX_ITERATIONS, ea, initialguess, significantfigures);
         return answer;
     }
 
+    @GetMapping("/N2")
+    public double[] modifiedNewtonSolver(@RequestParam int MAX_ITERATIONS, @RequestParam double ea,
+            @RequestParam double initialguess, @RequestParam int significantfigures) {
+        double[] answer =solver.solveByONewton(2, 0, MAX_ITERATIONS, ea, initialguess, significantfigures);
+        return answer;
+    }
+
+    @GetMapping("/Bi")
+    public double[] BiSolver(@RequestParam double xl, @RequestParam double ea,
+            @RequestParam double xu, @RequestParam int significantfigures) {
+        double[] answer = solver.BiSolver(xl,xu,ea,ea);
+        return answer;
+    }
+
+    
 }
