@@ -8,7 +8,7 @@
         <option value="B" >Bisection</option>
         <option value="FL" >False-Position</option>
         <option value="FX" >Fixed point</option>
-        <option value="ON" >Original Newton-Raphson</option>
+        <!-- <option value="ON" >Original Newton-Raphson</option> -->
         <option value="MN1" >First Modified Newton-Raphson</option>
         <option value="MN2" >Second Modified Newton-Raphson</option>
         <option value="S" >Secant Method</option>

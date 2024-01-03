@@ -34,14 +34,14 @@
         <input type="text" v-model="εa" name="εa" placeholder="Enter εa" required />
     </div>
 
-    <div class="ON" v-if="this.methodChosen == 'ON'">
+    <!-- <div class="ON" v-if="this.methodChosen == 'ON'">
         <h3>Enter initial guess</h3>
         <input type="text" v-model="initSGuess" name="initialGuess" placeholder="Enter initial guess" required />
         <h3>Enter number of iterations</h3>
         <input type="text" v-model="noItr" name="noIterations" placeholder="Enter # of iter." required />
         <h3>Enter absolute relative error</h3>
         <input type="text" v-model="εa" name="εa" placeholder="Enter εa" required />
-    </div>
+    </div> -->
 
     <div class="MN" v-if="this.methodChosen == 'MN1'">
         <h3>Enter initial guess</h3>
@@ -191,20 +191,21 @@ export default {
                 case 'MN1':
                     await axios.get("http://localhost:8081/MN1", {
                         params: {
-                            initGuess: this.initSGuess,
-                            noIter: this.noItr,
-                            εa: this.εa
+                            MAX_ITERATIONS: this.noItr,
+                            ea: this.εa,
+                            initialguess: this.initSGuess,
+                            significantfigures: this.precision,
+                            m: this.mul
                         }
                     }).then(r => {
-
-                        this.answers = r.data;
-                        this.answers = this.answers.replaceAll(',', '\n');
+                        console.log("solved secant successfully")
+                        this.answers = r.data[0];
+                        this.excutionTime = r.data[1];
+                        this.testConvergence(r.data[2], 0);
                         this.$emit('answers', this.answers);
-                        console.log(this.answers);
+                        console.log(r.data[1]);
                     });
-                    await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
-                    this.reportCovergence();
-                    this.converge = true;
+                    
                     break;
                 case 'MN2':
                     await axios.get("http://localhost:8081/MN2", {
