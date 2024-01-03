@@ -49,7 +49,7 @@ public class FalsePosition extends Iterations{
 
 
 
-    public FalsePosition(String function, double xl, double xu, double ea, double releror) {
+    public FalsePosition(Expressionn exp, double xl, double xu, double ea, double releror) {
         this.function = function;
         this.xl = xl;
         this.xu = xu;
@@ -57,7 +57,7 @@ public class FalsePosition extends Iterations{
         this.releror = releror;
         converge = true;
         iterations = 0;
-        Expressionn exp=new Expressionn();
+        this.exp = exp;
         qxr= new LinkedList<>();
         qxl= new LinkedList<>();
         qxu= new LinkedList<>();

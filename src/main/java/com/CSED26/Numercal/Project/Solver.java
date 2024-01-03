@@ -12,6 +12,7 @@ import com.CSED26.Numercal.Project.Factory.Methods.GaussJordan;
 import com.CSED26.Numercal.Project.Factory.Methods.Jacobi;
 import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
 import com.CSED26.Numercal.Project.Factory.Methods.Iterations.Bisection;
+import com.CSED26.Numercal.Project.Factory.Methods.Iterations.FalsePosition;
 import com.CSED26.Numercal.Project.Factory.Methods.Iterations.FixedPoint;
 import com.CSED26.Numercal.Project.Factory.Methods.Iterations.Newton;
 import com.CSED26.Numercal.Project.Factory.Methods.Iterations.Secant;
@@ -295,5 +296,9 @@ public class Solver {
         return r;
     }
 
-    
+    public double[] falseSolver(double xl, double xu, double releror, double ea){
+        FalsePosition fp = new FalsePosition(this.nonLinearExpression, xl, xu, releror, releror);
+        double[] r = {fp.getAnswers(), fp.timer, fp.iterations};
+        return r;
+    }
 }
