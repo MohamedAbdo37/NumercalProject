@@ -1,5 +1,6 @@
 package com.CSED26.Numercal.Project.Factory.Methods.Iterations;
 
+import com.CSED26.Numercal.Project.Derivative;
 import com.CSED26.Numercal.Project.Expressionn;
 
 import java.math.BigDecimal;
@@ -14,14 +15,13 @@ public class Newton extends Iterations {
     private double initialguess;
     private int ConvergedAfter = -1;
     private Expressionn fx;
-    private Expressionn fxdx;
-    private Expressionn fxdx2;
     private Queue<Double> xi;
-
-    private Queue<Double> ers;
+    private Derivative derivative;
+    private Queue <Double> ers;
 
     private int Significantfigures;
     private int multiplicity;
+    private boolean diverged=false;
 
     public int getConvergedAfter() {
         return ConvergedAfter;
@@ -35,82 +35,152 @@ public class Newton extends Iterations {
         return ers;
     }
 
-    public Newton(int Selector, int multiplicity, double initialguess, Expressionn fx, Expressionn fxdx,
-            Expressionn fxdx2, int significantfigures) {
-        this.Selector = Selector;
-        this.multiplicity = multiplicity;
+    public boolean isDiverged() {
+        return diverged;
+    }
+
+    public Newton(int Selector, int multiplicity, double initialguess, Expressionn fx, int significantfigures) {
+        this.Selector=Selector;
+        this.multiplicity=multiplicity;
         this.initialguess = initialguess;
         this.fx = fx;
-        this.fxdx = fxdx;
-        this.fxdx2 = fxdx2;
+        this.derivative=new Derivative(fx);
         Significantfigures = significantfigures;
     }
 
-    public Newton(int Selector, int multiplicity, int MAX_ITERATIONS, double ea, double initialguess, Expressionn fx,
-            Expressionn fxdx, Expressionn fxdx2, int significantfigures) {
-        this.Selector = Selector;
-        this.multiplicity = multiplicity;
+    public Newton(int Selector,int multiplicity,int MAX_ITERATIONS, double ea, double initialguess, Expressionn fx,int significantfigures) {
+        this.Selector=Selector;
+        this.multiplicity=multiplicity;
         this.MAX_ITERATIONS = MAX_ITERATIONS;
         this.ea = ea;
         this.initialguess = initialguess;
         this.fx = fx;
-        this.fxdx = fxdx;
-        this.fxdx2 = fxdx2;
+        this.derivative=new Derivative(fx);
         Significantfigures = significantfigures;
     }
 
-    private double original(int m) {
-        ers = new LinkedList<>();
-        xi = new LinkedList<>();
-        double x0 = initialguess;
+    private double original(int m)
+    {
+        ers=new LinkedList<>();
+        xi=new LinkedList<>();
+        double x0=initialguess;
         xi.add(chop_number(x0));
         double x1;
-        double er;
-        for (int i = 1; i < MAX_ITERATIONS; i++) {
-            x1 = x0 - m * (fx.substitute(x0) / fxdx.substitute(x0));
-            er = Math.abs(((x1 - x0) / x0) * 100);
-            x0 = x1;
+        double er=Double.MAX_VALUE;
+        double erprev;
+        if(MAX_ITERATIONS!=0)
+        {   for(int i=1;i<MAX_ITERATIONS;i++)
+          {
+              diverged=true;
+              x1=x0-m*(fx.substitute(x0)/derivative.first(x0));
+              er=Math.abs(((x1-x0)/x0)*100);
+              x0=x1;
+              xi.add(chop_number(x0));
+              ers.add(er);
+              if(er<ea)
+              {
+                  diverged=false;
+                 ConvergedAfter=i;
+                  break;
+              }
+
+          }
+        }
+        else
+        {
+            int i=0;
+            while (true)
+            {
+                erprev=er;
+                x1=x0-m*(fx.substitute(x0)/derivative.first(x0));
+                er=Math.abs(((x1-x0)/x0)*100);
+                x0=x1;
+                xi.add(chop_number(x0));
+                ers.add(er);
+                if(er<ea)
+                {
+                    diverged=false;
+                    ConvergedAfter=i;
+                    break;
+                }
+                if(erprev<er)
+                {
+                    diverged=true;
+                    break;
+                }
+                i++;
+
+            }
+
+        }
+          return x0;
+    }
+
+    private double modified2(){
+        ers=new LinkedList<>();
+        xi=new LinkedList<>();
+        double x0=initialguess;
+        xi.add(chop_number(x0));
+        double x1;
+        double er=Double.MAX_VALUE;
+        double erprev;
+        if(MAX_ITERATIONS!=0)
+        {   for(int i=1;i<MAX_ITERATIONS;i++)
+        {
+            diverged=true;
+            x1=x0-((fx.substitute(x0)*derivative.first(x0))/((derivative.first(x0)*derivative.first(x0))-(fx.substitute(x0)*derivative.second(x0))));
+            er=Math.abs(((x1-x0)/x0)*100);
+            x0=x1;
             xi.add(chop_number(x0));
             ers.add(er);
-            if (er < ea) {
-                ConvergedAfter = i;
+            if(er<ea)
+            {
+                diverged=false;
+                ConvergedAfter=i;
                 break;
             }
+
+        }
+        }
+        else
+        {
+            int i=0;
+            while (true)
+            {
+                erprev=er;
+                x1=x0-((fx.substitute(x0)*derivative.first(x0))/((derivative.first(x0)*derivative.first(x0))-(fx.substitute(x0)*derivative.second(x0))));
+                er=Math.abs(((x1-x0)/x0)*100);
+                x0=x1;
+                xi.add(chop_number(x0));
+                ers.add(er);
+                if(er<ea)
+                {
+                    diverged=false;
+                    ConvergedAfter=i;
+                    break;
+                }
+                if(erprev<er)
+                {
+                    diverged=true;
+                    break;
+                }
+                i++;
+
+            }
+
         }
         return x0;
     }
-
-    private double modified2() {
-        ers = new LinkedList<>();
-        xi = new LinkedList<>();
-        double x0 = initialguess;
-        xi.add(chop_number(x0));
-        double x1;
-        double er;
-        for (int i = 1; i < MAX_ITERATIONS; i++) {
-            x1 = x0 - ((fx.substitute(x0) * fxdx.substitute(x0))
-                    / (fxdx.substitute(x0) * fxdx.substitute(x0) - fx.substitute(x0) * fxdx2.substitute(x0)));
-            er = Math.abs(((x1 - x0) / x0) * 100);
-            x0 = x1;
-            xi.add(chop_number(x0));
-            ers.add(er);
-            if (er < ea) {
-                ConvergedAfter = i;
-                break;
-            }
-        }
-        return x0;
-    }
-
-    public double solve_original() {
+    public double solve_original()
+    {
         return original(1);
     }
-
-    public double solve_modified1(int m) {
+    public double solve_modified1(int m)
+    {
         return original(m);
     }
-
-    public double solve_modified2() {
+    public double solve_modified2()
+    {
         return modified2();
     }
 
@@ -140,14 +210,18 @@ public class Newton extends Iterations {
 
     @Override
     public double getAnswers() {
-        if (Selector == 0) {
+        if(Selector==0)
+        {
             return solve_original();
-        } else if (Selector == 1) {
-            return solve_modified1(multiplicity);
-        } else if (Selector == 2) {
+        }
+        else if(Selector==1)
+        {
+             return solve_modified1(multiplicity);
+        } else if (Selector==2) {
             return solve_modified2();
-        } else {
-            throw new RuntimeException("Selector take values from 1 to 3");
+        }else
+        {
+            throw new RuntimeException("Selector take values from 0 to 2");
         }
 
     }
