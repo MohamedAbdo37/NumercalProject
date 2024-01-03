@@ -174,19 +174,19 @@ export default {
                 case 'ON':
                     await axios.get("http://localhost:8081/ON", {
                         params: {
-                            initGuess: this.initSGuess,
-                            noIter: this.noItr,
-                            εa: this.εa
+                            MAX_ITERATIONS: this.noItr,
+                            ea: this.εa,
+                            initialguess: this.initSGuess,
+                            significantfigures: this.precision
                         }
                     }).then(r => {
-                        this.answers = r.data;
-                        this.answers = this.answers.replaceAll(',', '\n');
+                        console.log("solved secant successfully")
+                        this.answers = r.data[0];
+                        this.excutionTime = r.data[1];
+                        this.testConvergence(r.data[2], 0);
                         this.$emit('answers', this.answers);
-                        console.log(this.answers);
+                        console.log(r.data[1]);
                     });
-                    await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
-                    this.reportCovergence();
-                    this.converge = true;
                     break;
                 case 'MN1':
                     await axios.get("http://localhost:8081/MN1", {
@@ -225,7 +225,6 @@ export default {
                     this.converge = true;
                     break;
                 case 'S':
-                    console.log("precision: " + this.precision)
                     await axios.get("http://localhost:8081/S", {
                         params: {
                             x0: this.initGuess1,
@@ -242,13 +241,16 @@ export default {
                         this.$emit('answers', this.answers);
                         console.log(r.data[1]);
                     });
-                    
+                    break;
                 default: break;
             }
         },
         testConvergence(reachedIterations, convTime){
             if (reachedIterations != 0){
-                this.message = `Converged after ${reachedIterations} iterations (${convTime} ms)`
+                if (convTime != 0)
+                    this.message = `Converged after ${reachedIterations} iterations (${convTime} ms)`
+                else 
+                    this.message = `Converged after ${reachedIterations} iterations`
             }else {
                 this.message = `Failed to converge`
                 this.answers = null
