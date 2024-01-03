@@ -12,16 +12,17 @@ public class Bisection extends Iterations {
     private double xu;
     private double Ea;
     private double releror;
-    public static long timer;
-    public static int iterations;
-    public static boolean converge;
+    public long timer;
+    public int iterations;
+    public boolean converge;
     Expressionn exp;
     private Queue<Double> qxr;
     private Queue<Double> qxl;
     private Queue<Double> qxu;
     private Queue<Double> qfxr;
     private Queue<Double> qfxl;
-    private  Queue<Double> qfxu;
+    private Queue<Double> qfxu;
+
     public Queue<Double> getQxr() {
         return qxr;
     }
@@ -46,9 +47,7 @@ public class Bisection extends Iterations {
         return qfxu;
     }
 
-
-
-    public Bisection(String function, double xl, double xu, double ea, double releror) {
+    public Bisection(Expressionn exp, double xl, double xu, double ea, double releror) {
         this.function = function;
         this.xl = xl;
         this.xu = xu;
@@ -56,15 +55,16 @@ public class Bisection extends Iterations {
         this.releror = releror;
         converge = true;
         iterations = 0;
-        Expressionn exp=new Expressionn();
-        qxr= new LinkedList<>();
-        qxl= new LinkedList<>();
-        qxu= new LinkedList<>();
-        qfxr= new LinkedList<>();
-        qfxl= new LinkedList<>();
-        qfxu= new LinkedList<>();
+        this.exp = exp;
+        qxr = new LinkedList<>();
+        qxl = new LinkedList<>();
+        qxu = new LinkedList<>();
+        qfxr = new LinkedList<>();
+        qfxl = new LinkedList<>();
+        qfxu = new LinkedList<>();
 
     }
+
     @Override
     protected double iteration(double point, Expressionn exp) {
         return 0;
@@ -112,9 +112,10 @@ public class Bisection extends Iterations {
                 break;
             }
         }
-       Bisection.timer=begin-end;
+        this.timer = begin - end;
         return xr;
     }
+
     @Override
     public boolean evaluate() {
         return false;

@@ -3,12 +3,15 @@ package com.CSED26.Numercal.Project;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.CSED26.Numercal.Project.Factory.Numeric;
 import com.CSED26.Numercal.Project.Factory.Methods.GauseSedil;
 import com.CSED26.Numercal.Project.Factory.Methods.GaussElimination;
 import com.CSED26.Numercal.Project.Factory.Methods.GaussJordan;
 import com.CSED26.Numercal.Project.Factory.Methods.Jacobi;
 import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
+import com.CSED26.Numercal.Project.Factory.Methods.Iterations.Bisection;
 import com.CSED26.Numercal.Project.Factory.Methods.Iterations.FixedPoint;
 import com.CSED26.Numercal.Project.Factory.Methods.Iterations.Newton;
 import com.CSED26.Numercal.Project.Factory.Methods.Iterations.Secant;
@@ -270,11 +273,12 @@ public class Solver {
         return secant.getNoOfIterations();
     }
 
-    public double solveByONewton(int Selector, int multiplicity, int MAX_ITERATIONS, double ea, double initialguess,
+    public double[] solveByONewton(int Selector, int multiplicity, int MAX_ITERATIONS, double ea, double initialguess,
             int significantfigures) {
         newton = new Newton(Selector, multiplicity, MAX_ITERATIONS, ea, initialguess, this.nonLinearExpression,
                 significantfigures);
-        return newton.getAnswers();
+        double[] r = {newton.getAnswers(), newton.getExecutiontime(), newton.getConvergedAfter(), newton.isDiverged()};
+        return r;
     }
 
     public double getONewtonTimeOfExecution() {
@@ -285,24 +289,9 @@ public class Solver {
         return newton.getConvergedAfter();
     }
 
-    /*
-     * public class Main {
-     * public static void main(String[] args) {
-     * Solver solver = new Solver();
-     * 
-     * // Example equation string
-     * String equationString = "2x1+3x2-x3=5&3x2-x3=5&x1+3x2-x3=5";
-     * // Parse the equation string and get the matrix
-     * Matrix matri = solver.parseEquation(equationString);
-     * 
-     * 
-     * for (int i = 0; i < matri.getNumRows(); i++) {
-     * for (int j = 0; j < matri.getNumCols(); j++) {
-     * System.out.print(matri.getElement(i, j) + " ");
-     * }
-     * System.out.println();
-     * }
-     * }
-     * }
-     */
+    public double[] BiSolver(double xl, double xu, double releror, double ea){
+        Bisection bi = new Bisection(this.nonLinearExpression, xl, xu, releror, releror);
+        double[] r = {bi.getAnswers(), bi.timer, bi.iterations};
+        return r;
+    }
 }
