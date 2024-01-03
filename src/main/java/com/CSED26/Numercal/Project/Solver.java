@@ -244,15 +244,15 @@ public class Solver {
         this.nonLinearExpression.setexpression(equations);
     }
 
-    public double[] solveByFixedPoint(double point, Expressionn exp, int maxIterations, int significantFigures,
+    public double[] solveByFixedPoint(double point, int maxIterations, int significantFigures,
             double tol) {
         if (tol == 0)
             tol = 0.00001;
         if (significantFigures == 0)
             significantFigures = 5;
-        FixedPoint fixedPoint = new FixedPoint(point, exp, maxIterations, significantFigures, tol);
+        FixedPoint fixedPoint = new FixedPoint(point, this.nonLinearExpression, maxIterations, significantFigures, tol);
         fixedPoint.evaluate();
-        double[] answer = { fixedPoint.getAnswers(), fixedPoint.convergedAfter, fixedPoint.getExcutiontime() };
+        double[] answer = { fixedPoint.getAnswers(), fixedPoint.getExcutiontime(), fixedPoint.convergedAfter };
         return answer;
     }
 
@@ -278,7 +278,8 @@ public class Solver {
             int significantfigures) {
         newton = new Newton(Selector, multiplicity, MAX_ITERATIONS, ea, initialguess, this.nonLinearExpression,
                 significantfigures);
-        double[] r = {newton.getAnswers(), newton.getExecutiontime(), newton.getConvergedAfter(), newton.getDiverged()};
+        double[] r = { newton.getAnswers(), newton.getExecutiontime(), newton.getConvergedAfter(),
+                newton.getDiverged() };
         return r;
     }
 
@@ -290,15 +291,15 @@ public class Solver {
         return newton.getConvergedAfter();
     }
 
-    public double[] BiSolver(double xl, double xu, double releror, double ea){
+    public double[] BiSolver(double xl, double xu, double releror, double ea) {
         Bisection bi = new Bisection(this.nonLinearExpression, xl, xu, releror, releror);
-        double[] r = {bi.getAnswers(), bi.timer, bi.iterations};
+        double[] r = { bi.getAnswers(), bi.timer, bi.iterations };
         return r;
     }
 
-    public double[] falseSolver(double xl, double xu, double releror, double ea){
+    public double[] falseSolver(double xl, double xu, double releror, double ea) {
         FalsePosition fp = new FalsePosition(this.nonLinearExpression, xl, xu, releror, releror);
-        double[] r = {fp.getAnswers(), fp.timer, fp.iterations};
+        double[] r = { fp.getAnswers(), fp.timer, fp.iterations };
         return r;
     }
 }

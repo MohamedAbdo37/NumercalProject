@@ -163,10 +163,9 @@ public class Controller {
     }
 
     @GetMapping("/FX")
-    public double[] fixedPointSolver(@RequestParam double point, @RequestParam Expressionn exp,
-            @RequestParam int maxIterations,
+    public double[] fixedPointSolver(@RequestParam double point, @RequestParam int maxIterations,
             @RequestParam int significantFigures, @RequestParam double tol) {
-        return solver.solveByFixedPoint(point, exp, maxIterations, significantFigures, tol);
+        return solver.solveByFixedPoint(point, maxIterations, significantFigures, tol);
     }
 
     @GetMapping("/MN1")
@@ -186,14 +185,14 @@ public class Controller {
     @GetMapping("/B")
     public double[] BiSolver(@RequestParam double xl, @RequestParam double ea,
             @RequestParam double xu, @RequestParam int significantfigures) {
-        double[] answer = solver.BiSolver(xl, xu, ea, ea);
+        double[] answer = solver.BiSolver(xl, xu, ea, 50);
         return answer;
     }
 
     @GetMapping("/FL")
     public double[] falsePosition(@RequestParam double xl, @RequestParam double ea,
             @RequestParam double xu, @RequestParam int significantfigures) {
-        double[] answer = solver.falseSolver(xl, xu, ea, ea);
+        double[] answer = solver.falseSolver(xl, xu, ea, 50);
         return answer;
     }
 }
