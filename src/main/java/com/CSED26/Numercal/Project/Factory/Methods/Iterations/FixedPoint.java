@@ -26,16 +26,14 @@ public class FixedPoint extends Iterations {
         this.initialGuess = point;
         this.exp = exp;
         convergedAfter = 0;
-        this.maxIterations = maxIterations;
-        this.tol = tol;
-        this.significantFigures = significantFigures;
+        if(maxIterations != 0)
+            this.maxIterations = maxIterations;
+        if(tol != 0)
+            this.tol = tol;
+        if(significantFigures != 0)
+            this.significantFigures = significantFigures;
     }
-//    public FixedPoint(int maxIterations, int significantFigures, double tol) {
-//        this.convergedAfter = 0;
-//        this.maxIterations = maxIterations;
-//        this.tol = tol;
-//        this.significantFigures = significantFigures;
-//    }
+
     public FixedPoint(double point, Expressionn exp) {
         this.initialGuess = point;
         this.exp = exp;
@@ -49,7 +47,7 @@ public class FixedPoint extends Iterations {
         for (int i = 0; i < maxIterations; i++) {
             solution = Matrix.roundToSignificantFigures(exp.substitute(prev), this.significantFigures);
             this.queue.add(solution);
-            if(Math.abs(solution - prev) <= tol) {
+            if(((Math.abs(solution - prev) / solution) * 100) <= tol) {
                 convergedAfter = i;
                 return solution;
             }
@@ -84,9 +82,8 @@ public class FixedPoint extends Iterations {
     public static void main(String[] args) {
         Expressionn exp = new Expressionn();
         exp.addTerm("1+1/x");
-        FixedPoint fp = new FixedPoint(2, exp);
+        FixedPoint fp = new FixedPoint(2, exp, 100, 10, 0);
         System.out.println(fp.getAnswers());
         System.out.println(fp.getExcutiontime());
-
     }
 }
