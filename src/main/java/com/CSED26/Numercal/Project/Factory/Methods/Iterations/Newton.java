@@ -69,15 +69,22 @@ public class Newton extends Iterations {
         ers=new LinkedList<>();
         xi=new LinkedList<>();
         double x0=initialguess;
+        System.out.println(x0);
         xi.add(chop_number(x0));
         double x1;
         double er=Double.MAX_VALUE;
         double erprev;
+        double dfxdx;
         if(MAX_ITERATIONS!=0)
         {   for(int i=1;i<MAX_ITERATIONS;i++)
           {
               diverged=1.0;
-              x1=x0-m*(fx.substitute(x0)/derivative.first(x0));
+              dfxdx=derivative.first(x0);
+              if(dfxdx==0)
+              {
+                  throw new RuntimeException("there is 2 roots at this point: "+x0);
+              }
+              x1=x0-m*(fx.substitute(x0)/dfxdx);
               er=Math.abs(((x1-x0)/x0)*100);
               x0=x1;
               xi.add(chop_number(x0));
@@ -97,7 +104,12 @@ public class Newton extends Iterations {
             while (true)
             {
                 erprev=er;
-                x1=x0-m*(fx.substitute(x0)/derivative.first(x0));
+                dfxdx=derivative.first(x0);
+                if(dfxdx==0)
+                {
+                    throw new RuntimeException("there is 2 roots at this point: "+x0);
+                }
+                x1=x0-m*(fx.substitute(x0)/dfxdx);
                 er=Math.abs(((x1-x0)/x0)*100);
                 x0=x1;
                 xi.add(chop_number(x0));
@@ -129,10 +141,18 @@ public class Newton extends Iterations {
         double x1;
         double er=Double.MAX_VALUE;
         double erprev;
+        double dfxdx;
+        double dfxdx2;
         if(MAX_ITERATIONS!=0)
         {   for(int i=1;i<MAX_ITERATIONS;i++)
         {
             diverged=1.0;
+            dfxdx=derivative.first(x0);
+            dfxdx2=derivative.second(x0);
+            if(dfxdx==0||dfxdx2==0)
+            {
+                throw new RuntimeException("there is 2 roots at this point: "+x0);
+            }
             x1=x0-((fx.substitute(x0)*derivative.first(x0))/((derivative.first(x0)*derivative.first(x0))-(fx.substitute(x0)*derivative.second(x0))));
             er=Math.abs(((x1-x0)/x0)*100);
             x0=x1;
@@ -153,6 +173,12 @@ public class Newton extends Iterations {
             while (true)
             {
                 erprev=er;
+                dfxdx=derivative.first(x0);
+                dfxdx2=derivative.second(x0);
+                if(dfxdx==0||dfxdx2==0)
+                {
+                    throw new RuntimeException("there is 2 roots at this point: "+x0);
+                }
                 x1=x0-((fx.substitute(x0)*derivative.first(x0))/((derivative.first(x0)*derivative.first(x0))-(fx.substitute(x0)*derivative.second(x0))));
                 er=Math.abs(((x1-x0)/x0)*100);
                 x0=x1;
@@ -192,6 +218,7 @@ public class Newton extends Iterations {
     private Double chop_number(double value) {
 
         if (Double.isInfinite(value) || Double.isNaN(value) || Significantfigures <= 0) {
+            System.out.println(value);
             throw new IllegalArgumentException("Invalid input");
         }
 

@@ -1,6 +1,7 @@
 package com.CSED26.Numercal.Project.Factory.Methods.Iterations;
 
 import com.CSED26.Numercal.Project.Expressionn;
+import com.CSED26.Numercal.Project.Matrix;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -22,6 +23,7 @@ public class FalsePosition extends Iterations{
     private Queue<Double> qfxr;
     private Queue<Double> qfxl;
     private Queue<Double> qfxu;
+    private  int significantFigures = 5;
     public Queue<Double> getQxr() {
         return qxr;
     }
@@ -81,6 +83,7 @@ public class FalsePosition extends Iterations{
             double fl = exp.substitute(xl);
             double fu = exp.substitute(xu);
             xr = (xl * fu - xu * fl) / (fu - fl);
+            xr= Matrix.roundToSignificantFigures(xr, this.significantFigures);
             double fxr = exp.substitute(xr);
             arr.add(xr);
             qfxr.add(fxr);
