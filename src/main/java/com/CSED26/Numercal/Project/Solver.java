@@ -278,8 +278,7 @@ public class Solver {
             int significantfigures) {
         newton = new Newton(Selector, multiplicity, MAX_ITERATIONS, ea, initialguess, this.nonLinearExpression,
                 significantfigures);
-        double[] r = { newton.getAnswers(), newton.getExecutiontime(), newton.getConvergedAfter(),
-                newton.getDiverged() };
+        double[] r = { newton.getAnswers(), newton.getExecutiontime(), newton.getConvergedAfter() };
         return r;
     }
 
