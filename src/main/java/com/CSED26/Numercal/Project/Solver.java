@@ -42,7 +42,6 @@ public class Solver {
         }
         return null;
     }
-    
 
     public void setIteration(int niteration) {
         this.niteration = niteration;
@@ -239,14 +238,15 @@ public class Solver {
         this.nonLinearExpression.setexpression(equations);
     }
 
-    public double[] solveByFixedPoint(double point, Expressionn exp, int maxIterations, int significantFigures, double tol){
-        if(tol == 0)
+    public double[] solveByFixedPoint(double point, Expressionn exp, int maxIterations, int significantFigures,
+            double tol) {
+        if (tol == 0)
             tol = 0.00001;
-        if(significantFigures == 0)
+        if (significantFigures == 0)
             significantFigures = 5;
         FixedPoint fixedPoint = new FixedPoint(point, exp, maxIterations, significantFigures, tol);
         fixedPoint.evaluate();
-        double[] answer = { fixedPoint.getAnswers(), fixedPoint.convergedAfter, fixedPoint.getExcutiontime()};
+        double[] answer = { fixedPoint.getAnswers(), fixedPoint.convergedAfter, fixedPoint.getExcutiontime() };
         return answer;
     }
 
