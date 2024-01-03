@@ -1,6 +1,7 @@
 package com.CSED26.Numercal.Project.Factory.Methods.Iterations;
 
 import com.CSED26.Numercal.Project.Expressionn;
+import com.CSED26.Numercal.Project.Matrix;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -22,6 +23,7 @@ public class Bisection extends Iterations {
     private Queue<Double> qfxr;
     private Queue<Double> qfxl;
     private Queue<Double> qfxu;
+    private  int significantFigures = 5;
 
     public Queue<Double> getQxr() {
         return qxr;
@@ -78,6 +80,7 @@ public class Bisection extends Iterations {
         ArrayList<Double> arr = new ArrayList<>();
         for (int i = 0; true; i++) {
             xr = (xl + xu) / 2.0;
+            xr= Matrix.roundToSignificantFigures(xr, this.significantFigures);
             double fl = exp.substitute(xl);
             double fu = exp.substitute(xu);
             double fxr = exp.substitute(xr);
