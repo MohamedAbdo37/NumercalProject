@@ -10,6 +10,7 @@ import com.CSED26.Numercal.Project.Factory.Methods.GaussJordan;
 import com.CSED26.Numercal.Project.Factory.Methods.Jacobi;
 import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
 import com.CSED26.Numercal.Project.Factory.Methods.Iterations.FixedPoint;
+import com.CSED26.Numercal.Project.Factory.Methods.Iterations.Newton;
 import com.CSED26.Numercal.Project.Factory.Methods.Iterations.Secant;
 
 public class Solver {
@@ -22,6 +23,7 @@ public class Solver {
     private double tolerance;
     private Expressionn nonLinearExpression;
     private Secant secant;
+    private Newton newton;
 
     public Numeric getMethod(String type) {
         if (type == null) {
@@ -266,6 +268,21 @@ public class Solver {
 
     public double getSecantNoOfIterations() {
         return secant.getNoOfIterations();
+    }
+
+    public double solveByONewton(int Selector, int multiplicity, int MAX_ITERATIONS, double ea, double initialguess,
+            int significantfigures) {
+        newton = new Newton(Selector, multiplicity, MAX_ITERATIONS, ea, initialguess, this.nonLinearExpression,
+                significantfigures);
+        return newton.getAnswers();
+    }
+
+    public double getONewtonTimeOfExecution() {
+        return (double) newton.getExecutiontime();
+    }
+
+    public double getONewtonNoOfIterations() {
+        return newton.getConvergedAfter();
     }
 
     /*

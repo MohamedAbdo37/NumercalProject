@@ -162,11 +162,19 @@ public class Controller {
         return answer;
     }
 
-    @GetMapping("/fixed")
+    @GetMapping("/FX")
     public double[] fixedPointSolver(@RequestParam double point, @RequestParam Expressionn exp,
             @RequestParam int maxIterations,
             @RequestParam int significantFigures, @RequestParam double tol) {
         return solver.solveByFixedPoint(point, exp, maxIterations, significantFigures, tol);
+    }
+
+    @GetMapping("/ON")
+    public double[] originalNewtonSolver(@RequestParam int MAX_ITERATIONS, @RequestParam double ea,
+            @RequestParam double initialguess, @RequestParam int significantfigures) {
+        double[] answer = { solver.solveByONewton(0, 0, MAX_ITERATIONS, ea, initialguess, significantfigures),
+                solver.getONewtonTimeOfExecution(), solver.getONewtonNoOfIterations() };
+        return answer;
     }
 
 }
