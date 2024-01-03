@@ -156,7 +156,10 @@ public class Controller {
     @GetMapping("/S")
     public double[] secantSolver(@RequestParam double x0, @RequestParam double x1, @RequestParam int noIter,
             @RequestParam double Ea, @RequestParam int significantFigures) {
-        return solver.solveBySecant(x0, x1, Ea, noIter, significantFigures);
+        double[] answer = { solver.solveBySecant(x0, x1, Ea, noIter, significantFigures),
+                solver.getSecantTimeOfExecution(), solver.getSecantNoOfIterations(),
+                solver.getSecantTimeOfConvergence() };
+        return answer;
     }
 
 }

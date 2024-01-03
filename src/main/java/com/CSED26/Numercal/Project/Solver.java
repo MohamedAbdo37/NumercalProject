@@ -20,6 +20,7 @@ public class Solver {
     private int niteration;
     private double tolerance;
     private Expressionn nonLinearExpression;
+    private Secant secant;
 
     public Numeric getMethod(String type) {
         if (type == null) {
@@ -236,12 +237,24 @@ public class Solver {
         this.nonLinearExpression.setexpression(equations);
     }
 
-    public double[] solveBySecant(double x0, double x1, double εa, int noIter, int significantFigures) {
-        Secant secant = new Secant(x0, x1, εa, noIter, this.nonLinearExpression, significantFigures);
+    public double solveBySecant(double x0, double x1, double εa, int noIter, int significantFigures) {
+        secant = new Secant(x0, x1, εa, noIter, this.nonLinearExpression, significantFigures);
         secant.evaluate();
-        double[] answer = { secant.getAnswers(), secant.getNumOfIterations() };
-        return answer;
+        return secant.getAnswers();
     }
+
+    public double getSecantTimeOfExecution() {
+        return secant.getTimeOfExecution();
+    }
+
+    public double getSecantTimeOfConvergence() {
+        return secant.getTimeOfConvergence();
+    }
+
+    public double getSecantNoOfIterations() {
+        return secant.getNoOfIterations();
+    }
+
     /*
      * public class Main {
      * public static void main(String[] args) {
