@@ -184,11 +184,16 @@ public class Controller {
     }
 
     @GetMapping("/Bi")
-    public double[] BiSolver(@RequestParam double xl, @RequestParam double ea,
+    public double[] bi(@RequestParam double xl, @RequestParam double ea,
             @RequestParam double xu, @RequestParam int significantfigures) {
         double[] answer = solver.BiSolver(xl,xu,ea,ea);
         return answer;
     }
 
-    
+    @GetMapping("/false")
+    public double[] falsePosition(@RequestParam double xl, @RequestParam double ea,
+            @RequestParam double xu, @RequestParam int significantfigures) {
+        double[] answer = solver.falseSolver(xl,xu,ea,ea);
+        return answer;
+    }
 }
