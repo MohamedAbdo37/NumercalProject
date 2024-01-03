@@ -5,6 +5,10 @@ public class Derivative {
     private Expressionn expressionn;
     private double h = 0.1;
 
+    public double getH() {
+        return h;
+    }
+
     public void setH(double h) {
         this.h = h;
     }
@@ -15,6 +19,7 @@ public class Derivative {
 
     public Derivative(Expressionn expressionn, double h) {
         this.expressionn = expressionn;
+        this.h = h;
     }
 
     public double first(double value) {
