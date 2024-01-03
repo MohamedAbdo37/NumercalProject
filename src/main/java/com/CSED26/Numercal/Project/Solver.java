@@ -9,6 +9,7 @@ import com.CSED26.Numercal.Project.Factory.Methods.GaussElimination;
 import com.CSED26.Numercal.Project.Factory.Methods.GaussJordan;
 import com.CSED26.Numercal.Project.Factory.Methods.Jacobi;
 import com.CSED26.Numercal.Project.Factory.Methods.LUDeomp;
+import com.CSED26.Numercal.Project.Factory.Methods.Iterations.FixedPoint;
 import com.CSED26.Numercal.Project.Factory.Methods.Iterations.Secant;
 
 public class Solver {
@@ -40,6 +41,7 @@ public class Solver {
         }
         return null;
     }
+    
 
     public void setIteration(int niteration) {
         this.niteration = niteration;
@@ -236,30 +238,21 @@ public class Solver {
         this.nonLinearExpression.setexpression(equations);
     }
 
+    public double[] solveByFixedPoint(double point, Expressionn exp, int maxIterations, int significantFigures, double tol){
+        if(tol == 0)
+            tol = 0.00001;
+        if(significantFigures == 0)
+            significantFigures = 5;
+        FixedPoint fixedPoint = new FixedPoint(point, exp, maxIterations, significantFigures, tol);
+        fixedPoint.evaluate();
+        double[] answer = { fixedPoint.getAnswers(), fixedPoint.convergedAfter, fixedPoint.getExcutiontime()};
+        return answer;
+    }
+
     public double[] solveBySecant(double x0, double x1, double εa, int noIter, int significantFigures) {
         Secant secant = new Secant(x0, x1, εa, noIter, this.nonLinearExpression, significantFigures);
         secant.evaluate();
         double[] answer = { secant.getAnswers(), secant.getNumOfIterations() };
         return answer;
     }
-    /*
-     * public class Main {
-     * public static void main(String[] args) {
-     * Solver solver = new Solver();
-     * 
-     * // Example equation string
-     * String equationString = "2x1+3x2-x3=5&3x2-x3=5&x1+3x2-x3=5";
-     * // Parse the equation string and get the matrix
-     * Matrix matri = solver.parseEquation(equationString);
-     * 
-     * 
-     * for (int i = 0; i < matri.getNumRows(); i++) {
-     * for (int j = 0; j < matri.getNumCols(); j++) {
-     * System.out.print(matri.getElement(i, j) + " ");
-     * }
-     * System.out.println();
-     * }
-     * }
-     * }
-     */
 }

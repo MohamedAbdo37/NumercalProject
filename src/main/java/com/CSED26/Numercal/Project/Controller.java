@@ -159,4 +159,11 @@ public class Controller {
         return solver.solveBySecant(x0, x1, Ea, noIter, significantFigures);
     }
 
+    @GetMapping("/fixed")
+    public double[] fixedPointSolver(@RequestParam double point, @RequestParam Expressionn exp,
+            @RequestParam int maxIterations,
+            @RequestParam int significantFigures, @RequestParam double tol) {
+        return solver.solveByFixedPoint(point, exp, maxIterations, significantFigures, tol);
+    }
+
 }

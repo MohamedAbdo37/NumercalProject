@@ -3,78 +3,39 @@ package com.CSED26.Numercal.Project;
 public class Derivative {
 
     private Expressionn expressionn;
-    private Expressionn derivative;
-
-    public Derivative(Expressionn e) {
-        this.expressionn = e;
-        this.evalute();
+    private double h = 0.1;
+    
+    public void setH(double h) {
+        this.h = h;
     }
 
-    private void evalute() {
-    }
-
-    public void setExpressionn(Expressionn expressionn) {
+    public Derivative(Expressionn expressionn){
         this.expressionn = expressionn;
     }
 
-    public void setDerivative(Expressionn derivative) {
-        this.derivative = derivative;
-    }
-    public Expressionn getExpressionn() {
-        return expressionn;
-    }
-    public Expressionn getDerivative() {
-        return derivative;
-    }
-    public double differentiation(double point){
-        return 0;
+    public Derivative(Expressionn expressionn , double h){
+        this.expressionn = expressionn;
     }
 
-    private void polynomial(Expressionn exp){
-        String term = Expressionn.extractContentWithinParentheses(exp.getTerms().get(0));
-        if (!term.contains("x")) {
-            this.derivative.addTerm("0");
-            return;
-        }
-        String[] numStrings = term.split("x");
-        if (!numStrings[1].contains("^")) {
-            this.derivative.addTerm(numStrings[0]);
-            return;
-        }
+    public double first(double value){
+        double b2 = expressionn.substitute(value - 2*h);
+        double b1 = expressionn.substitute(value - h);
+        double f1 = expressionn.substitute(value + h);
+        double f2 = expressionn.substitute(value + 2*h);
 
-        double power = Double.parseDouble(numStrings[1].split("^")[1]) ;
-        double conffecent = Double.parseDouble(numStrings[0]) * power;
-        term = "";
-        term.concat(String.valueOf(conffecent));
-        term.concat("x");
-        term.concat(String.valueOf((power - 1)));
-        this.derivative.addTerm(term);
-    }
+        double numerator = -f2 + (8 * f1) - (8 * b1) + b2;
+        return numerator / (12 * h);
+    } 
 
-    private Expressionn exponential(Expressionn exp){
-        String term = Expressionn.extractContentWithinParentheses(exp.getTerms().get(0));
-        Expressionn e = new Expressionn();
-        e.addTerm(term);
-        Derivative d = new Derivative(e);
-        term = "("+ d.getDerivative().getExpression() +")";
-        term  = term.concat("*").concat(exp.getExpression());
-        term = term.concat("ln(").concat("");
-        return null;
-    }
+    public double second(double value){
+        double b2 = expressionn.substitute(value - 2*h);
+        double b1 = expressionn.substitute(value - h);
+        double i = expressionn.substitute(value);
+        double f1 = expressionn.substitute(value + h);
+        double f2 = expressionn.substitute(value + 2*h);
 
-    private Expressionn trigonometric(Expressionn exp){
-        return null;
-    }
+        double numerator = -f2 + (16 * f1) - (30 * i) + (16 * b1) - b2;
+        return numerator / (12 * h * h);
+    } 
 
-    // private Expressionn trigonometric(Expressionn exp){
-    //     return null;
-    // }
-
-    private Expressionn multipleD(Expressionn exp){
-        return null;
-    }
-
-    private Expressionn explicit(Expressionn exp){
-        return null;
-    }
 }
