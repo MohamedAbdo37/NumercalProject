@@ -190,7 +190,7 @@ public class Controller {
         return answer;
     }
 
-    @GetMapping("/false")
+    @GetMapping("/FL")
     public double[] falsePosition(@RequestParam double xl, @RequestParam double ea,
             @RequestParam double xu, @RequestParam int significantfigures) {
         double[] answer = solver.falseSolver(xl, xu, ea, ea);
