@@ -66,7 +66,16 @@ public class Expressionn {
                 .variable("x")
                 .build();
         expression.setVariable("x", val);
-        return expression.evaluate();
+        try {
+             return expression.evaluate();
+        }
+         catch (ArithmeticException e) {
+            return -1;
+        }
+        catch (Exception e) {
+            return -2;
+        }
+      
     }
 
     public static String convertLnToLog(String term) {
@@ -99,21 +108,18 @@ public class Expressionn {
         Expressionn expression = new Expressionn();
 
         // Example usage
-        expression.addTerm("5x^10");
-        expression.addTerm("sin(x)^3");
-        expression.addTerm("log(x^2+5)");
-        expression.addTerm("ln(x^2+5)");
+       expression.addTerm("1/x");
 
         System.out.println("Number of terms: " + expression.noOfTerms());
 
         try {
-            Expressionn termExpression = expression.getTerm(2);
+            Expressionn termExpression = expression.getTerm(0);
             System.out.println("Term expression: " + termExpression.terms.get(0));
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
 
-        double substitutionResult = expression.substitute(2.0);
+        double substitutionResult = expression.substitute(0);
         System.out.println("Substitution result: " + substitutionResult);
 
         expression.deleteTerm("sin(x)^3");
