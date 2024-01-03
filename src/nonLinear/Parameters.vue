@@ -196,7 +196,7 @@ export default {
                         console.log("solved Newton Modefied 1 successfully")
                         this.answers = r.data[0];
                         this.excutionTime = r.data[1];
-                        this.testConvergence(-1*r.data[2], 0);
+                        this.testConvergence(r.data[2], 0);
                         this.$emit('answers', this.answers);
                         console.log(r.data[1]);
                     });
