@@ -22,6 +22,7 @@ public class Newton extends Iterations {
     private int Significantfigures;
     private int multiplicity;
     private boolean diverged=false;
+    private Long executiontime;
 
     public int getConvergedAfter() {
         return ConvergedAfter;
@@ -37,6 +38,10 @@ public class Newton extends Iterations {
 
     public boolean isDiverged() {
         return diverged;
+    }
+
+    public Long getExecutiontime() {
+        return executiontime;
     }
 
     public Newton(int Selector, int multiplicity, double initialguess, Expressionn fx, int significantfigures) {
@@ -210,20 +215,24 @@ public class Newton extends Iterations {
 
     @Override
     public double getAnswers() {
+        long begin = System.currentTimeMillis();
+        double res;
         if(Selector==0)
         {
-            return solve_original();
+            res= solve_original();
         }
         else if(Selector==1)
         {
-             return solve_modified1(multiplicity);
+             res= solve_modified1(multiplicity);
         } else if (Selector==2) {
-            return solve_modified2();
+            res= solve_modified2();
         }else
         {
             throw new RuntimeException("Selector take values from 0 to 2");
         }
 
+        executiontime= System.currentTimeMillis()-begin;
+      return res;
     }
 
     @Override
