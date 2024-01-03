@@ -167,19 +167,18 @@ export default {
                         });
                         break;
                 case 'FX':
-                    await axios.get("http://localhost:8081/S", {
+                    await axios.get("http://localhost:8081/FX", {
                             params: {
-                                x0: this.initGuess1,
-                                x1: this.initGuess2,
-                                noIter: this.noItr,
-                                Ea: this.εa,
-                                significantFigures: this.precision
+                                point: this.initSGuess,
+                                maxIterations: this.noItr,
+                                significantFigures: this.precision,
+                                tol: this.εa
                             }
                         }).then(r => {
-                            console.log("solved secant successfully")
+                            console.log("solved Fixed point successfully")
                             this.answers = r.data[0];
                             this.excutionTime = r.data[1];
-                            this.testConvergence(r.data[2], r.data[3]);
+                            this.testConvergence(r.data[2], 0);
                             this.$emit('answers', this.answers);
                             console.log(r.data[1]);
                         });
@@ -194,29 +193,28 @@ export default {
                             m: this.mul
                         }
                     }).then(r => {
-                        console.log("solved secant successfully")
+                        console.log("solved Newton Modefied 1 successfully")
                         this.answers = r.data[0];
                         this.excutionTime = r.data[1];
-                        this.testConvergence(r.data[2], 0);
+                        this.testConvergence(-1*r.data[2], 0);
                         this.$emit('answers', this.answers);
                         console.log(r.data[1]);
                     });
                     
                     break;
                 case 'MN2':
-                    await axios.get("http://localhost:8081/S", {
+                    await axios.get("http://localhost:8081/MN2", {
                         params: {
-                            x0: this.initGuess1,
-                            x1: this.initGuess2,
-                            noIter: this.noItr,
-                            Ea: this.εa,
-                            significantFigures: this.precision
+                            MAX_ITERATIONS: this.noItr,
+                            ea: this.εa,
+                            initialguess: this.initSGuess,
+                            significantfigures: this.precision
                         }
                     }).then(r => {
-                        console.log("solved secant successfully")
+                        console.log("solved Newton Modefied 2 successfully")
                         this.answers = r.data[0];
                         this.excutionTime = r.data[1];
-                        this.testConvergence(r.data[2], r.data[3]);
+                        this.testConvergence(r.data[2], 0);
                         this.$emit('answers', this.answers);
                         console.log(r.data[1]);
                     });
