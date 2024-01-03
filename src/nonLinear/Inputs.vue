@@ -50,10 +50,10 @@
           // let ex = this.equations.split("+")
           // if(ex[0] == '') ex.shift()
           // console.log(ex)
-          let ex = []
-          ex.push(this.equations)
-          console.log(ex)
-          this.$emit('equations', ex)
+          // let ex = []
+          // ex.push(this.equations)
+          console.log(this.equations)
+          this.$emit('equations', this.equations)
           this.$emit('precision', this.precision)
         },
         graph(){

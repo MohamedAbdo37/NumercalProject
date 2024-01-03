@@ -133,61 +133,57 @@ export default {
 
             switch (this.methodChosen) {
                 case 'B':
-                    this.converge = false;
-                    await axios.get("http://localhost:8081/B").then(r => {
-                        this.answers = r.data;
-                        this.answers = this.answers.replaceAll(',', '\n');
-                        this.$emit('answers', this.answers);
-                        console.log(this.answers);
-                    });
-
-                    await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
-                    break;
-                case 'FL':
-                    this.converge = false;
-                    await axios.get("http://localhost:8081/FL", {
-                        params: {
-
-                        }
-                    }).then(r => {
-                        this.answers = r.data;
-                        this.answers = this.answers.replaceAll(',', '\n');
-                        this.$emit('answers', this.answers);
-                        console.log(this.answers);
-                    });
-                    await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
-                    break;
-                case 'FX':
-                    this.converge = false;
-                        await axios.get("http://localhost:8081/FX", {
+                    await axios.get("http://localhost:8081/B", {
                             params: {
-
+                                xl: this.initSGuess1,
+                                ea: this.εa,
+                                xu: this.initSGuess2,
+                                significantfigures: this.precision
                             }
                         }).then(r => {
-                            this.answers = r.data;
-                            this.answers = this.answers.replaceAll(',', '\n');
+                            console.log("solved Bisection successfully")
+                            this.answers = r.data[0];
+                            this.excutionTime = -1* r.data[1];
+                            this.testConvergence(r.data[2], 0);
                             this.$emit('answers', this.answers);
-                            console.log(this.answers);
+                            console.log(r.data[1]);
                         });
-                        await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
                         break;
-                case 'ON':
-                    await axios.get("http://localhost:8081/ON", {
-                        params: {
-                            MAX_ITERATIONS: this.noItr,
-                            ea: this.εa,
-                            initialguess: this.initSGuess,
-                            significantfigures: this.precision
-                        }
-                    }).then(r => {
-                        console.log("solved secant successfully")
-                        this.answers = r.data[0];
-                        this.excutionTime = r.data[1];
-                        this.testConvergence(r.data[2], 0);
-                        this.$emit('answers', this.answers);
-                        console.log(r.data[1]);
-                    });
-                    break;
+                case 'FL':
+                    await axios.get("http://localhost:8081/FL", {
+                            params: {
+                                xl: this.initSGuess1,
+                                ea: this.εa,
+                                xu: this.initSGuess2,
+                                significantfigures: this.precision
+                            }
+                        }).then(r => {
+                            console.log("solved False position successfully")
+                            this.answers = r.data[0];
+                            this.excutionTime = -1* r.data[1];
+                            this.testConvergence(r.data[2], 0);
+                            this.$emit('answers', this.answers);
+                            console.log(r.data[1]);
+                        });
+                        break;
+                case 'FX':
+                    await axios.get("http://localhost:8081/S", {
+                            params: {
+                                x0: this.initGuess1,
+                                x1: this.initGuess2,
+                                noIter: this.noItr,
+                                Ea: this.εa,
+                                significantFigures: this.precision
+                            }
+                        }).then(r => {
+                            console.log("solved secant successfully")
+                            this.answers = r.data[0];
+                            this.excutionTime = r.data[1];
+                            this.testConvergence(r.data[2], r.data[3]);
+                            this.$emit('answers', this.answers);
+                            console.log(r.data[1]);
+                        });
+                        break;
                 case 'MN1':
                     await axios.get("http://localhost:8081/MN1", {
                         params: {
@@ -208,22 +204,22 @@ export default {
                     
                     break;
                 case 'MN2':
-                    await axios.get("http://localhost:8081/MN2", {
+                    await axios.get("http://localhost:8081/S", {
                         params: {
-                            initGuess: this.initSGuess,
+                            x0: this.initGuess1,
+                            x1: this.initGuess2,
                             noIter: this.noItr,
-                            εa: this.εa
+                            Ea: this.εa,
+                            significantFigures: this.precision
                         }
                     }).then(r => {
-
-                        this.answers = r.data;
-                        this.answers = this.answers.replaceAll(',', '\n');
+                        console.log("solved secant successfully")
+                        this.answers = r.data[0];
+                        this.excutionTime = r.data[1];
+                        this.testConvergence(r.data[2], r.data[3]);
                         this.$emit('answers', this.answers);
-                        console.log(this.answers);
+                        console.log(r.data[1]);
                     });
-                    await axios.get("http://localhost:8081/time").then(r => this.excutionTime = r.data);
-                    this.reportCovergence();
-                    this.converge = true;
                     break;
                 case 'S':
                     await axios.get("http://localhost:8081/S", {
