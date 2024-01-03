@@ -172,16 +172,14 @@ public class Controller {
     @GetMapping("/N1")
     public double[] originalNewtonSolver(@RequestParam int MAX_ITERATIONS, @RequestParam double ea,
             @RequestParam double initialguess, @RequestParam int significantfigures, @RequestParam int m) {
-        double[] answer = { solver.solveByONewton(1, m, MAX_ITERATIONS, ea, initialguess, significantfigures),
-                solver.getONewtonTimeOfExecution(), solver.getONewtonNoOfIterations() };
+        double[] answer = solver.solveByONewton(1, m, MAX_ITERATIONS, ea, initialguess, significantfigures);
         return answer;
     }
 
     @GetMapping("/N2")
     public double[] modifiedNewtonSolver(@RequestParam int MAX_ITERATIONS, @RequestParam double ea,
             @RequestParam double initialguess, @RequestParam int significantfigures) {
-        double[] answer = { solver.solveByONewton(2, 0, MAX_ITERATIONS, ea, initialguess, significantfigures),
-                solver.getONewtonTimeOfExecution(), solver.getONewtonNoOfIterations() };
+        double[] answer =solver.solveByONewton(2, 0, MAX_ITERATIONS, ea, initialguess, significantfigures);
         return answer;
     }
 
